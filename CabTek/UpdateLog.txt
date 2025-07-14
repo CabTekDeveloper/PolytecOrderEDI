@@ -100,3 +100,4 @@ Update Logs
 
 14-07-2025 -Wangchuk
 - Pused project to GitHub under the git account dev@cabtek.com.au
+- Added to vinyl job validation: If handl is required on glassframe doors, it has to be added to the additional instructions field.

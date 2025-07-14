@@ -297,7 +297,8 @@ static class ValidateVinylParts
 
         if (!string.Equals(CurrentProduct.HandleSystem, "None", StringComparison.OrdinalIgnoreCase))
         {
-            if (!(CurrentProduct.EdgeLocation.Contains('H')))
+           
+            if (!CurrentProduct.EdgeLocation.Contains('H'))
             {
                 errorMessage += $"You have selected {CurrentProduct.HandleSystem} handle but its location is not provided.\n";
             }
@@ -313,23 +314,27 @@ static class ValidateVinylParts
                     {
                         if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo)
                         {
-                            if (!CustomValidation.IsThermoHandle(CurrentProduct.HandleSystem)) errorMessage += $"Thermo products can only have Bronte handle.\n";
+                            if (!CustomValidation.IsThermoHandle(CurrentProduct.HandleSystem))
+                            {
+                                errorMessage += $"Thermo products can only have Bronte handle.\n";
+                            }
                         }
 
                         if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                         {
                             if (!CustomValidation.IsCutAndRoutHandle(CurrentProduct.HandleSystem)) errorMessage += $"Cut&Rout products cannot have {CurrentProduct.HandleSystem} handle.\n"; 
                         }
+
+                        if (CurrentProduct.Product == PRODUCT.GlassFrame)
+                        {
+                            if (!CurrentProduct.AdditionalInstructions.Contains(CurrentProduct.HandleSystem, StringComparison.OrdinalIgnoreCase))
+                            {
+                                errorMessage += $"If you require handle on Galssframe doors, add it to the Additional Instructions field.\n";
+                            }
+                        }
+
                     }
                 }
-
-                //if (Part.ProductType == PRODUCTTYPE.Decorative16mm || Part.ProductType == PRODUCTTYPE.Decorative18mm)
-                //{
-                //    if (!string.Equals(Part.HandleSystem, "Bevel Edge", StringComparison.OrdinalIgnoreCase))
-                //    {
-                //        errorMessage += $"Decorative products can only have Bevel Edge for handle system.\n";
-                //    }
-                //}
 
                 if (CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
                 {
