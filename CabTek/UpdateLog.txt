@@ -1,0 +1,98 @@
+﻿----------------------------------------------------------------------------------------------------------------------------
+Update Logs
+
+- File added by Wangchuk
+- The log will help in maintaining a clear history of changes for future reference and collaboration.
+- The log will be updated regularly with each new change or update to the project.
+- Encouraged team members to contribute to the log for transparency and accountability.
+----------------------------------------------------------------------------------------------------------------------------
+30-10-2024 -Wangchuk
+- Added Heat Deflectors product
+- Added Bar Panel product
+
+26-11-2024 -Wanghcuk
+- Started working on ICB importation
+- Added Enums to store different values.
+- Added classes to generate Decorative 16mm products from the ICB file.
+- Added a form which contain a Calender to pick dates.
+
+16-12-2024 -Wangchuk
+- Added Button to edit Po number and update it in the configured Order.
+- Added classes to generate Decorative 18mm products from the ICB file.
+
+10-01-2025 -Wangchuk
+- Added CustomRegex class to parse and check whether the given input text is matching with the given pattern or not.
+- Added table TablePolytecColors to database to store polytec board colors.
+- Added DTYP 900 for single hole drilling
+
+22-01-2025 -Wangchuk
+- Added method to set quantity of parts sent to Polytec to 0 in the ICB file. This will stop the same parts being cut here at CabTek.
+- Added method to drill Handles to parts imported from ICB file. The parameter in the ICB Parameter field will determine if handle needs to be drilled.
+
+24-01-2025 -Wangchuk
+- Added a new Form to update Additional instructions to parts imported from the ICB file.
+- DrawerFront handle orientation is defaulted to Horizontal.
+- Added filter to remove Duct parts.
+
+03-02-2025 -Wangchuk
+- Added DTYP 16, 180, 181, 182, 183 , 406
+- Added filter PEDI=1 to import only parts in the ICB file which has PEDI set to 1. This PEDI=1 means the part will go to Polytec.
+
+25-03-2025 -Wangchuk
+- Set handle system to null if not required
+- For Thermo Drawer banks, only piece level items will have additional instructions.
+
+19-05-2025 -Wangchuk
+- coated side will be set to 1 if the material is SS
+
+24-06-2025 -Wangchuk
+- Added Enum 'PAGEORIENTATION'
+- Working on adding content to Google Docs via Google Dcs API.
+- Added new class 'OrderDetailsForGoogleDoc'
+
+25-06-2025 -Wangchuk
+- Refactored GoogleApi.cs to build Google Docs and Drive services.
+- Build method in GoogleDrive.cs to export Google Docs to PDF.
+- Changed class 'GoogleDocs.cs' to to be a static class.
+- Added property "OutputDirectory" to the class 'GlobalVar.cs"
+
+27-06-2025 -Wangchuk
+- Added property 'VinylJobGeneratedBy' to the class 'GlobalVar.cs'
+- Added method to GoogleDrive.cs to Move file to a specific folder in Google Drive.
+
+30-06-2025 -Wangchuk
+- Added a json file 'GoogleDriveFolders.json' to store Google Drive folder IDs.
+
+30-06-2025 -Wangchuk
+- Removed property DateOrdered from the class OrderDetailsForGoogleDoc.
+- Added property RequestedDate to the class OrderDetailsForGoogleDoc.
+- Added image cabtek_logo.png to the Static folder
+
+02-07-2025 -Wangchuk
+- Added class GoogleSheets to access google sheets via Google Api
+
+04-07-2025 -Wangchuk
+- Added option to print vinyl orders sent to polytec vial Goole sheets.
+
+07-07-2025 -Wangchuk
+- Added a class 'EdiOrderLog' to hold values of order log retrieved from the database and use it in other methods.
+- Modifed code to use PRODUCTTYPE enum for vinyl product objects
+- Modifed code to use PRODUCT enum for vinyl product objects
+
+08-07-2025 -Wangchuk
+- Modifed code to use PARTNAME enum for vinyl product objects
+- Rename file ProductObj.cs to VinylProduct.cs
+- Renamed 'DrillingFeaturesDoors.cs' to 'DecorativeProductDrilling.cs'
+- Renamed 'DrillingFeaturesDrawerPiece.cs' to 'DecorativeDrawerPieceDrilling.cs'
+- Modified code to use HINGETYPE enum in VinylPart class
+
+09-07-2025 -Wangchuk
+- Moved drillings of Thermo products other than Thermo Drawers to a new class.
+
+10-07-2025 -Wangchuk
+- Moved drillings of Thermo Drawers to a new class.
+- Created folder 'Credentials' inside GoogleApis folder to store oauth credentials 
+
+10-07-2025 -Wangchuk
+- Refactored Codes in Google api, google sheets and google drive classes
+- Release in house
