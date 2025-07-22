@@ -12,7 +12,7 @@ namespace PolytecOrderEDI
         private static VinylPart Part { get; set; } = new();
 
         //Part Properties
-        private static PRODUCT Product { get; set; } 
+        //private static PRODUCT Product { get; set; } 
         private static PARTNAME PartName { get; set; }
         private static double Height { get; set; }
         private static double Width { get; set; }
@@ -81,7 +81,7 @@ namespace PolytecOrderEDI
             SetDrillingProperties();
 
             //Single drawer fronts are added as a door
-            if (Product == PRODUCT.DrawerFront)
+            if (Part.Product == PRODUCT.DrawerFront)
             {
                 AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                 AddLeftAndRightVerticalHoles(DTYP2, INUP2);
@@ -90,7 +90,7 @@ namespace PolytecOrderEDI
             }
 
             // This block of code requires refactoring
-            if (Product == PRODUCT.Panel)
+            if (Part.Product == PRODUCT.Panel)
             {
                 if (DTYP1 == 1002)
                 {
