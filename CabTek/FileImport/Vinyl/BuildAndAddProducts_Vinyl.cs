@@ -54,7 +54,6 @@ namespace PolytecOrderEDI
                     // Thermno and Cut&Rout products
                     else if (objCurrentProduct.ProductType == PRODUCTTYPE.Thermo || objCurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                     {
-
                         switch (currentProduct)
                         {
                             case PRODUCT.HeatDeflectors:
