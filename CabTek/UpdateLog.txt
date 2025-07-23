@@ -105,3 +105,6 @@ Update Logs
 22-07-2025 Wangchuk
 - Fixed: Single Drawer added as Thermo Door was not adding drillings.
 - Released inhouse
+
+23-07-2025 Wangchuk
+- Created new Branch "CombineDrillingClassesThermoAndDecorative" to work on combining the drilling classes into one class.
