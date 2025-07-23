@@ -19,6 +19,7 @@ namespace PolytecOrderEDI
         private static double INUP1 { get; set; }
         private static double INUP2 { get; set; }
         private static double HDIA { get; set; }
+        private static double HoleDepth { get; set; }
 
         private static void SetDrillingProperties()
         {
@@ -34,6 +35,8 @@ namespace PolytecOrderEDI
             INUP1       = Part.INUP1;
             INUP2       = Part.INUP2;
             HDIA        = Part.HDIA;
+            HoleDepth   = Part.HoleDepth;
+
         }
 
         public static void AddDrillings(VinylPart part, GenericPiece configuredPiece)
@@ -55,51 +58,52 @@ namespace PolytecOrderEDI
             {
                 if (DTYP > 0 && INUP > 0)
                 {
-                    var holePattern = (Part.Product == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternHamperDoor.GetDrillingInfo(DTYP);
+                    var holePattern = (Part.Product == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
 
-                    if (holePattern.hasDrillingInfo)
+                    if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = holePattern.holeDepth;
+                        //double holeDepth = holePattern.HoleDepth;
+                        double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
                         var holeRadius = HDIA / 2;
 
                         //AddDrillings leftside drilling 
-                        double hole1Height = INUP + holePattern.leftDefaultINUP;
-                        double hole2Height = INUP + holePattern.leftDefaultINUP + holePattern.gap1;
-                        double hole3Height = INUP + holePattern.leftDefaultINUP + holePattern.gap1 + holePattern.gap2;
-                        double hole4Height = INUP + holePattern.leftDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3;
-                        double hole5Height = INUP + holePattern.leftDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3 + holePattern.gap4;
-                        double hole6Height = INUP + holePattern.leftDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3 + holePattern.gap4 + holePattern.gap5;
+                        double hole1Height = INUP + holePattern.LeftDefaultINUP;
+                        double hole2Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1;
+                        double hole3Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2;
+                        double hole4Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3;
+                        double hole5Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4;
+                        double hole6Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4 + holePattern.Gap5;
 
                         if (LINS > 0)
                         {
                             double leftOffset = LINS;
 
-                            if (holePattern.numHolesLeft > 0) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Left Hole1
-                            if (holePattern.numHolesLeft > 1) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Left Hole2
-                            if (holePattern.numHolesLeft > 2) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Left Hole3
-                            if (holePattern.numHolesLeft > 3) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
-                            if (holePattern.numHolesLeft > 4) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Left Hole5
-                            if (holePattern.numHolesLeft > 5) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Left Hole6
+                            if (holePattern.NumHolesLeft > 0) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Left Hole1
+                            if (holePattern.NumHolesLeft > 1) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Left Hole2
+                            if (holePattern.NumHolesLeft > 2) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Left Hole3
+                            if (holePattern.NumHolesLeft > 3) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
+                            if (holePattern.NumHolesLeft > 4) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Left Hole5
+                            if (holePattern.NumHolesLeft > 5) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Left Hole6
                         }
 
                         //AddDrillings rightside drilling 
-                        hole1Height = INUP + holePattern.rightDefaultINUP;
-                        hole2Height = INUP + holePattern.rightDefaultINUP + holePattern.gap1;
-                        hole3Height = INUP + holePattern.rightDefaultINUP + holePattern.gap1 + holePattern.gap2;
-                        hole4Height = INUP + holePattern.rightDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3;
-                        hole5Height = INUP + holePattern.rightDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3 + holePattern.gap4;
-                        hole6Height = INUP + holePattern.rightDefaultINUP + holePattern.gap1 + holePattern.gap2 + holePattern.gap3 + holePattern.gap4 + holePattern.gap5;
+                        hole1Height = INUP + holePattern.RightDefaultINUP;
+                        hole2Height = INUP + holePattern.RightDefaultINUP + holePattern.Gap1;
+                        hole3Height = INUP + holePattern.RightDefaultINUP + holePattern.Gap1 + holePattern.Gap2;
+                        hole4Height = INUP + holePattern.RightDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3;
+                        hole5Height = INUP + holePattern.RightDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4;
+                        hole6Height = INUP + holePattern.RightDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4 + holePattern.Gap5;
 
                         if (RINS > 0)
                         {
                             double leftOffset = Width - RINS;
 
-                            if (holePattern.numHolesRight > 0) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Right Hole1
-                            if (holePattern.numHolesRight > 1) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Right Hole2
-                            if (holePattern.numHolesRight > 2) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Right Hole3
-                            if (holePattern.numHolesRight > 3) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Right Hole4
-                            if (holePattern.numHolesRight > 4) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Right Hole5
-                            if (holePattern.numHolesRight > 5) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Right Hole6
+                            if (holePattern.NumHolesRight > 0) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Right Hole1
+                            if (holePattern.NumHolesRight > 1) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Right Hole2
+                            if (holePattern.NumHolesRight > 2) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Right Hole3
+                            if (holePattern.NumHolesRight > 3) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Right Hole4
+                            if (holePattern.NumHolesRight > 4) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Right Hole5
+                            if (holePattern.NumHolesRight > 5) { ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Right Hole6
                         }
                     }
                 }

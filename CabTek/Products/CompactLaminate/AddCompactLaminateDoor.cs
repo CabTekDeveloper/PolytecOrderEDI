@@ -171,43 +171,43 @@ namespace PolytecOrderEDI
             {
                 if (DTYP == 0 || INUP == 0) return;
 
-                var drillingInfo = (CurrentProduct.Product == PRODUCT.DrawerFront ) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, partName.ToString()) : HolePatternHamperDoor.GetDrillingInfo(DTYP);
+                var drillingInfo = (CurrentProduct.Product == PRODUCT.DrawerFront ) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, partName.ToString()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
 
-                if (drillingInfo.hasDrillingInfo)
+                if (drillingInfo.HasDrillingInfo)
                 {
-                    //double holeDepth = drillingInfo.holeDepth;
+                    //double HoleDepth = drillingInfo.HoleDepth;
                     double holeDepth = CompactDrawerHoleDepth.holeDepth;
 
                     //AddDrillings leftside drilling 
-                    double hole1Height = INUP + drillingInfo.leftDefaultINUP;
-                    double hole2Height = INUP + drillingInfo.leftDefaultINUP + drillingInfo.gap1;
-                    double hole3Height = INUP + drillingInfo.leftDefaultINUP + drillingInfo.gap1 + drillingInfo.gap2;
-                    double hole4Height = INUP + drillingInfo.leftDefaultINUP + drillingInfo.gap1 + drillingInfo.gap2 + drillingInfo.gap3;
+                    double hole1Height = INUP + drillingInfo.LeftDefaultINUP;
+                    double hole2Height = INUP + drillingInfo.LeftDefaultINUP + drillingInfo.Gap1;
+                    double hole3Height = INUP + drillingInfo.LeftDefaultINUP + drillingInfo.Gap1 + drillingInfo.Gap2;
+                    double hole4Height = INUP + drillingInfo.LeftDefaultINUP + drillingInfo.Gap1 + drillingInfo.Gap2 + drillingInfo.Gap3;
 
                     if (LINS > 0)
                     {
                         double leftOffset = LINS;
 
-                        if (drillingInfo.numHolesLeft > 0) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Left Hole1
-                        if (drillingInfo.numHolesLeft > 1) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Left Hole2
-                        if (drillingInfo.numHolesLeft > 2) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Left Hole3
-                        if (drillingInfo.numHolesLeft > 3) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
+                        if (drillingInfo.NumHolesLeft > 0) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Left Hole1
+                        if (drillingInfo.NumHolesLeft > 1) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Left Hole2
+                        if (drillingInfo.NumHolesLeft > 2) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Left Hole3
+                        if (drillingInfo.NumHolesLeft > 3) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
                     }
 
                     //AddDrillings rightside drilling 
-                    hole1Height = INUP + drillingInfo.rightDefaultINUP;
-                    hole2Height = INUP + drillingInfo.rightDefaultINUP + drillingInfo.gap1;
-                    hole3Height = INUP + drillingInfo.rightDefaultINUP + drillingInfo.gap1 + drillingInfo.gap2;
-                    hole4Height = INUP + drillingInfo.rightDefaultINUP + drillingInfo.gap1 + drillingInfo.gap2 + drillingInfo.gap3;
+                    hole1Height = INUP + drillingInfo.RightDefaultINUP;
+                    hole2Height = INUP + drillingInfo.RightDefaultINUP + drillingInfo.Gap1;
+                    hole3Height = INUP + drillingInfo.RightDefaultINUP + drillingInfo.Gap1 + drillingInfo.Gap2;
+                    hole4Height = INUP + drillingInfo.RightDefaultINUP + drillingInfo.Gap1 + drillingInfo.Gap2 + drillingInfo.Gap3;
 
                     if (RINS > 0)
                     {
                         double leftOffset = width - RINS;
 
-                        if (drillingInfo.numHolesRight > 0) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Right Hole1
-                        if (drillingInfo.numHolesRight > 1) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Right Hole2
-                        if (drillingInfo.numHolesRight > 2) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Right Hole3
-                        if (drillingInfo.numHolesRight > 3) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Right Hole4
+                        if (drillingInfo.NumHolesRight > 0) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, holeRadius, holeDepth); }  // Right Hole1
+                        if (drillingInfo.NumHolesRight > 1) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, holeRadius, holeDepth); }  //Right Hole2
+                        if (drillingInfo.NumHolesRight > 2) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole3Height, leftOffset, holeRadius, holeDepth); }  //Right Hole3
+                        if (drillingInfo.NumHolesRight > 3) { Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Right Hole4
                     }
                 }
             }
