@@ -220,13 +220,13 @@ namespace PolytecOrderEDI
             }
             //else
             //{
-            //    if (Part.ProductType == PRODUCTTYPE.Decorative16mm)
+            //    if (vinylPart.ProductType == PRODUCTTYPE.Decorative16mm)
             //    {
-            //        if (Part.Thickness != 16) errorMessage += $"Set the thickness to 16mm.\n";
+            //        if (vinylPart.Thickness != 16) errorMessage += $"Set the thickness to 16mm.\n";
             //    }
-            //    else if (Part.ProductType == PRODUCTTYPE.Decorative18mm)
+            //    else if (vinylPart.ProductType == PRODUCTTYPE.Decorative18mm)
             //    {
-            //        if (Part.Thickness != 18) errorMessage += $"Set the thickness to 18mm.\n";
+            //        if (vinylPart.Thickness != 18) errorMessage += $"Set the thickness to 18mm.\n";
             //    }
             //}
 

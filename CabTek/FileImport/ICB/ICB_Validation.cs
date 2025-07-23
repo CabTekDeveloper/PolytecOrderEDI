@@ -25,7 +25,7 @@ namespace PolytecOrderEDI
             {
                 Reset(); //Reset the properties if it was set when when validating previous jobs.
 
-                //Check if all Part Numbers and Ids are unique.
+                //Check if all vinylPart Numbers and Ids are unique.
                 UniquePartNumber_Validation(LstICBPart);
                 UniquePartId_Validation(LstICBPart);
 

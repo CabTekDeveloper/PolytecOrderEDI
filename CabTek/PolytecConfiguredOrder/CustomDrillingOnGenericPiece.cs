@@ -1,26 +1,20 @@
 ﻿
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
 using BorgEdi.Enums;
 using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
-    static class DecorativeGenericPieceCustomDrilling
+    static class CustomDrillingOnGenericPiece
     {
         private static GenericPiece? ConfiguredPiece { get; set; }
-        private static CabinetPart Part { get; set; } = new();
-        //Part Properties
+        private static VinylPart? vinylPart { get; set; } = null;
+        private static CabinetPart? cabPart { get; set; } = null;
+        private static BuildParameter_DrawerFront? DrawerFrontParams { get; set; } = null;
+        private static PRODUCT ProductName { get; set; } = PRODUCT.None;
         private static PARTNAME PartName { get; set; }
         private static double Height { get; set; }
         private static double Width { get; set; }
         private static double Thickness { get; set; }
-
-        //DrawerFront properties since sigle DF are added as door
         private static double LINS { get; set; }
         private static double RINS { get; set; }
         private static int DTYP1 { get; set; }
@@ -28,80 +22,56 @@ namespace PolytecOrderEDI
         private static double INUP1 { get; set; }
         private static double INUP2 { get; set; }
         private static double HDIA { get; set; }
-
+        private static double HoleDepth { get; set; }
 
         private static void SetDrillingProperties()
         {
-            PartName = Part.PartName;
-            Height = Part.Height;
-            Width = Part.Width;
-            Thickness = Part.Thickness;
+            ProductName = vinylPart != null ? vinylPart.Product : cabPart != null ? cabPart.Product : PRODUCT.None;
+            PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName : PARTNAME.None ;
+            Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height : 0;
+            Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width : 0;
+            Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness : 0;
 
-            //DrawerFront Drilling Parameters
-            var DrawerFrontParams = new BuildParameter_DrawerFront(Part);
-            LINS = DrawerFrontParams.RINS;      // The LINS of the Back view is the RINS of the Front view
-            RINS = DrawerFrontParams.LINS;      // The RINS of the Back view is the LINS of the Front view 
-            DTYP1 = DrawerFrontParams.DTYP1;
-            DTYP2 = DrawerFrontParams.DTYP2;
-            INUP1 = DrawerFrontParams.INUP1;
-            INUP2 = DrawerFrontParams.INUP2;
-            HDIA = DrawerFrontParams.HDIA;
+            if (cabPart != null) DrawerFrontParams = new(cabPart);
+
+            LINS        = vinylPart != null ? vinylPart.RINS : DrawerFrontParams != null ? DrawerFrontParams.RINS : 0;     // The LINS of the Back view is the RINS of the Front view
+            RINS        = vinylPart != null ? vinylPart.LINS : DrawerFrontParams != null ? DrawerFrontParams.LINS : 0;      // The RINS of the Back view is the LINS of the Front view 
+            DTYP1       = vinylPart != null ? vinylPart.DTYP1 : DrawerFrontParams != null ? DrawerFrontParams.DTYP1 : 0;
+            DTYP2       = vinylPart != null ? vinylPart.DTYP2 : DrawerFrontParams != null ? DrawerFrontParams.DTYP2 : 0;
+            INUP1       = vinylPart != null ? vinylPart.INUP1 : DrawerFrontParams != null ? DrawerFrontParams.INUP1 : 0;
+            INUP2       = vinylPart != null ? vinylPart.INUP2 : DrawerFrontParams != null ? DrawerFrontParams.INUP2 : 0;
+            HDIA        = vinylPart != null ? vinylPart.HDIA : DrawerFrontParams != null ? DrawerFrontParams.HDIA : 0;
+            HoleDepth   = vinylPart != null ? vinylPart.HoleDepth : 0 ;
+
         }
 
-        public static void Add(GenericPiece configuredPiece, CabinetPart part)
+        public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
         {
+            vinylPart = vinyl_part;
+            cabPart = cabinet_part;
+
             ConfiguredPiece = configuredPiece;
-            Part = part;
             SetDrillingProperties();
 
-            //AddDrillings
+            // AddDrillings drillings
             AddLeftAndRightVerticalHoles(DTYP1, INUP1);
             AddLeftAndRightVerticalHoles(DTYP2, INUP2);
-            AddSingleSpotHole(addToSide: PartName.ToString().ToLower());
-            AddHandleOnFront();
+            AddSingleSpotHole(addToSide: PartName.ToString().ToLower());   
         }
 
-        //AddDrillings Handle
-        private static void AddHandleOnFront(string addToSide = "")
-        {
-            if (ConfiguredPiece != null)
-            {
-                var HandleParams = new BuildParameter_Handle(Part);     //Handle Drilling Paramters
-                if (HandleParams.HasHandle)
-                {
-                    var hDepth = Thickness;
-                    var hGap = HandleParams.HoleGap;
-                    var hRadius = HandleParams.HoleDiameter / 2;
-                    var sideInset = HandleParams.SideInset;
-                    bool isVerticalHandle = HandleParams.IsHandleVertical;
-
-                    var hole1TopInset = HandleParams.Hole1TopInset;
-                    var hole1LeftInset = (addToSide == "left" || addToSide == "") ? (sideInset) : (Width - sideInset);
-
-                    var hole2TopInset = HandleParams.Hole2TopInset;
-                    double hole2LeftInset;
-                    if (isVerticalHandle) hole2LeftInset = (addToSide == "left" || addToSide == "") ? (sideInset) : (Width - sideInset);
-                    else hole2LeftInset = (addToSide == "left" || addToSide == "") ? (hole1LeftInset + hGap) : (hole1LeftInset - hGap);
-
-                    //AddDrillings Holes from top left
-                    if (hole1TopInset > 0 && hole1LeftInset > 0) { ConfiguredPiece.Features.AddHoleFromTopLeft(ApplyTarget.Front, hole1TopInset, hole1LeftInset, hRadius, hDepth); }  // Handle Hole1
-                    if (hole2TopInset > 0 && hole2LeftInset > 0) { ConfiguredPiece.Features.AddHoleFromTopLeft(ApplyTarget.Front, hole2TopInset, hole2LeftInset, hRadius, hDepth); }  // Handle Hole2
-                }
-            }
-        }
-
-        //Method to add vertical holes 
+        //Method to add vertical holes on left and right on a panel
         public static void AddLeftAndRightVerticalHoles(int DTYP, double INUP)
         {
             if (ConfiguredPiece != null)
             {
                 if (DTYP > 0 && INUP > 0)
                 {
-                    var holePattern = (Part.Product == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
+                    var holePattern = (ProductName == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = holePattern.HoleDepth;
+                        //double holeDepth = holePattern.HoleDepth;
+                        double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
                         var holeRadius = HDIA / 2;
 
                         //AddDrillings leftside drilling 

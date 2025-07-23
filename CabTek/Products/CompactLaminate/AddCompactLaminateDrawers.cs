@@ -73,7 +73,7 @@ namespace PolytecOrderEDI
                     LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"EzeNo: {CurrentProduct.EzeNo}" },
                 };
                 
-                //var edgeProfiles = HelperMethods.WorkoutCompactLaminateEdgeProfile(Part.edgeLocation, Part.handleSystem, Part.edgeMould);
+                //var edgeProfiles = HelperMethods.WorkoutCompactLaminateEdgeProfile(vinylPart.edgeLocation, vinylPart.handleSystem, vinylPart.edgeMould);
 
                 //DrawerPiece.EdgeProfileTop = edgeProfiles["topEdge"];
                 //DrawerPiece.EdgeProfileBottom = edgeProfiles["bottomEdge"];

@@ -11,7 +11,7 @@ namespace PolytecOrderEDI
         private static Product? ConfiguredProduct { get; set; }
         private static VinylPart Part { get; set; } = new();
 
-        //Part Properties
+        //vinylPart Properties
         //private static PRODUCT Product { get; set; } 
         private static PARTNAME PartName { get; set; }
         private static double Height { get; set; }

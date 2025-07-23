@@ -82,7 +82,7 @@ namespace PolytecOrderEDI
 
 //void AddHandle()
 //{
-//    bool isUpperCabinet = (Part.CabinetName.Contains("Upper", StringComparison.OrdinalIgnoreCase));
+//    bool isUpperCabinet = (vinylPart.CabinetName.Contains("Upper", StringComparison.OrdinalIgnoreCase));
 //    bool isVerticalHandle = (HandleParams.Orientation == 0);
 
 //    var hole1_xInset = (HandleParams.SideInset);

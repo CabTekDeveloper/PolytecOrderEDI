@@ -35,7 +35,7 @@ namespace PolytecOrderEDI
                 Profile = Part.FaceProfile,
                 Colour = Part.Colour,
                 Finish = Part.Finish,
-                //AdditionalInstructions= Part.additionalInstructions,
+                //AdditionalInstructions= vinylPart.additionalInstructions,
             };
 
 
@@ -51,7 +51,7 @@ namespace PolytecOrderEDI
                     AdditionalInstructions = Part.AdditionalInstructions,
                     LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"EzeNo: {Part.EzeNo}" },
                 };
-                ThermoGenericPieceCustomDrilling.AddDrillings(Part, DrawerPiece);
+                CustomDrillingOnGenericPiece.AddDrillings(configuredPiece: DrawerPiece, vinyl_part: Part);
                 ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
             }
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);

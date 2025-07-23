@@ -59,7 +59,8 @@ namespace PolytecOrderEDI
                     AdditionalInstructions = Part.AdditionalInstructions,
                     LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
                 };
-                DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, Part);
+                //DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, Part);
+                CustomDrillingOnGenericPiece.AddDrillings(configuredPiece: DrawerPiece, cabinet_part:Part);
                 ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
             }
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);
@@ -99,7 +100,8 @@ namespace PolytecOrderEDI
                     LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
                 };
 
-                DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, Part);
+                //DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, Part);
+                CustomDrillingOnGenericPiece.AddDrillings(configuredPiece: DrawerPiece, cabinet_part: Part);
                 ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
             }
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);
