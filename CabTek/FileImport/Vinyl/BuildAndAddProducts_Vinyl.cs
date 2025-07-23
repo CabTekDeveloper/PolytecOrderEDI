@@ -8,7 +8,7 @@ namespace PolytecOrderEDI
         {
             try
             {
-                List<VinylPart> LstProducts = VinylJob.LstProducts;
+                List<VinylPart> LstProducts = VinylJob.LstVinylParts;
                 List<VinylPart> DrawerBankPieces = [];
 
                 for (int i = 0; i < LstProducts.Count; i++)

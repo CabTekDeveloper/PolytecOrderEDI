@@ -21,7 +21,7 @@ namespace PolytecOrderEDI
             PoNumber = (GlobalVariable.PoNumber.Length > 0) ? GlobalVariable.PoNumber : string.Empty;
             OrderedBy = (GlobalVariable.CurrentUserName.Length > 0) ? GlobalVariable.CurrentUserName : string.Empty;
             RequestedDate = GlobalVariable.RequestedDate;
-            VinylProducts = VinylJob.LstProducts;
+            VinylProducts = VinylJob.LstVinylParts;
             MelamineCabinets = ICB.Cabinets;
         }
     }

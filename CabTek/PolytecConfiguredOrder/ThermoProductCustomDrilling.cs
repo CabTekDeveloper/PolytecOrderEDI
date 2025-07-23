@@ -89,7 +89,7 @@ namespace PolytecOrderEDI
                 return;
             }
 
-            // 
+            
             if (Part.Product == PRODUCT.Panel)
             {
                 if (DTYP1 == 1002)
@@ -145,7 +145,7 @@ namespace PolytecOrderEDI
                     if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
                     break;
 
-                case PARTNAME.Left_Leaf: //LEft LEaf
+                case PARTNAME.Left_Leaf: //Left LEaf
                     AddHingeBlocks(addToSide: "left", offset: HingeBlockInset);
                     break;
 
@@ -162,7 +162,6 @@ namespace PolytecOrderEDI
                     AddHinges("top", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
-
 
                 case PARTNAME.Left_Blind_Panel:
                     AddHingeBlocks(addToSide: "left", offset: HingeBlockInset);
@@ -317,7 +316,6 @@ namespace PolytecOrderEDI
                         double hole5Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4;
                         double hole6Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4 + holePattern.Gap5;
 
-
                         if (LINS > 0)
                         {
                             double leftOffset = LINS;
@@ -328,8 +326,6 @@ namespace PolytecOrderEDI
                             if (holePattern.NumHolesLeft > 3) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
                             if (holePattern.NumHolesLeft > 4) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Left Hole5
                             if (holePattern.NumHolesLeft > 5) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Left Hole6
-
-
                         }
 
                         //AddDrillings rightside drilling 

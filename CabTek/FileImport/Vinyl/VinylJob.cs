@@ -1,27 +1,12 @@
-﻿//using BorgEdi;
-//using BorgEdi.Interfaces;
-//using BorgEdi.Models;
-//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Diagnostics;
-//using System.Drawing;
-//using System.Globalization;
-//using System.Linq;
-//using System.Security.Policy;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows.Forms;
-//using static System.Runtime.InteropServices.JavaScript.JSType;
-//using static System.Windows.Forms.LinkLabel;
-
+﻿
 namespace PolytecOrderEDI
 {
     static class VinylJob
     {
         
-        public static List<VinylPart> LstProducts {  get; set; } = [];
-        public static void Reset() => LstProducts = [];
+        public static List<VinylPart> LstVinylParts {  get; set; } = [];
+
+        public static void Reset() => LstVinylParts = [];
 
         public static bool Import()
         {
@@ -39,7 +24,7 @@ namespace PolytecOrderEDI
                     }
                     else
                     {
-                        return ReadAndClean() && ValidateVinylParts.Validate(LstProducts);
+                        return ReadAndClean() && ValidateVinylParts.Validate(LstVinylParts);
                     }
                 }
                 else
@@ -74,7 +59,10 @@ namespace PolytecOrderEDI
                     {
                         string[] splitLine = arrData[i].Split(',');
 
-                        if (!(splitLine.Skip(1).All(element => string.IsNullOrEmpty(element.Trim())))) { lstFormattedData.Add(arrData[i]); }
+                        if (!(splitLine.Skip(1).All(element => string.IsNullOrEmpty(element.Trim())))) 
+                        { 
+                            lstFormattedData.Add(arrData[i]); 
+                        }
                     }
 
                     //WRITE FORMATTED DATA BACK TO FILE
@@ -94,10 +82,9 @@ namespace PolytecOrderEDI
                     }
 
                     //CRTEATE LIST OF PRODUCT OBJECTS
-                    for (int i = 0; i < lstFormattedData.Count; i++)
+                    foreach (var item in lstFormattedData)
                     {
-                        var objProduct = new VinylPart(lstFormattedData[i].Split(","));
-                        LstProducts.Add(objProduct);
+                        LstVinylParts.Add(new VinylPart(item.Split(",")));
                     }
 
                     return true;
