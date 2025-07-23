@@ -9,7 +9,7 @@ namespace PolytecOrderEDI
         private static GenericPiece? ConfiguredPiece { get; set; }
         private static VinylPart? vinylPart { get; set; } = null;
         private static CabinetPart? cabPart { get; set; } = null;
-        private static BuildParameter_DrawerFront? DrawerFrontParams { get; set; } = null;
+        private static BuildParameter_DrawerFront DrawerFrontParams { get; set; } = new();
         private static PRODUCT ProductName { get; set; } = PRODUCT.None;
         private static PARTNAME PartName { get; set; }
         private static double Height { get; set; }
@@ -26,27 +26,28 @@ namespace PolytecOrderEDI
 
         private static void SetDrillingProperties()
         {
-            ProductName = vinylPart != null ? vinylPart.Product : cabPart != null ? cabPart.Product : PRODUCT.None;
-            PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName : PARTNAME.None ;
-            Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height : 0;
-            Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width : 0;
-            Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness : 0;
+            ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
+            PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None ;
+            Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
+            Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width       : 0;
+            Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness   : 0;
 
             if (cabPart != null) DrawerFrontParams = new(cabPart);
 
-            LINS        = vinylPart != null ? vinylPart.RINS : DrawerFrontParams != null ? DrawerFrontParams.RINS : 0;     // The LINS of the Back view is the RINS of the Front view
-            RINS        = vinylPart != null ? vinylPart.LINS : DrawerFrontParams != null ? DrawerFrontParams.LINS : 0;      // The RINS of the Back view is the LINS of the Front view 
-            DTYP1       = vinylPart != null ? vinylPart.DTYP1 : DrawerFrontParams != null ? DrawerFrontParams.DTYP1 : 0;
-            DTYP2       = vinylPart != null ? vinylPart.DTYP2 : DrawerFrontParams != null ? DrawerFrontParams.DTYP2 : 0;
-            INUP1       = vinylPart != null ? vinylPart.INUP1 : DrawerFrontParams != null ? DrawerFrontParams.INUP1 : 0;
-            INUP2       = vinylPart != null ? vinylPart.INUP2 : DrawerFrontParams != null ? DrawerFrontParams.INUP2 : 0;
-            HDIA        = vinylPart != null ? vinylPart.HDIA : DrawerFrontParams != null ? DrawerFrontParams.HDIA : 0;
-            HoleDepth   = vinylPart != null ? vinylPart.HoleDepth : 0 ;
-
+            LINS        = vinylPart != null ? vinylPart.RINS        : DrawerFrontParams != null ? DrawerFrontParams.RINS    : 0;     // The LINS of the Back view is the RINS of the Front view
+            RINS        = vinylPart != null ? vinylPart.LINS        : DrawerFrontParams != null ? DrawerFrontParams.LINS    : 0;      // The RINS of the Back view is the LINS of the Front view 
+            DTYP1       = vinylPart != null ? vinylPart.DTYP1       : DrawerFrontParams != null ? DrawerFrontParams.DTYP1   : 0;
+            DTYP2       = vinylPart != null ? vinylPart.DTYP2       : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
+            INUP1       = vinylPart != null ? vinylPart.INUP1       : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
+            INUP2       = vinylPart != null ? vinylPart.INUP2       : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
+            HDIA        = vinylPart != null ? vinylPart.HDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            HoleDepth   = vinylPart != null ? vinylPart.HoleDepth   : 0 ;
         }
 
         public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
         {
+            if (vinyl_part == null && cabinet_part == null) return;
+
             vinylPart = vinyl_part;
             cabPart = cabinet_part;
 
@@ -70,7 +71,6 @@ namespace PolytecOrderEDI
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        //double holeDepth = holePattern.HoleDepth;
                         double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
                         var holeRadius = HDIA / 2;
 
