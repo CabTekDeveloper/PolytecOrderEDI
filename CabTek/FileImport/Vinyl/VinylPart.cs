@@ -83,7 +83,22 @@ namespace PolytecOrderEDI
         public string ContrastingEdgeFinish { get; set; } = "";
 
 
-        public VinylPart(){ }
+        //Bar Panel Info
+        public int NumberOfPanels { get; set; }
+        public bool EvenlySizedProfiles { get; set; } 
+        public double Profile1Size { get; set; }
+        public double Profile2Size { get; set; }
+        public double Profile3Size { get; set; }
+        public double Profile4Size { get; set; }
+        public double Profile5Size { get; set; }
+        public double Profile6Size { get; set; }
+        public double Profile7Size { get; set; }
+        public double Profile8Size { get; set; }
+
+        public VinylPart()
+        { 
+            //Empty Object
+        }
 
 
         public  VinylPart(string[] arrProductVal)
@@ -182,7 +197,19 @@ namespace PolytecOrderEDI
                 ContrastingEdgeColour = arrProductVal[63].Trim();
                 ContrastingEdgeFinish = arrProductVal[64].Trim();
 
+                //Bar Panel Info
+                NumberOfPanels = string.IsNullOrEmpty(arrProductVal[65].Trim()) ? 0 : Int32.Parse(arrProductVal[65]);
+                EvenlySizedProfiles = string.Equals(arrProductVal[66].Trim(), "yes") ? true : false;
+                Profile1Size = string.IsNullOrEmpty(arrProductVal[67].Trim()) ? 0 : double.Parse(arrProductVal[67].Trim());
+                Profile2Size = string.IsNullOrEmpty(arrProductVal[68].Trim()) ? 0 : double.Parse(arrProductVal[68].Trim());
+                Profile3Size = string.IsNullOrEmpty(arrProductVal[69].Trim()) ? 0 : double.Parse(arrProductVal[69].Trim());
+                Profile4Size = string.IsNullOrEmpty(arrProductVal[70].Trim()) ? 0 : double.Parse(arrProductVal[70].Trim());
+                Profile5Size = string.IsNullOrEmpty(arrProductVal[71].Trim()) ? 0 : double.Parse(arrProductVal[71].Trim());
+                Profile6Size = string.IsNullOrEmpty(arrProductVal[72].Trim()) ? 0 : double.Parse(arrProductVal[72].Trim());
+                Profile7Size = string.IsNullOrEmpty(arrProductVal[73].Trim()) ? 0 : double.Parse(arrProductVal[73].Trim());
+                Profile8Size = string.IsNullOrEmpty(arrProductVal[74].Trim()) ? 0 : double.Parse(arrProductVal[74].Trim());
             }
+
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
@@ -372,3 +399,14 @@ namespace PolytecOrderEDI
 
 //  63:Contrasting Edge Colour
 //  64:ContrastingEdgeFinish
+
+//  65:NumbeOfPanels
+//  66:EvenlySizedProfiles
+//  67:Profile1Size
+//  68:Profile2Size
+//  69:Profile3Size
+//  70:Profile4Size
+//  71:Profile5Size
+//  72:Profile6Size
+//  73:Profile7Size
+//  74:Profile8Size
