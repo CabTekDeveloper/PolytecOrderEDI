@@ -108,3 +108,6 @@ Update Logs
 
 23-07-2025 Wangchuk
 - Created new Branch "CombineDrillingClassesThermoAndDecorative" to work on combining the drilling classes into one class.
+
+24-07-2025 Wangchuk
+- Added branch "CombineDrillingClassesThermoAndDecorative" to the master branch
