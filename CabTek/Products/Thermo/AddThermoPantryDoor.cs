@@ -47,7 +47,7 @@ namespace PolytecOrderEDI
                 PanelCount = Part.PanelCount,
             };
 
-            ThermoProductCustomDrilling.AddDrillings(Part, ConfiguredProduct);
+            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 

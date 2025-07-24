@@ -44,8 +44,9 @@ namespace PolytecOrderEDI
                 Colour = Part.Colour,
                 Finish = Part.Finish,
             };
-            
-            ThermoProductCustomDrilling.AddDrillings(Part, ConfiguredProduct);  //AddDrillings drilling
+
+            //CustomDrillingOnProduct.AddDrillings(Part, ConfiguredProduct);  //AddDrillings drilling
+            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);  //AddDrillings drilling
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
        

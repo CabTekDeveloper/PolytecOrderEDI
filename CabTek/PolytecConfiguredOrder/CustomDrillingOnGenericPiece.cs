@@ -11,7 +11,7 @@ namespace PolytecOrderEDI
         private static CabinetPart? cabPart { get; set; } = null;
         private static BuildParameter_DrawerFront DrawerFrontParams { get; set; } = new();
         private static PRODUCT ProductName { get; set; } = PRODUCT.None;
-        private static PARTNAME PartName { get; set; }
+        private static PARTNAME PartName { get; set; } = PARTNAME.None;
         private static double Height { get; set; }
         private static double Width { get; set; }
         private static double Thickness { get; set; }
@@ -41,6 +41,7 @@ namespace PolytecOrderEDI
             INUP1       = vinylPart != null ? vinylPart.INUP1       : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
             INUP2       = vinylPart != null ? vinylPart.INUP2       : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
             HDIA        = vinylPart != null ? vinylPart.HDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+
             HoleDepth   = vinylPart != null ? vinylPart.HoleDepth   : 0 ;
         }
 

@@ -1,27 +1,32 @@
 ﻿
+
 using BorgEdi.Enums;
 using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
-
-    static class DecorativeProductCustomDrilling
+    
+    static class CustomDrillingOnProduct
     {
-        private static Product? ConfiguredProduct { get; set; } 
-        private static CabinetPart Part { get; set; } = new();
+        private static Product? ConfiguredProduct { get; set; }
+        private static VinylPart? vinylPart { get; set; } = null;
+        private static CabinetPart? cabPart { get; set; } = null;
 
-        //vinylPart Properties
-        private static PARTNAME PartName { get; set; }
+        private static BuildParameter_Door? DoorParams { get; set; } = null;
+        private static BuildParameter_DrawerFront? DrawerFrontParams { get; set; } = null;
+        private static BuildParameter_Handle? HandleParams { get; set; } = null;
+
+        private static PRODUCT ProductName { get; set; } = PRODUCT.None;
+        private static PARTNAME PartName { get; set; } =PARTNAME.None;
         private static double Height { get; set; }
         private static double Width { get; set; }
         private static double Thickness { get; set; }
-        
-        //Door Parameters
-        private static HINGETYPE HingeType { get; set; }
+
+        private static HINGETYPE HingeType { get; set; } = HINGETYPE.None;
         private static double HingeCupInset { get; set; }
         private static double HingeBlockInset { get; set; }
-        private static double HTOD { get; set; }
         private static double BifoldHingeCupInset { get; set; }
+        private static double HTOD { get; set; }
         private static double Hole1FromBot { get; set; }
         private static double Hole2FromTop { get; set; }
         private static double Hole3FromTop { get; set; }
@@ -30,7 +35,6 @@ namespace PolytecOrderEDI
         private static double Hole6FromTop { get; set; }
         private static int NumHoles { get; set; }
 
-        //DrawerFront properties since sigle DF are added as door
         private static double LINS { get; set; }
         private static double RINS { get; set; }
         private static int DTYP1 { get; set; }
@@ -38,48 +42,62 @@ namespace PolytecOrderEDI
         private static double INUP1 { get; set; }
         private static double INUP2 { get; set; }
         private static double HDIA { get; set; }
+        private static double HoleDepth { get; set; }
 
 
+        // Method to set the drilling properties.
         private static void SetDrillingProperties()
         {
-            PartName    = Part.PartName;
-            Height      = Part.Height;
-            Width       = Part.Width;
-            Thickness   = Part.Thickness;
+            ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
+            PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None;
+            Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
+            Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width       : 0;
+            Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness   : 0;
 
-            var DoorParams  = new BuildParameter_Door(Part); //Door Drilling Parameters
-            HingeType           = DoorParams.HingeType;
-            HingeCupInset       = DoorParams.HingeCupInset;
-            HingeBlockInset     = DoorParams.HingeBlockInset;
-            HTOD                = DoorParams.HTOD;
-            BifoldHingeCupInset = DoorParams.BifoldHingeCupInset;
-            Hole1FromBot        = DoorParams.Hole1FromBot;
-            Hole2FromTop        = DoorParams.Hole2FromTop;
-            Hole3FromTop        = DoorParams.Hole3FromTop;
-            Hole4FromTop        = DoorParams.Hole4FromTop;
-            Hole5FromTop        = DoorParams.Hole5FromTop;
-            Hole6FromTop        = DoorParams.Hole6FromTop;
-            NumHoles            = DoorParams.NumHoles;
+            if (cabPart != null)
+            {
+                DoorParams          = new(cabPart);
+                DrawerFrontParams   = new(cabPart);
+                HandleParams        = new(cabPart);
+            }
 
-            var DrawerFrontParams = new BuildParameter_DrawerFront(Part);   //DrawerFront Drilling Parameters
-            LINS    = DrawerFrontParams.RINS;      // The LINS of the Back view is the RINS of the Front view
-            RINS    = DrawerFrontParams.LINS;      // The RINS of the Back view is the LINS of the Front view 
-            DTYP1   = DrawerFrontParams.DTYP1;
-            DTYP2   = DrawerFrontParams.DTYP2;
-            INUP1   = DrawerFrontParams.INUP1;
-            INUP2   = DrawerFrontParams.INUP2;
-            HDIA    = DrawerFrontParams.HDIA;
+            HingeType           = vinylPart != null ? vinylPart.HingeType           : DoorParams != null ? DoorParams.HingeType             : HINGETYPE.None;
+            HingeCupInset       = vinylPart != null ? vinylPart.HingeCupInset       : DoorParams != null ? DoorParams.HingeCupInset         : 0;
+            HingeBlockInset     = vinylPart != null ? vinylPart.HingeBlockInset     : DoorParams != null ? DoorParams.HingeBlockInset       : 0;
+            BifoldHingeCupInset = vinylPart != null ? vinylPart.BifoldHingeCupInset : DoorParams != null ? DoorParams.BifoldHingeCupInset   : 0;
+            HTOD                = vinylPart != null ? vinylPart.HTOD                : DoorParams != null ? DoorParams.HTOD                  : 0;
+
+            Hole1FromBot        = vinylPart != null ? vinylPart.Hole1FromBot   : DoorParams != null ? DoorParams.Hole1FromBot  : 0;
+            Hole2FromTop        = vinylPart != null ? vinylPart.Hole2FromTop   : DoorParams != null ? DoorParams.Hole2FromTop  : 0;
+            Hole3FromTop        = vinylPart != null ? vinylPart.Hole3FromTop   : DoorParams != null ? DoorParams.Hole3FromTop  : 0;
+            Hole4FromTop        = vinylPart != null ? vinylPart.Hole4FromTop   : DoorParams != null ? DoorParams.Hole4FromTop  : 0;
+            Hole5FromTop        = vinylPart != null ? vinylPart.Hole5FromTop   : DoorParams != null ? DoorParams.Hole5FromTop  : 0;
+            Hole6FromTop        = vinylPart != null ? vinylPart.Hole6FromTop   : DoorParams != null ? DoorParams.Hole6FromTop  : 0;
+            NumHoles            = vinylPart != null ? vinylPart.NumHoles       : DoorParams != null ? DoorParams.NumHoles      : 0;
+
+            LINS                = vinylPart != null ? vinylPart.RINS    : DrawerFrontParams != null ? DrawerFrontParams.RINS    : 0;     // The LINS of the Back view is the RINS of the Front view
+            RINS                = vinylPart != null ? vinylPart.LINS    : DrawerFrontParams != null ? DrawerFrontParams.LINS    : 0;     // The RINS of the Back view is the LINS of the Front view 
+            DTYP1               = vinylPart != null ? vinylPart.DTYP1   : DrawerFrontParams != null ? DrawerFrontParams.DTYP1   : 0;
+            DTYP2               = vinylPart != null ? vinylPart.DTYP2   : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
+            INUP1               = vinylPart != null ? vinylPart.INUP1   : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
+            INUP2               = vinylPart != null ? vinylPart.INUP2   : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
+            HDIA                = vinylPart != null ? vinylPart.HDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+
+            HoleDepth           = vinylPart != null ? vinylPart.HoleDepth : 0;
         }
 
 
-        public static void Add( CabinetPart part, Product configuredProduct)
+        public static void AddDrillings(Product configuredProduct, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
         {
-            Part = part;
+            if (vinyl_part == null && cabinet_part == null) return;
+
+            vinylPart = vinyl_part;
+            cabPart = cabinet_part;
             ConfiguredProduct = configuredProduct;
             SetDrillingProperties();
 
-            //Single drawer fronts are added as a  door
-            if (Part.Product == PRODUCT.DrawerFront)
+            //Single drawer fronts are added as a door
+            if (ProductName == PRODUCT.DrawerFront)
             {
                 AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                 AddLeftAndRightVerticalHoles(DTYP2, INUP2);
@@ -87,9 +105,29 @@ namespace PolytecOrderEDI
                 return;
             }
 
+            if (ProductName == PRODUCT.Panel)
+            {
+                if (DTYP1 == 1002)
+                {
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                    AddLeftAndRightVerticalHoles(DTYP2, INUP2);
+                }
+                  
+            }
+
             switch (PartName)
             {
                 case PARTNAME.None:
+                    break;
+
+                case PARTNAME.Left:
+                    AddHinges("right", HingeCupInset);
+                    if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
+                    break;
+
+                case PARTNAME.Right:
+                    AddHinges("left", HingeCupInset);
+                    if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
                     break;
 
                 case PARTNAME.Top:
@@ -97,67 +135,67 @@ namespace PolytecOrderEDI
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
-                case PARTNAME.Top_Bifold:
-                    AddHinges("top", HingeCupInset);
-                    AddHingeBlocks(addToSide: "bottom", offset: HingeBlockInset);
+                case PARTNAME.Bottom:
+                    AddHinges("bottom", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                    if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor( INUP1);
-                    break;
-
-                case PARTNAME.Bottom_Leaf:
-                    AddHinges( "top", HingeCupInset);
-                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                    break;
-
-                //case "hamp_door_bottom":
-                //    AddHinges("bottom", hingeCupInset);
-                //    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                //    break;
-
-                //case "hamp_door_bottom_bifold":
-                //    AddHinges("bottom", hingeCupInset);
-                //    AddHingeBlocks(addToSide: "top", offset: hingeBlockInset);
-                //    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                //    if (numHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
-                //    break;
-
-                //case "hamp_door_top_leaf":
-                //    AddHinges("bottom", hingeCupInset);
-                //    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                //    break;
-
-                case PARTNAME.Left:
-                    AddHinges("right", HingeCupInset);
-                    //AddHandleOnFront("right");
-                    AddHandleOnFront( "right");
-                    break;
-
-                case PARTNAME.Right:
-                    AddHinges("left", HingeCupInset);
-                    //AddHandleOnFront("left");
-                    AddHandleOnFront("left");
                     break;
 
                 case PARTNAME.Left_Bifold:
                     AddHinges("right", HingeCupInset);
                     AddHinges("left", BifoldHingeCupInset);
-                    if (!Part.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase)) AddHandleOnFront("right");
+                    if (cabPart != null && !cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
+                    }
                     break;
 
                 case PARTNAME.Right_Bifold:
                     AddHinges("left", HingeCupInset);
                     AddHinges("right", BifoldHingeCupInset);
-                    if (!Part.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase)) AddHandleOnFront("left");
+                    if (cabPart != null && !cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
+                    }
                     break;
 
-                case PARTNAME.Right_Leaf:
-                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset);
-                    if (Part.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase)) AddHandleOnFront("right");
+                case PARTNAME.Top_Bifold:
+                    AddHinges("top", HingeCupInset);
+                    AddHingeBlocks(addToSide: "bottom", offset: HingeBlockInset, hDepth: HoleDepth);
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                    if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
                     break;
 
-                case PARTNAME.Left_Leaf:
+                case PARTNAME.Bottom_Bifold:
+                    AddHinges("bottom", HingeCupInset);
+                    AddHingeBlocks(addToSide: "top", offset: HingeBlockInset);
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                    if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
+                    break;
+
+                case PARTNAME.Left_Leaf: //Left LEaf
                     AddHingeBlocks(addToSide: "left", offset: HingeBlockInset);
-                    if (Part.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase)) AddHandleOnFront("left");
+                    if (cabPart != null && cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
+                    }
+                    break;
+
+                case PARTNAME.Right_Leaf: //Right leaf
+                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset);
+                    if (cabPart != null && cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
+                    }
+                    break;
+
+                case PARTNAME.Top_Leaf: //Top leaf
+                    AddHinges("bottom", HingeCupInset);
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                    break;
+
+                case PARTNAME.Bottom_Leaf:  //Bottom leaf
+                    AddHinges("top", HingeCupInset);
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
                 case PARTNAME.Left_Blind_Panel:
@@ -168,21 +206,16 @@ namespace PolytecOrderEDI
                     AddHingeBlocks(addToSide: "right", offset: HingeBlockInset);
                     break;
 
-                case PARTNAME.Left_770:
+                case PARTNAME.Left_770: 
                     AddHinges("right", HingeCupInset);
                     AddHingeBlocks("left", offset: HingeBlockInset, hDepth: 1);
-                    AddHandleOnFront("right");
+                    if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
                     break;
 
                 case PARTNAME.Right_770:
                     AddHinges("left", HingeCupInset);
                     AddHingeBlocks("right", offset: HingeBlockInset, hDepth: 1);
-                    AddHandleOnFront("left");
-                    break;
-
-                case PARTNAME.Right_Leaf_770:
-                    AddHingeBlocks("right", offset: HingeBlockInset, hDepth: 1);
-                    Add35mmCupHolesTo770StyleLeadDoor("left", HingeCupInset);
+                    if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
                     break;
 
                 case PARTNAME.Left_Leaf_770:
@@ -190,18 +223,23 @@ namespace PolytecOrderEDI
                     Add35mmCupHolesTo770StyleLeadDoor("right", HingeCupInset);
                     break;
 
+                case PARTNAME.Right_Leaf_770:
+                    AddHingeBlocks("right", offset: HingeBlockInset, hDepth: 1);
+                    Add35mmCupHolesTo770StyleLeadDoor("left", HingeCupInset);
+                    break;
+
                 default:
                     break;
             }
+
         }
 
         //AddDrillings Handle
-        private static void AddHandleOnFront( string addToSide = "") 
+        private static void AddHandleOnFront(string addToSide = "")
         {
             if (ConfiguredProduct != null)
             {
-                var HandleParams = new BuildParameter_Handle(Part);     //Handle Drilling Paramters
-                if (HandleParams.HasHandle)
+                if (HandleParams != null)
                 {
                     var hDepth = Thickness;
                     var hGap = HandleParams.HoleGap;
@@ -224,6 +262,7 @@ namespace PolytecOrderEDI
             }
         }
 
+
         //AddDrillings hinge holes to door from back
         private static void AddHinges(string addToSide, double offset)
         {
@@ -231,7 +270,7 @@ namespace PolytecOrderEDI
             {
                 if (NumHoles > 0 && offset > 0 && HingeType != HINGETYPE.None)
                 {
-                    HingeType Htype = (HingeType == HINGETYPE.Blum) ? BorgEdi.Enums.HingeType.Blum : BorgEdi.Enums.HingeType.Hettich;
+                    HingeType Htype = HingeType == HINGETYPE.Blum ? BorgEdi.Enums.HingeType.Blum : BorgEdi.Enums.HingeType.Hettich;
 
                     if (addToSide == "left" || addToSide == "right")
                     {
@@ -259,11 +298,11 @@ namespace PolytecOrderEDI
 
             }
         }
-        
+
 
 
         ////Method to add Hinge Block
-        private static void AddHingeBlocks( string addToSide, double offset, double hDepth = 0, double hRadius = 0, double hGap = 0)
+        private static void AddHingeBlocks(string addToSide, double offset, double hDepth = 0, double hRadius = 0, double hGap = 0)
         {
             if (ConfiguredProduct != null)
             {
@@ -286,7 +325,7 @@ namespace PolytecOrderEDI
 
                         void DrillVerticalHingeblockHoles(double hingeHolePositionFromBottom)
                         {
-                            if(ConfiguredProduct != null)
+                            if (ConfiguredProduct != null)
                             {
                                 ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hingeHolePositionFromBottom - (hGap / 2), leftOffset, hRadius, hDepth);
                                 ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hingeHolePositionFromBottom + (hGap / 2), leftOffset, hRadius, hDepth);
@@ -320,18 +359,18 @@ namespace PolytecOrderEDI
 
 
 
-        //Method to add vertical holes 
-        private static void AddLeftAndRightVerticalHoles(int DTYP, double INUP)
+        //Method to add vertical holes on left and right on a panel
+        public static void AddLeftAndRightVerticalHoles(int DTYP, double INUP)
         {
             if (ConfiguredProduct != null)
             {
                 if (DTYP > 0 && INUP > 0)
                 {
-                    var holePattern = (Part.Product == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
+                    var holePattern = (ProductName == PRODUCT.DrawerFront) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, PartName.ToString().ToLower()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = holePattern.HoleDepth;
+                        double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
                         var holeRadius = HDIA / 2;
 
                         //AddDrillings leftside drilling 
@@ -341,7 +380,6 @@ namespace PolytecOrderEDI
                         double hole4Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3;
                         double hole5Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4;
                         double hole6Height = INUP + holePattern.LeftDefaultINUP + holePattern.Gap1 + holePattern.Gap2 + holePattern.Gap3 + holePattern.Gap4 + holePattern.Gap5;
-
 
                         if (LINS > 0)
                         {
@@ -353,8 +391,6 @@ namespace PolytecOrderEDI
                             if (holePattern.NumHolesLeft > 3) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Left Hole4
                             if (holePattern.NumHolesLeft > 4) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Left Hole5
                             if (holePattern.NumHolesLeft > 5) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Left Hole6
-
-
                         }
 
                         //AddDrillings rightside drilling 
@@ -375,8 +411,6 @@ namespace PolytecOrderEDI
                             if (holePattern.NumHolesRight > 3) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole4Height, leftOffset, holeRadius, holeDepth); }  //Right Hole4
                             if (holePattern.NumHolesRight > 4) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole5Height, leftOffset, holeRadius, holeDepth); }  //Right Hole5
                             if (holePattern.NumHolesRight > 5) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole6Height, leftOffset, holeRadius, holeDepth); }  //Right Hole6
-
-
                         }
                     }
                 }
@@ -452,6 +486,7 @@ namespace PolytecOrderEDI
             }
         }
 
-        //End of Methods
+
+
     }
 }

@@ -42,7 +42,9 @@ namespace PolytecOrderEDI
                 ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
             }
 
-            DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
+            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
+            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
+            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 
@@ -69,7 +71,8 @@ namespace PolytecOrderEDI
                 ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
             }
 
-            DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
+            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
+            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 
