@@ -11,6 +11,17 @@ namespace PolytecOrderEDI
             {
                 foreach (var cabinet in Cabinets)
                 {
+                    //AddDrillings Drawer Bank
+                    if (cabinet.StdDrawerBank.Count > 0)
+                    {
+                        AddDecorativeDrawers.Add(cabinet.StdDrawerBank);
+                    }
+                    else
+                    {
+                        if (cabinet.LeftDrawerBank.Count > 0) AddDecorativeDrawers.Add(cabinet.LeftDrawerBank);
+                        if (cabinet.RightDrawerBank.Count > 0) AddDecorativeDrawers.Add(cabinet.RightDrawerBank);
+                    }
+
                     //AddDrillings Parts
                     foreach (var part in cabinet.Parts)
                     {
@@ -39,16 +50,7 @@ namespace PolytecOrderEDI
 
                     }
 
-                    //AddDrillings Drawer Bank
-                    if (cabinet.StdDrawerBank.Count > 0)
-                    {
-                        AddDecorativeDrawers.Add(cabinet.StdDrawerBank);
-                    }
-                    else
-                    {
-                        if (cabinet.LeftDrawerBank.Count > 0) AddDecorativeDrawers.Add(cabinet.LeftDrawerBank);
-                        if (cabinet.RightDrawerBank.Count > 0) AddDecorativeDrawers.Add(cabinet.RightDrawerBank);
-                    }
+                    
 
                 }
                 return true;

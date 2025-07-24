@@ -139,10 +139,10 @@ namespace PolytecOrderEDI
             var selectedCabinet = Cabinets[SelectedCabinetIndex];
             List<CabinetPart_Truncated> tempParts = [];
 
-            foreach (var part in selectedCabinet.Parts) tempParts.Add(new CabinetPart_Truncated(part));
             foreach (var part in selectedCabinet.StdDrawerBank) tempParts.Add(new CabinetPart_Truncated(part));
             foreach (var part in selectedCabinet.LeftDrawerBank) tempParts.Add(new CabinetPart_Truncated(part));
             foreach (var part in selectedCabinet.RightDrawerBank) tempParts.Add(new CabinetPart_Truncated(part));
+            foreach (var part in selectedCabinet.Parts) tempParts.Add(new CabinetPart_Truncated(part));
 
             SelectedCabinetNumber = selectedCabinet.CabinetNumber;
             SelectedCabinetTotalParts = tempParts.Count;
