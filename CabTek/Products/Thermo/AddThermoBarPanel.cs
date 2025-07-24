@@ -33,14 +33,27 @@ namespace PolytecOrderEDI
 
                 KickHeight = Part.KickHeight,
                 DoubleMidRail = Part.DoubleMidRail,
-                EvenlySizedProfiles = true, 
+                EvenlySizedProfiles = Part.EvenlySizedProfiles, 
             };
 
             //AddDrillings panels/profiles to Bar Panel
-            int profileCount = Int32.Parse(Part.StyleProfile.Replace("P", ""));
-            for( int i = 0; i < profileCount; i++ )
+            double[] barPanelSizes =
+            [
+                Part.Profile1Size, Part.Profile2Size, Part.Profile3Size, Part.Profile4Size,
+                Part.Profile5Size, Part.Profile6Size, Part.Profile7Size, Part.Profile8Size
+            ];
+
+            for ( int i = 0; i < Part.NumberOfPanels; i++ )
             {
-                ConfiguredProduct.AddPanel();
+
+                if (Part.EvenlySizedProfiles)
+                {
+                    ConfiguredProduct.AddPanel();
+                }
+                else
+                {
+                    ConfiguredProduct.AddPanel().Width = (decimal)barPanelSizes[i];
+                }
             }
 
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);

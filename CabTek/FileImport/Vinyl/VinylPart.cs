@@ -199,7 +199,7 @@ namespace PolytecOrderEDI
 
                 //Bar Panel Info
                 NumberOfPanels = string.IsNullOrEmpty(arrProductVal[65].Trim()) ? 0 : Int32.Parse(arrProductVal[65]);
-                EvenlySizedProfiles = string.Equals(arrProductVal[66].Trim(), "yes") ? true : false;
+                EvenlySizedProfiles = string.Equals(arrProductVal[66].Trim(), "yes",StringComparison.OrdinalIgnoreCase);
                 Profile1Size = string.IsNullOrEmpty(arrProductVal[67].Trim()) ? 0 : double.Parse(arrProductVal[67].Trim());
                 Profile2Size = string.IsNullOrEmpty(arrProductVal[68].Trim()) ? 0 : double.Parse(arrProductVal[68].Trim());
                 Profile3Size = string.IsNullOrEmpty(arrProductVal[69].Trim()) ? 0 : double.Parse(arrProductVal[69].Trim());

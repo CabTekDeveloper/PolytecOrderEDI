@@ -88,7 +88,7 @@ namespace PolytecOrderEDI
 
                     if (missingValueMessage != "")
                     {
-                        ErrorMessage = $"LINE NO {CurrentProduct.LineNo}: \n{missingValueMessage}\n";
+                        ErrorMessage = $"LINE NO {CurrentProduct.LineNo} (Excel Form): \n{missingValueMessage}\n";
                         ExitImportation = true;
                         return;
                     }
@@ -121,9 +121,10 @@ namespace PolytecOrderEDI
                 missingValueMessage += FinishValidation(CurrentProduct);
 
                 missingValueMessage += ContrastingEdgeInfoValidation(CurrentProduct);
+                missingValueMessage += BarPanelInfoValidation(CurrentProduct);
 
                 //FINALLY, SET THE ERROR MESSAGE
-                ErrorMessage += (missingValueMessage != "") ? $"LINE NO {CurrentProduct.LineNo}: {CurrentProduct.ProductType.ToString().ToUpper()} {CurrentProduct.Product.ToString().ToUpper()}\n{missingValueMessage}\n" : missingValueMessage;
+                ErrorMessage += (missingValueMessage != "") ? $"LINE NO {CurrentProduct.LineNo} (Excel Form): {CurrentProduct.ProductType.ToString().ToUpper()} {CurrentProduct.Product.ToString().ToUpper()}\n{missingValueMessage}\n" : missingValueMessage;
             }
 
             catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -218,17 +219,7 @@ namespace PolytecOrderEDI
             {
                 if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.HeatDeflectors) errorMessage += $"Missing Thickness.\n";
             }
-            //else
-            //{
-            //    if (vinylPart.ProductType == PRODUCTTYPE.Decorative16mm)
-            //    {
-            //        if (vinylPart.Thickness != 16) errorMessage += $"Set the thickness to 16mm.\n";
-            //    }
-            //    else if (vinylPart.ProductType == PRODUCTTYPE.Decorative18mm)
-            //    {
-            //        if (vinylPart.Thickness != 18) errorMessage += $"Set the thickness to 18mm.\n";
-            //    }
-            //}
+
 
             return errorMessage;
 
@@ -363,11 +354,12 @@ namespace PolytecOrderEDI
                 else if (CurrentProduct.Product == PRODUCT.DrawerFront)
                 {
                     if (!CustomValidation.IsDrawerBankStyleProfile(CurrentProduct.StyleProfile)) errorMessage += $"Pick a valid Drawer Bank style profile. \n";
-                    }
-                else if (CurrentProduct.Product == PRODUCT.BarPanel)
-                {
-                    if (!CustomValidation.IsBarPanelStyleProfile(CurrentProduct.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
                 }
+
+                //else if (CurrentProduct.Product == PRODUCT.BarPanel)
+                //{
+                //    if (!CustomValidation.IsBarPanelStyleProfile(CurrentProduct.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
+                //}
             }
         
             return errorMessage;
@@ -751,5 +743,56 @@ namespace PolytecOrderEDI
             return errorMessage;
         }
 
+
+        //BAR PANEL INFO VALIDATION
+        private static string BarPanelInfoValidation(VinylPart CurrentProduct)
+        {
+            string errorMessage = "";
+
+            double[] barPanelSizes = 
+            [
+                CurrentProduct.Profile1Size, CurrentProduct.Profile2Size, CurrentProduct.Profile3Size, CurrentProduct.Profile4Size, 
+                CurrentProduct.Profile5Size, CurrentProduct.Profile6Size, CurrentProduct.Profile7Size, CurrentProduct.Profile8Size
+            ];
+
+            if (CurrentProduct.Product == PRODUCT.BarPanel)
+            {
+                if( CurrentProduct.NumberOfPanels == 0) errorMessage += $"Missing Number of Panels.\n";
+                if( CurrentProduct.NumberOfPanels == 1) errorMessage += $"Number of Panels must be 2 or more.\n";
+
+                if (CurrentProduct.EvenlySizedProfiles)
+                {
+                    if (!barPanelSizes.All(size => size == 0)) errorMessage += $"Remove the bar panel profile sizes if you want Evenly Sized Profiles.\n";
+                }
+                else
+                {
+                    double totalBarPanelSize = 0;
+                    string missingSizeMsg = string.Empty;
+
+                    for (int i = 0; i < CurrentProduct.NumberOfPanels; i++)
+                    {
+                        totalBarPanelSize += barPanelSizes[i];
+                        if (barPanelSizes[i] == 0) missingSizeMsg += $"Missing Profile {i+1} Size. You opted to have different sized profiles.\n";
+                    }
+
+                    if (missingSizeMsg == string.Empty && totalBarPanelSize != CurrentProduct.Width) errorMessage += $"The Width ({CurrentProduct.Width}) of Bar Panel does not match the sum of bar panel sizes ({totalBarPanelSize}).\n";
+     
+                    errorMessage += missingSizeMsg;
+
+                    for (int i = CurrentProduct.NumberOfPanels; i < barPanelSizes.Length; i++)
+                    {
+                        if (barPanelSizes[i] != 0) errorMessage += $"Remove Profile {i+1} Size. Number of Panels picked is {CurrentProduct.NumberOfPanels}.\n";
+                    }
+
+                }
+            }
+
+
+            return errorMessage;
+        }
+
+
     }
 }
+
+
