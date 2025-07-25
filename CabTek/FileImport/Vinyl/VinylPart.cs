@@ -275,10 +275,10 @@ namespace PolytecOrderEDI
             try
             {
                 if (string.IsNullOrEmpty(partName)) return PARTNAME.None;
-                if (string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase))
-                {
-                    _ = partName.Replace("pp", "p");
-                }
+                //if (string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    _ = partName.Replace("pp", "p");
+                //}
 
                 if (string.Equals(partName, "pair", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Pair;
                 if (string.Equals(partName, "left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left;
@@ -307,8 +307,8 @@ namespace PolytecOrderEDI
                 if (string.Equals(partName, "angled", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Angled;
                 if (string.Equals(partName, "straight", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Straight;
 
-                if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
-                if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
+                if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
+                if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
 
                 return PARTNAME.None;
             }
