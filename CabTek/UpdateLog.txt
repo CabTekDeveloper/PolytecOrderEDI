@@ -111,3 +111,8 @@ Update Logs
 
 24-07-2025 Wangchuk
 - Added branch "CombineDrillingClassesThermoAndDecorative" to the master branch
+
+25-07-2025 Wangchuk
+- Added Bar Panel Validation
+- Thermo Bar Panel will now handle uneven sized panels
+- Released Inhouse
