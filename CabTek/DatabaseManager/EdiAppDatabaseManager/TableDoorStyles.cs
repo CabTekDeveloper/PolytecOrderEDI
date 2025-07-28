@@ -12,7 +12,6 @@ namespace PolytecOrderEDI
 {
     static class TableDoorStyles
     {
-        private static string sql = string.Empty;
         private static readonly SqliteConnection dbConnection = EdiAppDatabase.dbConnection;
 
         private static readonly string tn_DoorStyles = "DoorStyles";
@@ -35,10 +34,10 @@ namespace PolytecOrderEDI
         //}
 
 
-        public static int GetDoorStyle(string styleName)
+        public static int GetDoorStyleNo(string styleName)
         {
             dbConnection.Open();
-            sql = $" SELECT {fn_Style} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
+            string sql = $" SELECT {fn_Style} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
             using var command = new SqliteCommand(sql, dbConnection);
             command.Parameters.AddWithValue($"@{fn_StyleName}", styleName);
             var result = command.ExecuteScalar();
@@ -52,7 +51,7 @@ namespace PolytecOrderEDI
         public static bool CheckStyleNameExists(string styleName)
         {
             dbConnection.Open();
-            sql = $" SELECT {fn_StyleName} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
+            string sql = $" SELECT {fn_StyleName} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
             using var command = new SqliteCommand(sql, dbConnection);
             command.Parameters.AddWithValue($"@{fn_StyleName}", styleName);
             bool styleNameExists = command.ExecuteScalar() !=null;
@@ -65,7 +64,7 @@ namespace PolytecOrderEDI
         public static string GetEdgeByStyleName(string styleName)
         {
             dbConnection.Open();
-            sql = $" SELECT {fn_Edge} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
+            string sql = $" SELECT {fn_Edge} FROM {tn_DoorStyles} WHERE {fn_StyleName} LIKE @{fn_StyleName}";
             using var command = new SqliteCommand(sql, dbConnection);
             command.Parameters.AddWithValue($"@{fn_StyleName}", styleName);
             var result = command.ExecuteScalar();

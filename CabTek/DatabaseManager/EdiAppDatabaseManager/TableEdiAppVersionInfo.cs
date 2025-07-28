@@ -11,7 +11,6 @@ namespace PolytecOrderEDI
 {
     static class TableEdiAppVersionInfo
     {
-        private static string sql = string.Empty;
         private static readonly SqliteConnection dbConnection = EdiAppDatabase.dbConnection;
 
         private static readonly string tn_EdiAppVersionInfo = "EdiAppVersionInfo";
@@ -25,7 +24,7 @@ namespace PolytecOrderEDI
 
         //private static void CreateTableIfNotExists()
         //{
-        //    sql = $"CREATE TABLE IF NOT EXISTS {tn_EdiAppVersionInfo} ( {fn_VersionNo} REAL, {fn_ReleaseDate} TEXT ) ";
+        //    string sql = $"CREATE TABLE IF NOT EXISTS {tn_EdiAppVersionInfo} ( {fn_VersionNo} REAL, {fn_ReleaseDate} TEXT ) ";
         //    dbConnection.Open();
         //    using var command = new SqliteCommand(sql, dbConnection);
         //    command.ExecuteNonQuery();

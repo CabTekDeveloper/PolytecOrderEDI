@@ -429,7 +429,7 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.Product == PRODUCT.PantryDoor )
             {
-                if (CurrentProduct.MidRailHeight == 0 && (TableDoorStyles.GetDoorStyle(CurrentProduct.FaceProfile) > 1))
+                if (CurrentProduct.MidRailHeight == 0 && (TableDoorStyles.GetDoorStyleNo(CurrentProduct.FaceProfile) > 1))
                 {
                     errorMessage += $"Missing midrail height. (Or change it to a Door).\n";
                 }
@@ -477,7 +477,7 @@ namespace PolytecOrderEDI
                     {
                         errorMessage += $"Missing Edge mould.\n";
                     }
-                    else if (TableDoorStyles.GetDoorStyle(CurrentProduct.FaceProfile) == 1)
+                    else if (TableDoorStyles.GetDoorStyleNo(CurrentProduct.FaceProfile) == 1)
                     {
                         var edgeMould_db = TableDoorStyles.GetEdgeByStyleName(CurrentProduct.FaceProfile);
                         if (!string.Equals(CurrentProduct.EdgeMould, edgeMould_db, StringComparison.OrdinalIgnoreCase))

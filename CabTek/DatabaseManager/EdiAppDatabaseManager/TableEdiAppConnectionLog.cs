@@ -14,7 +14,6 @@ namespace PolytecOrderEDI
 {
     static class TableEdiAppConnectionLog
     {
-        private static string sql = string.Empty;
         private static readonly SqliteConnection dbConnection = EdiAppDatabase.dbConnection;
 
         private static readonly string tn_EdiAppConnectionInfo = "EdiAppConnectionInfo";
@@ -39,6 +38,7 @@ namespace PolytecOrderEDI
 
         public static void AddCurrentUserConnectDateTime()
         {
+            string sql = string.Empty;
             string connected = "True";
             string name = GlobalVariable.CurrentUserName;
             string currentDateTime = DateTime.Now.ToString();
@@ -75,7 +75,7 @@ namespace PolytecOrderEDI
             string currentDateTime = DateTime.Now.ToString();
 
 
-            sql =   $" UPDATE {tn_EdiAppConnectionInfo} " +
+            string sql =   $" UPDATE {tn_EdiAppConnectionInfo} " +
                     $" SET {fn_Connected} = @{fn_Connected} , {fn_DisConnectDateTime} = @{fn_DisConnectDateTime}  " +
                     $" WHERE {fn_Connected} LIKE @True AND {fn_UserName} LIKE @{fn_UserName} ";
 
@@ -92,7 +92,7 @@ namespace PolytecOrderEDI
         private static bool CheckUserExistsInTable(string userName)
         {
             dbConnection.Open();
-            sql = $"SELECT {fn_UserName} FROM {tn_EdiAppConnectionInfo} WHERE {fn_UserName} = @{fn_UserName} ";
+            string sql = $"SELECT {fn_UserName} FROM {tn_EdiAppConnectionInfo} WHERE {fn_UserName} = @{fn_UserName} ";
             using var command = new SqliteCommand(sql, dbConnection);
             command.Parameters.AddWithValue($"@{fn_UserName}", userName);
             using var reader = command.ExecuteReader();
@@ -106,7 +106,7 @@ namespace PolytecOrderEDI
         {
             var activeUser = string.Empty;
 
-            sql = $" SELECT {fn_UserName} , {fn_ConnectDateTime} FROM {tn_EdiAppConnectionInfo} " +
+            string sql = $" SELECT {fn_UserName} , {fn_ConnectDateTime} FROM {tn_EdiAppConnectionInfo} " +
                   $" WHERE {fn_Connected} = @True";
             dbConnection.Open();
             using var command = new SqliteCommand(sql, dbConnection);

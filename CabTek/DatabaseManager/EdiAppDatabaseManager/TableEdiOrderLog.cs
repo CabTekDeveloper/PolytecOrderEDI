@@ -14,7 +14,6 @@ namespace PolytecOrderEDI
 {
     static class TableEdiOrderLog
     {
-        private static string sql = string.Empty;
         private static readonly SqliteConnection dbConnection = EdiAppDatabase.dbConnection;
 
         private static readonly string tn_EdiOrderLog = "EdiOrderLog";
@@ -41,8 +40,8 @@ namespace PolytecOrderEDI
         {
             string currentDateTime = DateTime.Now.ToString();
 
-            sql = $" INSERT INTO {tn_EdiOrderLog} ({fn_POnumber}, {fn_OderedBy}, {fn_SentTo}, {fn_DateTime} ) " +
-                  $" VALUES (@{fn_POnumber}, @{fn_OderedBy}, @{fn_SentTo}, @{fn_DateTime} ) ";
+            string sql = $" INSERT INTO {tn_EdiOrderLog} ({fn_POnumber}, {fn_OderedBy}, {fn_SentTo}, {fn_DateTime} ) " +
+                         $" VALUES (@{fn_POnumber}, @{fn_OderedBy}, @{fn_SentTo}, @{fn_DateTime} ) ";
 
             dbConnection.Open();
             using var command = new SqliteCommand(sql, dbConnection);
@@ -59,7 +58,7 @@ namespace PolytecOrderEDI
         {
             EdiOrderLog orderLog = new();
 
-            sql = $" SELECT * FROM {tn_EdiOrderLog} " +
+            string sql = $" SELECT * FROM {tn_EdiOrderLog} " +
                   $" WHERE {fn_POnumber}=@{fn_POnumber} COLLATE NOCASE";
             dbConnection.Open();
             using var command = new SqliteCommand(sql, dbConnection);
@@ -88,7 +87,7 @@ namespace PolytecOrderEDI
         {
             var strLogs = "";
             List<string> logs = [];
-            sql = $" SELECT * FROM {tn_EdiOrderLog}";
+            string sql = $" SELECT * FROM {tn_EdiOrderLog}";
             dbConnection.Open();
             using var command = new SqliteCommand(sql, dbConnection);
             using var reader = command.ExecuteReader();
@@ -115,7 +114,7 @@ namespace PolytecOrderEDI
         public static bool IsOrderSentToPolytec(string poNumber)
         {
             dbConnection.Open();
-            sql = $" SELECT * FROM {tn_EdiOrderLog} " +
+            string sql = $" SELECT * FROM {tn_EdiOrderLog} " +
                   $" WHERE {fn_POnumber} = @{fn_POnumber} COLLATE NOCASE";
             using var command = new SqliteCommand(sql, dbConnection);
             command.Parameters.AddWithValue($"@{fn_POnumber}", poNumber);

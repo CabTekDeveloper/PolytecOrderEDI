@@ -13,7 +13,7 @@ namespace PolytecOrderEDI
     static class EdiAppDatabase
     {
         private static string sql = string.Empty;
-        public static readonly SqliteConnection dbConnection = new SqliteConnection($"Data Source = {FileAndDirectory.PolytecEDIdatabase}");
+        public static SqliteConnection dbConnection { get; } = new SqliteConnection($"Data Source = {FileAndDirectory.PolytecEDIdatabase}");
         
         public static bool CheckTableIsNotEmpty(string tableName)
         {
