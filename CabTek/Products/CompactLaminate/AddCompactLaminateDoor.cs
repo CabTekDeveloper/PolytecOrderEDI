@@ -124,9 +124,9 @@ namespace PolytecOrderEDI
             {
                 if (numHoles == 0 || offset == 0) return;
 
-                hDepth = (hDepth > 0) ? hDepth : CompactDoorHingeBlockHole.depth;
-                hRadius = (hRadius > 0) ? hRadius : CompactDoorHingeBlockHole.radius;
-                hgGap = (hgGap > 0) ? hgGap : CompactDoorHingeBlockHole.gap;
+                hDepth = (hDepth > 0) ? hDepth : CompactDoorHingeBlockHole.Depth;
+                hRadius = (hRadius > 0) ? hRadius : CompactDoorHingeBlockHole.Radius;
+                hgGap = (hgGap > 0) ? hgGap : CompactDoorHingeBlockHole.Gap;
 
                 if (addToSide == "left" || addToSide == "right")
                 {
@@ -176,7 +176,7 @@ namespace PolytecOrderEDI
                 if (drillingInfo.HasDrillingInfo)
                 {
                     //double HoleDepth = drillingInfo.HoleDepth;
-                    double holeDepth = CompactDrawerHoleDepth.holeDepth;
+                    double holeDepth = CompactDrawerHoleDepth.HoleDepth;
 
                     //AddDrillings leftside drilling 
                     double hole1Height = INUP + drillingInfo.LeftDefaultINUP;
@@ -218,18 +218,18 @@ namespace PolytecOrderEDI
                 double offset;
                 if (string.Equals(addToSide, "left", StringComparison.OrdinalIgnoreCase))
                 {
-                    offset = SpotHole.inset;
+                    offset = SpotHole.Inset;
                 }
                 else if (string.Equals(addToSide, "right", StringComparison.OrdinalIgnoreCase))
                 {
-                    offset = width - SpotHole.inset;
+                    offset = width - SpotHole.Inset;
                 }
                 else
                 {
                     offset = width / 2;
                 }
                
-                Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.inup, offset, (SpotHole.radius), SpotHole.depth);
+                Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.Inup, offset, (SpotHole.Radius), SpotHole.Depth);
             }
 
         }

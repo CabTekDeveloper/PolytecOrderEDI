@@ -118,7 +118,7 @@ namespace PolytecOrderEDI
                 if (drillingInfo.HasDrillingInfo)
                 {
                     //double HoleDepth = drillingInfo.HoleDepth;
-                    double holeDepth = CompactDrawerHoleDepth.holeDepth;
+                    double holeDepth = CompactDrawerHoleDepth.HoleDepth;
 
                     //AddDrillings leftside drilling 
                     double hole1Height = INUP + drillingInfo.LeftDefaultINUP;
@@ -161,18 +161,18 @@ namespace PolytecOrderEDI
                 double offset;
                 if (string.Equals(addToSide, "left", StringComparison.OrdinalIgnoreCase))
                 {
-                    offset = SpotHole.inset;
+                    offset = SpotHole.Inset;
                 }
                 else if (string.Equals(addToSide, "right", StringComparison.OrdinalIgnoreCase))
                 {
-                    offset = width - SpotHole.inset;
+                    offset = width - SpotHole.Inset;
                 }
                 else
                 {
                     offset = width / 2;
                 }
 
-                Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.inup, offset, (SpotHole.radius), SpotHole.depth);
+                Product.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.Inup, offset, (SpotHole.Radius), SpotHole.Depth);
             }
         }
 

@@ -351,7 +351,7 @@ namespace PolytecOrderEDI
 //  23:Hole5 From Top,
 //  24:Hole6 From Top,
 //  25:HTOD,
-//  26:Bifold Hingecup inset,
+//  26:Bifold Hingecup Inset,
 
 //  27:Kick Height,
 //  28:Mid Rail Height,

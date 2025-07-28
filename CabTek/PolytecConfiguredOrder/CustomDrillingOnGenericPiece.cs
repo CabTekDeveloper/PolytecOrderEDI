@@ -125,8 +125,8 @@ namespace PolytecOrderEDI
         {
             if (ConfiguredPiece != null)
             {
-                double offset = (addToSide == "left") ? SpotHole.inset : (addToSide == "right") ? Width - SpotHole.inset : Width / 2;
-                ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.inup, offset, (SpotHole.radius), SpotHole.depth);
+                double offset = (addToSide == "left") ? SpotHole.Inset : (addToSide == "right") ? Width - SpotHole.Inset : Width / 2;
+                ConfiguredPiece.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.Inup, offset, (SpotHole.Radius), SpotHole.Depth);
             }
         }
 

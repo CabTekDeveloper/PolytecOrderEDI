@@ -43,7 +43,7 @@ namespace PolytecOrderEDI
                     double h1_topInset;
                     double h2_topInset;
 
-                    //Workout fisrt hole top inset
+                    //Workout fisrt hole top Inset
                     if (part.Product == PRODUCT.DrawerFront)
                     {
                         hdlo = 1; //Set Handle orientation on a DrawerFront to horizontal
@@ -52,7 +52,7 @@ namespace PolytecOrderEDI
                     }
                     else { h1_topInset = (isUpperCabinet) ? (height - hdly) : (hdly); }
 
-                    //Workout second hole top inset
+                    //Workout second hole top Inset
                     if (hdlt == 2)
                     {
                         if (hdlo == 0) h2_topInset = (isUpperCabinet) ? (h1_topInset - hdls) : (h1_topInset + hdls);

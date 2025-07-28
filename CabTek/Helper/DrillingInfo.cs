@@ -8,36 +8,36 @@ namespace PolytecOrderEDI
 {
     static class SpotHole
     {
-        public static readonly double inup = 10;
-        public static readonly double radius = 2.5;
-        public static readonly double inset = 20;
-        public static readonly double depth = 1;
+        public static double Inup { get; } = 10;
+        public static double Radius { get; } = 2.5;
+        public static double Inset { get; } = 20;
+        public static double Depth { get; } = 1;
     }
 
     static class CustomHingeBlock
     {
-        public static readonly double holeGap = 32;
-        public static readonly double holeDepth = 12;
-        public static readonly double holeRadius = 2.5;
+        public static double HoleGap { get; } = 32;
+        public static double HoleDepth { get; }  = 12;
+        public static double HoleRadius { get; } = 2.5;
     }
 
     static class DoorStyle770
     {
-        public static readonly double CupHoleGap = 64;
-        public static readonly double CupHoleDepth = 13;
-        public static readonly double CupHoleRadius = 17.5;
+        public static double CupHoleGap { get; } = 64;
+        public static double CupHoleDepth { get; } = 13;
+        public static double CupHoleRadius { get; } = 17.5;
     }
 
     static class CompactDoorHingeBlockHole
     {
-        public static readonly double radius = 5;
-        public static readonly double depth = 6;
-        public static readonly double gap = 32;
+        public static double Radius { get; } = 5;
+        public static double Depth { get; } = 6;
+        public static double Gap { get; } = 32;
     }
 
     static class CompactDrawerHoleDepth
     { 
-        public static readonly double holeDepth = 6;
+        public static double HoleDepth { get; } = 6;
     }
 
 

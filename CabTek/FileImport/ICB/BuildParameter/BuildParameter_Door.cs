@@ -40,17 +40,17 @@ namespace PolytecOrderEDI
 
                 var hcls    = dict_param.TryGetValue("HCLS", out paramValue) ? (int)paramValue : -1;    //HCLS: Hinge brand (0=Blum, 1=Hettich) Here, we cannot assing default paramValue = 0, since HCLS=0 is Blum hinge.
                 var pngc    = dict_param.TryGetValue("PNGC", out paramValue) ? (int)paramValue : 0;     //PNGC: Glass frame door cutout (1=1 cutout)
-                var htod    = dict_param.TryGetValue("HTOD", out paramValue) ? paramValue : 0;          //HTOD: Top door gap of 770 style leaf door
+                var htod    = dict_param.TryGetValue("HTOD", out paramValue) ? paramValue : 0;          //HTOD: Top door Gap of 770 style leaf door
 
                 var hand    = dict_param.TryGetValue("HAND", out paramValue) ? (int)paramValue : 0; //HAND: (Left: 1=On,3=Off) (Right: 2=On,4=Off)
                 var htyp    = dict_param.TryGetValue("HTYP", out paramValue) ? (int)paramValue : 0; //HTYP: Hinge drilling type (1=HMX, 2=HNH) 
                 var hmx     = dict_param.TryGetValue("HMX", out paramValue)  ? paramValue : 0;      //HMX : Maximum spacing between hinges 
-                var hin     = dict_param.TryGetValue("HIN", out paramValue)  ? paramValue : 0;      //HIN : Hinge inset
+                var hin     = dict_param.TryGetValue("HIN", out paramValue)  ? paramValue : 0;      //HIN : Hinge Inset
                 var hsp     = dict_param.TryGetValue("HSP", out paramValue)  ? paramValue : 0;      //HSP : Hinge start position
                 var hep     = dict_param.TryGetValue("HEP", out paramValue)  ? paramValue : 0;      //HEP : Hinge end position
 
                 var hngm    = dict_param.TryGetValue("HNGM", out paramValue) ? paramValue : 0;  //HNGM: Maximum spacing between hinge blocks
-                var yhng    = dict_param.TryGetValue("YHNG", out paramValue) ? paramValue : 0;  //YHNG: Hinge block side inset
+                var yhng    = dict_param.TryGetValue("YHNG", out paramValue) ? paramValue : 0;  //YHNG: Hinge block side Inset
                 var bhng    = dict_param.TryGetValue("BHNG", out paramValue) ? paramValue : 0;  //BHNG: Hinge block from bottom
                 var thng    = dict_param.TryGetValue("THNG", out paramValue) ? paramValue : 0;  //THNG: Hinge block from top
 
@@ -83,7 +83,7 @@ namespace PolytecOrderEDI
                 PNGC = pngc;
                 HTOD = htod;
 
-                //Set Hinge Cup inset
+                //Set Hinge Cup Inset
                 if (partName ==PARTNAME.Left_Leaf_770 || partName == PARTNAME.Right_Leaf_770)
                 {
                     HingeCupInset = 22;

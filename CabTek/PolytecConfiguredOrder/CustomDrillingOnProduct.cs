@@ -308,9 +308,9 @@ namespace PolytecOrderEDI
             {
                 if (NumHoles > 0 && offset > 0)
                 {
-                    hDepth = (hDepth > 0) ? hDepth : CustomHingeBlock.holeDepth;
-                    hRadius = (hRadius > 0) ? hRadius : CustomHingeBlock.holeRadius;
-                    hGap = (hGap > 0) ? hGap : CustomHingeBlock.holeGap;
+                    hDepth = (hDepth > 0) ? hDepth : CustomHingeBlock.HoleDepth;
+                    hRadius = (hRadius > 0) ? hRadius : CustomHingeBlock.HoleRadius;
+                    hGap = (hGap > 0) ? hGap : CustomHingeBlock.HoleGap;
 
                     if (addToSide == "left" || addToSide == "right")
                     {
@@ -481,8 +481,8 @@ namespace PolytecOrderEDI
         {
             if (ConfiguredProduct != null)
             {
-                double offset = (addToSide == "left") ? SpotHole.inset : (addToSide == "right") ? Width - SpotHole.inset : Width / 2;
-                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.inup, offset, (SpotHole.radius), SpotHole.depth);
+                double offset = (addToSide == "left") ? SpotHole.Inset : (addToSide == "right") ? Width - SpotHole.Inset : Width / 2;
+                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, SpotHole.Inup, offset, (SpotHole.Radius), SpotHole.Depth);
             }
         }
 
