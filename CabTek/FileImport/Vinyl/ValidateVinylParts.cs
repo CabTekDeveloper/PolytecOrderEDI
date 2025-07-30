@@ -122,6 +122,7 @@ namespace PolytecOrderEDI
 
                 missingValueMessage += ContrastingEdgeInfoValidation(CurrentProduct);
                 missingValueMessage += BarPanelInfoValidation(CurrentProduct);
+                missingValueMessage += ProfileAndPanelSizeValidation(CurrentProduct);
 
                 //FINALLY, SET THE ERROR MESSAGE
                 ErrorMessage += (missingValueMessage != "") ? $"LINE NO {CurrentProduct.LineNo} (Excel Form): {CurrentProduct.ProductType.ToString().ToUpper()} {CurrentProduct.Product.ToString().ToUpper()}\n{missingValueMessage}\n" : missingValueMessage;
@@ -744,6 +745,9 @@ namespace PolytecOrderEDI
         }
 
 
+        
+
+
         //BAR PANEL INFO VALIDATION
         private static string BarPanelInfoValidation(VinylPart CurrentProduct)
         {
@@ -787,6 +791,34 @@ namespace PolytecOrderEDI
                 }
             }
 
+
+            return errorMessage;
+        }
+
+        //PROFILE AND PANEL SIZE VALIDATION
+        private static string ProfileAndPanelSizeValidation(VinylPart CurrentProduct)
+        {
+            string errorMessage = "";
+            if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
+            {
+                if (!string.IsNullOrEmpty(CurrentProduct.FaceProfile))
+                {
+                    DoorStyleDetails? doorStyleDetails = TableDoorStyles.GetDoorStyleDetails(CurrentProduct.FaceProfile);
+                    if (doorStyleDetails != null)
+                    {
+                        if (CurrentProduct.Product == PRODUCT.DrawerFront)
+                        {
+                            if (CurrentProduct.DfHeight < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm\n";
+                        }
+                        else
+                        {
+                            if (CurrentProduct.Height < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm.\n";
+                        }
+
+                        if (CurrentProduct.Width < doorStyleDetails.MinWidth) errorMessage += $"The min width for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinWidth}mm.\n";
+                    }
+                }
+            }
 
             return errorMessage;
         }
