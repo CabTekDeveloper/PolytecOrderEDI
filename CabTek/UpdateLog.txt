@@ -100,19 +100,6 @@ Update Logs
 
 14-07-2025 -Wangchuk
 - Pused project to GitHub under the git account dev@cabtek.com.au
-- Added to vinyl job validation: If handl is required on glassframe doors, it has to be added to the additional instructions field.
 
-22-07-2025 Wangchuk
-- Fixed: Single Drawer added as Thermo Door was not adding drillings.
-- Released inhouse
 
-23-07-2025 Wangchuk
-- Created new Branch "CombineDrillingClassesThermoAndDecorative" to work on combining the drilling classes into one class.
-
-24-07-2025 Wangchuk
-- Added branch "CombineDrillingClassesThermoAndDecorative" to the master branch
-
-25-07-2025 Wangchuk
-- Added Bar Panel Validation
-- Thermo Bar Panel will now handle uneven sized panels
-- Released Inhouse
+*This file won't be updated since we are commiting the changes to remote repo on Git Hub.
