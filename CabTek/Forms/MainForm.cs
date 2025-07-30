@@ -32,7 +32,6 @@ namespace PolytecOrderEDI
         //FORM LOAD
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
             GlobalVariable.CurrentUserName = RegistryInfo.GetUserName();
             if (String.IsNullOrEmpty(GlobalVariable.CurrentUserName))
             {
