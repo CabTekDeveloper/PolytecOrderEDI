@@ -18,6 +18,8 @@ namespace PolytecOrderEDI
         private static readonly string fn_StyleName = "StyleName";
         private static readonly string fn_Style = "Style";
         private static readonly string fn_Edge = "Edge";
+        private static readonly string fn_MinHeight = "MinHeight";
+        private static readonly string fn_MinWidth = "MinWidth";
 
         //static TableDoorStyles()
         //{
