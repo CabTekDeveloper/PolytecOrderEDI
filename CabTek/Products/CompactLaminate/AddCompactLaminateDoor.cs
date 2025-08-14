@@ -51,8 +51,8 @@ namespace PolytecOrderEDI
             ConfiguredProduct.EdgeProfileLeft     = edgeProfiles["leftEdge"];
             ConfiguredProduct.EdgeProfileRight    = edgeProfiles["rightEdge"];
 
-            ConfiguredProduct = AddDrillings(ConfiguredProduct);
-            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
+            //ConfiguredProduct = AddDrillings(ConfiguredProduct);
+            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 

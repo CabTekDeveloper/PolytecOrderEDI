@@ -16,6 +16,8 @@ namespace PolytecOrderEDI
         private static BuildParameter_DrawerFront? DrawerFrontParams { get; set; } = null;
         private static BuildParameter_Handle? HandleParams { get; set; } = null;
 
+
+        private static PRODUCTTYPE ProductType { get; set; } = PRODUCTTYPE.None;
         private static PRODUCT ProductName { get; set; } = PRODUCT.None;
         private static PARTNAME PartName { get; set; } =PARTNAME.None;
         private static double Height { get; set; }
@@ -48,6 +50,7 @@ namespace PolytecOrderEDI
         // Method to set the drilling properties.
         private static void SetDrillingProperties()
         {
+            ProductType = vinylPart != null ? vinylPart.ProductType : cabPart != null ? cabPart.ProductType : PRODUCTTYPE.None;
             ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
             PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None;
             Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
@@ -308,9 +311,9 @@ namespace PolytecOrderEDI
             {
                 if (NumHoles > 0 && offset > 0)
                 {
-                    hDepth = (hDepth > 0) ? hDepth : CustomHingeBlock.HoleDepth;
-                    hRadius = (hRadius > 0) ? hRadius : CustomHingeBlock.HoleRadius;
-                    hGap = (hGap > 0) ? hGap : CustomHingeBlock.HoleGap;
+                    hDepth  = (hDepth > 0)  ? hDepth    : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Depth    : CustomHingeBlock.HoleDepth;
+                    hRadius = (hRadius > 0) ? hRadius   : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Radius   : CustomHingeBlock.HoleRadius;
+                    hGap    = (hGap > 0)    ? hGap      : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Gap      : CustomHingeBlock.HoleGap;
 
                     if (addToSide == "left" || addToSide == "right")
                     {
@@ -370,7 +373,7 @@ namespace PolytecOrderEDI
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
+                        double holeDepth = (HoleDepth > 0) ? HoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
                         var holeRadius = HDIA / 2;
 
                         //AddDrillings leftside drilling 
