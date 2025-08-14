@@ -357,9 +357,9 @@ namespace PolytecOrderEDI
                     if (!CustomValidation.IsDrawerBankStyleProfile(CurrentProduct.StyleProfile)) errorMessage += $"Pick a valid Drawer Bank style profile. \n";
                 }
 
-                //else if (CurrentProduct.Product == PRODUCT.BarPanel)
+                //else if (Part.Product == PRODUCT.BarPanel)
                 //{
-                //    if (!CustomValidation.IsBarPanelStyleProfile(CurrentProduct.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
+                //    if (!CustomValidation.IsBarPanelStyleProfile(Part.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
                 //}
             }
         

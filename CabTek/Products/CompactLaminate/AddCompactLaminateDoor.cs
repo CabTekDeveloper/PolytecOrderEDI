@@ -1,98 +1,87 @@
-﻿
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using static System.Windows.Forms.LinkLabel;
-
-using BorgEdi.Enums;
+﻿using BorgEdi.Enums;
 using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
     static class AddCompactLaminateDoor
     {
-        private static VinylPart CurrentProduct = new();
+        private static VinylPart Part = new();
 
         public static void Add(VinylPart objCurrentProduct)
         {
-            CurrentProduct = objCurrentProduct;
+            Part = objCurrentProduct;
 
-            if (CurrentProduct.PartName == PARTNAME.Pair)
+            if (Part.PartName == PARTNAME.Pair)
             {
-                CurrentProduct.Quantity = (CurrentProduct.Quantity / 2);
+                Part.Quantity = Part.Quantity / 2;
 
-                //AddDrillings left door
-                CurrentProduct.PartName = PARTNAME.Left;
+                Part.PartName = PARTNAME.Left;
                 CreateProduct();
 
-                //AddDrillings right door
-                CurrentProduct.PartName = PARTNAME.Right;
+                Part.PartName = PARTNAME.Right;
                 CreateProduct();
             }
             else
             {
                 CreateProduct();
             }
-
         }
-
 
         private static void CreateProduct()
         {
             
-            var Product = new CompactDoor()
+            var ConfiguredProduct = new CompactDoor()
             {
-                Quantity = CurrentProduct.Quantity,
-                Height = (decimal)CurrentProduct.Height,
-                Width = (decimal)CurrentProduct.Width,
-                Thickness = CurrentProduct.Thickness.ToString(),
-                EdgeLocation = HelperMethods.ReplaceHbyTBLR(CurrentProduct.EdgeLocation),
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"EzeNo: {CurrentProduct.EzeNo}" },
-                AdditionalInstructions = CurrentProduct.AdditionalInstructions,
-                Colour = CurrentProduct.Colour,
-                Finish = CurrentProduct.Finish,
+                Quantity = Part.Quantity,
+                Height = (decimal)Part.Height,
+                Width = (decimal)Part.Width,
+                Thickness = Part.Thickness.ToString(),
+                EdgeLocation = HelperMethods.ReplaceHbyTBLR(Part.EdgeLocation),
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"EzeNo: {Part.EzeNo}" },
+                AdditionalInstructions = Part.AdditionalInstructions,
+                Colour = Part.Colour,
+                Finish = Part.Finish,
                 //GrooveType = "None",
             };
 
-            var edgeProfiles = HelperMethods.WorkoutCompactLaminateEdgeProfile(CurrentProduct.EdgeLocation, CurrentProduct.HandleSystem, CurrentProduct.EdgeMould);
+            var edgeProfiles = HelperMethods.WorkoutCompactLaminateEdgeProfile(Part.EdgeLocation, Part.HandleSystem, Part.EdgeMould);
 
-            Product.EdgeProfileTop = edgeProfiles["topEdge"];
-            Product.EdgeProfileBottom = edgeProfiles["bottomEdge"];
-            Product.EdgeProfileLeft = edgeProfiles["leftEdge"];
-            Product.EdgeProfileRight = edgeProfiles["rightEdge"];
+            ConfiguredProduct.EdgeProfileTop      = edgeProfiles["topEdge"];
+            ConfiguredProduct.EdgeProfileBottom   = edgeProfiles["bottomEdge"];
+            ConfiguredProduct.EdgeProfileLeft     = edgeProfiles["leftEdge"];
+            ConfiguredProduct.EdgeProfileRight    = edgeProfiles["rightEdge"];
 
-            Product = AddDrillings(Product);
-            PolytecConfiguredOrder.Order.AddProduct(Product);
+            ConfiguredProduct = AddDrillings(ConfiguredProduct);
+            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
+            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 
 
         private static CompactDoor AddDrillings(CompactDoor Product)
         {
-            PARTNAME partName = CurrentProduct.PartName;
-            double height = CurrentProduct.Height;
-            double width = CurrentProduct.Width;
-            double hole1FromBot = CurrentProduct.Hole1FromBot;
-            double hole2FromTop = CurrentProduct.Hole2FromTop;
-            double hole3FromTop = CurrentProduct.Hole3FromTop;
-            double hole4FromTop = CurrentProduct.Hole4FromTop;
-            double hole5FromTop = CurrentProduct.Hole5FromTop;
-            double hole6FromTop = CurrentProduct.Hole6FromTop;
+            PARTNAME partName = Part.PartName;
+            double height = Part.Height;
+            double width = Part.Width;
+            double hole1FromBot = Part.Hole1FromBot;
+            double hole2FromTop = Part.Hole2FromTop;
+            double hole3FromTop = Part.Hole3FromTop;
+            double hole4FromTop = Part.Hole4FromTop;
+            double hole5FromTop = Part.Hole5FromTop;
+            double hole6FromTop = Part.Hole6FromTop;
 
-            int numHoles = CurrentProduct.NumHoles;
-            double hingeBlockInset = CurrentProduct.HingeBlockInset;
+            int numHoles = Part.NumHoles;
+            double hingeBlockInset = Part.HingeBlockInset;
 
-            double LINS = CurrentProduct.RINS;      // The LINS of the Back view is the RINS of the Front view
-            double RINS = CurrentProduct.LINS;      // The RINS of the Back view is the LINS of the Front view 
-            int DTYP1 = CurrentProduct.DTYP1;
-            int DTYP2 = CurrentProduct.DTYP2;
-            double INUP1 = CurrentProduct.INUP1;
-            double INUP2 = CurrentProduct.INUP2;
-            double holeRadius = (CurrentProduct.HDIA / 2);
+            double LINS = Part.RINS;      // The LINS of the Back view is the RINS of the Front view
+            double RINS = Part.LINS;      // The RINS of the Back view is the LINS of the Front view 
+            int DTYP1 = Part.DTYP1;
+            int DTYP2 = Part.DTYP2;
+            double INUP1 = Part.INUP1;
+            double INUP2 = Part.INUP2;
+            double holeRadius = (Part.HDIA / 2);
 
             //Single drawer fronts are added as a door
-            if (CurrentProduct.Product == PRODUCT.DrawerFront)
+            if (Part.Product == PRODUCT.DrawerFront)
             {
                 AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                 AddLeftAndRightVerticalHoles(DTYP2, INUP2);
@@ -171,7 +160,7 @@ namespace PolytecOrderEDI
             {
                 if (DTYP == 0 || INUP == 0) return;
 
-                var drillingInfo = (CurrentProduct.Product == PRODUCT.DrawerFront ) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, partName.ToString()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
+                var drillingInfo = (Part.Product == PRODUCT.DrawerFront ) ? HolePatternDrawerFront.GetDrillingInfo(DTYP, partName.ToString()) : HolePatternDoorAndPanel.GetDrillingInfo(DTYP);
 
                 if (drillingInfo.HasDrillingInfo)
                 {
