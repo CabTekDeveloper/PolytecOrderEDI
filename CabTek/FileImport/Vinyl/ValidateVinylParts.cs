@@ -220,8 +220,13 @@ namespace PolytecOrderEDI
             {
                 if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.HeatDeflectors) errorMessage += $"Missing Thickness.\n";
             }
-
-
+            else
+            {
+                if(CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
+                {
+                    if (CurrentProduct.Thickness != 5 && CurrentProduct.Thickness != 13) errorMessage += $"CompactLaminate is available in 5mm and 13mm (Thickness).\n";
+                }
+            }
             return errorMessage;
 
         }
