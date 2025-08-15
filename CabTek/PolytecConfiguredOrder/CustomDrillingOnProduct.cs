@@ -124,28 +124,28 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Left:
-                    AddHinge("right", HingeCupInset);
+                    AddHinges("right", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
                     break;
 
                 case PARTNAME.Right:
-                    AddHinge("left", HingeCupInset);
+                    AddHinges("left", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
                     break;
 
                 case PARTNAME.Top:
-                    AddHinge("top", HingeCupInset);
+                    AddHinges("top", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
                 case PARTNAME.Bottom:
-                    AddHinge("bottom", HingeCupInset);
+                    AddHinges("bottom", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
                 case PARTNAME.Left_Bifold:
-                    AddHinge("right", HingeCupInset);
-                    AddHinge("left", BifoldHingeCupInset);
+                    AddHinges("right", HingeCupInset);
+                    AddHinges("left", BifoldHingeCupInset);
                     if (cabPart != null && !cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
                     {
                         if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
@@ -153,8 +153,8 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Right_Bifold:
-                    AddHinge("left", HingeCupInset);
-                    AddHinge("right", BifoldHingeCupInset);
+                    AddHinges("left", HingeCupInset);
+                    AddHinges("right", BifoldHingeCupInset);
                     if (cabPart != null && !cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
                     {
                         if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
@@ -162,14 +162,14 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Top_Bifold:
-                    AddHinge("top", HingeCupInset);
+                    AddHinges("top", HingeCupInset);
                     AddHingeBlocks(addToSide: "bottom", offset: HingeBlockInset, hDepth: HoleDepth);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
                     break;
 
                 case PARTNAME.Bottom_Bifold:
-                    AddHinge("bottom", HingeCupInset);
+                    AddHinges("bottom", HingeCupInset);
                     AddHingeBlocks(addToSide: "top", offset: HingeBlockInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
@@ -192,12 +192,12 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Top_Leaf: //Top leaf
-                    AddHinge("bottom", HingeCupInset);
+                    AddHinges("bottom", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
                 case PARTNAME.Bottom_Leaf:  //Bottom leaf
-                    AddHinge("top", HingeCupInset);
+                    AddHinges("top", HingeCupInset);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
@@ -210,13 +210,13 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Left_770: 
-                    AddHinge("right", HingeCupInset);
+                    AddHinges("right", HingeCupInset);
                     AddHingeBlocks("left", offset: HingeBlockInset, hDepth: 1);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
                     break;
 
                 case PARTNAME.Right_770:
-                    AddHinge("left", HingeCupInset);
+                    AddHinges("left", HingeCupInset);
                     AddHingeBlocks("right", offset: HingeBlockInset, hDepth: 1);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
                     break;
@@ -267,7 +267,7 @@ namespace PolytecOrderEDI
 
 
         //AddDrillings hinge holes to door from back
-        private static void AddHinge(string addToSide, double offset)
+        private static void AddHinges(string addToSide, double offset)
         {
             if (ConfiguredProduct != null)
             {
