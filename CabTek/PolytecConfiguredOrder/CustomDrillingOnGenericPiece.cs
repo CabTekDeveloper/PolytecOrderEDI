@@ -10,6 +10,9 @@ namespace PolytecOrderEDI
         private static VinylPart? vinylPart { get; set; } = null;
         private static CabinetPart? cabPart { get; set; } = null;
         private static BuildParameter_DrawerFront DrawerFrontParams { get; set; } = new();
+
+        private static PRODUCTTYPE ProductType { get; set; } = PRODUCTTYPE.None;
+
         private static PRODUCT ProductName { get; set; } = PRODUCT.None;
         private static PARTNAME PartName { get; set; } = PARTNAME.None;
         private static double Height { get; set; }
@@ -26,6 +29,7 @@ namespace PolytecOrderEDI
 
         private static void SetDrillingProperties()
         {
+            ProductType = vinylPart != null ? vinylPart.ProductType : cabPart != null ? cabPart.ProductType : PRODUCTTYPE.None;
             ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
             PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None ;
             Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
@@ -72,7 +76,9 @@ namespace PolytecOrderEDI
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
+                        //double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
+                        double holeDepth = (HoleDepth > 0) ? HoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
+
                         var holeRadius = HDIA / 2;
 
                         //AddDrillings leftside drilling 
