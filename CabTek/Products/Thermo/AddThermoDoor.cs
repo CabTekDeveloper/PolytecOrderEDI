@@ -15,11 +15,15 @@ namespace PolytecOrderEDI
             if (Part.PartName == PARTNAME.Pair)
             {
                 Part.Quantity /= 2;
-                Part.PartName = PARTNAME.Left;  //AddDrillings left door
+                Part.PartName = PARTNAME.Left;  //Add left door
                 CreateProduct();
 
-                Part.PartName = PARTNAME.Right; //AddDrillings right door
+                Part.PartName = PARTNAME.Right; //Add right door
                 CreateProduct();
+
+                // Change properties to the initial values
+                Part.PartName = PARTNAME.Pair;
+                Part.Quantity *=2;
             }
             else CreateProduct();
             

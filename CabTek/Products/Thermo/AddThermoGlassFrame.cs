@@ -20,6 +20,10 @@ namespace PolytecOrderEDI
 
                 Part.PartName = PARTNAME.Right; 
                 CreateProduct();
+
+                // Change properties to the initial values
+                Part.PartName = PARTNAME.Pair;
+                Part.Quantity *= 2;
             }
             else CreateProduct();
         }
