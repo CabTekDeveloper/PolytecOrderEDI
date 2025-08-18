@@ -46,6 +46,11 @@ namespace PolytecOrderEDI
         private static double HDIA { get; set; }
         private static double HoleDepth { get; set; }
 
+        private static double CustomHole1LeftInset { get; set; }
+        private static double CustomHole1TopInset { get; set; }
+        private static double CustomHole1HDIA { get; set; }
+        private static double CustomHole1Depth { get; set; }
+        private static bool HasCustomHole1Drilling { get; set; }
 
         // Method to set the drilling properties.
         private static void SetDrillingProperties()
@@ -87,6 +92,12 @@ namespace PolytecOrderEDI
             HDIA                = vinylPart != null ? vinylPart.HDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
 
             HoleDepth           = vinylPart != null ? vinylPart.HoleDepth : 0;
+
+            CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
+            CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
+            CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
+            CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
+            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
         }
 
 
@@ -244,14 +255,14 @@ namespace PolytecOrderEDI
             {
                 if (HandleParams != null)
                 {
-                    var hDepth = Thickness;
-                    var hGap = HandleParams.HoleGap;
-                    var hRadius = HandleParams.HoleDiameter / 2;
-                    var sideInset = HandleParams.SideInset;
-                    bool isVerticalHandle = HandleParams.IsHandleVertical;
+                    var hDepth              = Thickness;
+                    var hGap                = HandleParams.HoleGap;
+                    var hRadius             = HandleParams.HoleDiameter / 2;
+                    var sideInset           = HandleParams.SideInset;
+                    bool isVerticalHandle   = HandleParams.IsHandleVertical;
 
-                    var hole1TopInset = HandleParams.Hole1TopInset;
-                    var hole1LeftInset = (addToSide == "left" || addToSide == "") ? (sideInset) : (Width - sideInset);
+                    var hole1TopInset   = HandleParams.Hole1TopInset;
+                    var hole1LeftInset  = (addToSide == "left" || addToSide == "") ? (sideInset) : (Width - sideInset);
 
                     var hole2TopInset = HandleParams.Hole2TopInset;
                     double hole2LeftInset;

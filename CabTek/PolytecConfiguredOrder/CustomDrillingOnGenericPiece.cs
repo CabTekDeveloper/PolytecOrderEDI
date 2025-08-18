@@ -27,6 +27,13 @@ namespace PolytecOrderEDI
         private static double HDIA { get; set; }
         private static double HoleDepth { get; set; }
 
+        private static double CustomHole1LeftInset { get; set; }
+        private static double CustomHole1TopInset { get; set; }
+        private static double CustomHole1HDIA { get; set; }
+        private static double CustomHole1Depth { get; set; }
+        private static bool HasCustomHole1Drilling { get; set; }
+
+
         private static void SetDrillingProperties()
         {
             ProductType = vinylPart != null ? vinylPart.ProductType : cabPart != null ? cabPart.ProductType : PRODUCTTYPE.None;
@@ -47,6 +54,12 @@ namespace PolytecOrderEDI
             HDIA        = vinylPart != null ? vinylPart.HDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
 
             HoleDepth   = vinylPart != null ? vinylPart.HoleDepth   : 0 ;
+
+            CustomHole1LeftInset = vinylPart != null ? vinylPart.CustomHole1LeftInset : 0;
+            CustomHole1TopInset = vinylPart != null ? vinylPart.CustomHole1TopInset : 0;
+            CustomHole1HDIA = vinylPart != null ? vinylPart.CustomHole1HDIA : 0;
+            CustomHole1Depth = vinylPart != null ? vinylPart.CustomHole1Depth : 0;
+            HasCustomHole1Drilling = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
         }
 
         public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
