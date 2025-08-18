@@ -95,6 +95,13 @@ namespace PolytecOrderEDI
         public double Profile7Size { get; set; }
         public double Profile8Size { get; set; }
 
+        //Custome Hole1 Info
+        public double CustomHole1LeftInset { get; set; }
+        public double CustomHole1TopInset { get; set; }
+        public double CustomHole1HDIA { get; set; }
+        public double CustomHole1Depth { get; set; }
+
+
         public VinylPart()
         { 
             //Empty Object
@@ -105,61 +112,60 @@ namespace PolytecOrderEDI
         {
             try
             {
-                LineNo = string.IsNullOrEmpty(arrProductVal[0].Trim()) ? 0 : Int32.Parse(arrProductVal[0].Trim());
+                LineNo      = string.IsNullOrEmpty(arrProductVal[0].Trim()) ? 0 : Int32.Parse(arrProductVal[0].Trim());
                 ProductType = Workout_ProductType(arrProductVal[1].Trim());
-                Product = Workout_Product(arrProductVal[2].Trim());
-                Quantity = string.IsNullOrEmpty(arrProductVal[3].Trim()) ? 0 : Int32.Parse(arrProductVal[3].Trim());
-                Height = string.IsNullOrEmpty(arrProductVal[4].Trim()) ? 0 : double.Parse(arrProductVal[4].Trim());
-                Width = string.IsNullOrEmpty(arrProductVal[5].Trim()) ? 0 : double.Parse(arrProductVal[5].Trim());
-                DfHeight = string.IsNullOrEmpty(arrProductVal[6].Trim()) ? 0 : double.Parse(arrProductVal[6].Trim());
-                Thickness = string.IsNullOrEmpty(arrProductVal[7].Trim()) ? 0 : double.Parse(arrProductVal[7].Trim());
-                PartName = Workout_PartName(arrProductVal[8].Trim());
+                Product     = Workout_Product(arrProductVal[2].Trim());
+                Quantity    = string.IsNullOrEmpty(arrProductVal[3].Trim()) ? 0 : Int32.Parse(arrProductVal[3].Trim());
+                Height      = string.IsNullOrEmpty(arrProductVal[4].Trim()) ? 0 : double.Parse(arrProductVal[4].Trim());
+                Width       = string.IsNullOrEmpty(arrProductVal[5].Trim()) ? 0 : double.Parse(arrProductVal[5].Trim());
+                DfHeight    = string.IsNullOrEmpty(arrProductVal[6].Trim()) ? 0 : double.Parse(arrProductVal[6].Trim());
+                Thickness   = string.IsNullOrEmpty(arrProductVal[7].Trim()) ? 0 : double.Parse(arrProductVal[7].Trim());
+                PartName    = Workout_PartName(arrProductVal[8].Trim());
 
-                EdgeLocation = arrProductVal[9].Trim().ToUpper();
-                HandleSystem = string.IsNullOrEmpty(arrProductVal[10].Trim()) ? "None" : arrProductVal[10].Trim();
-                //HingeType = arrProductVal[11].Trim().ToLower();
-                HingeType = Workout_HingeType(arrProductVal[11].Trim());
-                StyleProfile = arrProductVal[12].Trim().ToUpper();
-                MultiPieceID = string.IsNullOrEmpty(arrProductVal[13].Trim()) ? 0 : Int32.Parse(arrProductVal[13].Trim());
-                PressedSides = string.IsNullOrEmpty(arrProductVal[14].Trim()) ? 0 : Int32.Parse(arrProductVal[14].Trim());
-                EzeNo = string.IsNullOrEmpty(arrProductVal[15].Trim()) ? 0 : Int32.Parse(arrProductVal[15].Trim());
+                EdgeLocation    = arrProductVal[9].Trim().ToUpper();
+                HandleSystem    = string.IsNullOrEmpty(arrProductVal[10].Trim()) ? "None" : arrProductVal[10].Trim();
+                HingeType       = Workout_HingeType(arrProductVal[11].Trim());
+                StyleProfile    = arrProductVal[12].Trim().ToUpper();
+                MultiPieceID    = string.IsNullOrEmpty(arrProductVal[13].Trim()) ? 0 : Int32.Parse(arrProductVal[13].Trim());
+                PressedSides    = string.IsNullOrEmpty(arrProductVal[14].Trim()) ? 0 : Int32.Parse(arrProductVal[14].Trim());
+                EzeNo           = string.IsNullOrEmpty(arrProductVal[15].Trim()) ? 0 : Int32.Parse(arrProductVal[15].Trim());
 
                 //Set door data
-                HingeCupInset = string.IsNullOrEmpty(arrProductVal[17].Trim()) ? 0 : double.Parse(arrProductVal[17].Trim());
-                HingeBlockInset = string.IsNullOrEmpty(arrProductVal[18].Trim()) ? 0 : double.Parse(arrProductVal[18].Trim());
-                Hole1FromBot = string.IsNullOrEmpty(arrProductVal[19].Trim()) ? 0 : double.Parse(arrProductVal[19].Trim());
-                Hole2FromTop = string.IsNullOrEmpty(arrProductVal[20].Trim()) ? 0 : double.Parse(arrProductVal[20].Trim());
-                Hole3FromTop = string.IsNullOrEmpty(arrProductVal[21].Trim()) ? 0 : double.Parse(arrProductVal[21].Trim());
-                Hole4FromTop = string.IsNullOrEmpty(arrProductVal[22].Trim()) ? 0 : double.Parse(arrProductVal[22].Trim());
-                Hole5FromTop = string.IsNullOrEmpty(arrProductVal[23].Trim()) ? 0 : double.Parse(arrProductVal[23].Trim());
-                Hole6FromTop = string.IsNullOrEmpty(arrProductVal[24].Trim()) ? 0 : double.Parse(arrProductVal[24].Trim());
-                NumHoles = (Hole1FromBot > 0 ? 1 : 0) + (Hole2FromTop > 0 ? 1 : 0) + (Hole3FromTop > 0 ? 1 : 0) + (Hole4FromTop > 0 ? 1 : 0) + (Hole5FromTop > 0 ? 1 : 0) + (Hole6FromTop > 0 ? 1 : 0);
-                HTOD = string.IsNullOrEmpty(arrProductVal[25].Trim()) ? 0 : double.Parse(arrProductVal[25].Trim());
-                BifoldHingeCupInset = string.IsNullOrEmpty(arrProductVal[26].Trim()) ? 0 : double.Parse(arrProductVal[26].Trim());
-                KickHeight = string.IsNullOrEmpty(arrProductVal[27].Trim()) ? 0 : Int32.Parse(arrProductVal[27].Trim());
-                MidRailHeight = string.IsNullOrEmpty(arrProductVal[28].Trim()) ? 0 : Int32.Parse(arrProductVal[28].Trim());
-                DoubleMidRail = string.Equals(arrProductVal[29].Trim(), "yes", StringComparison.OrdinalIgnoreCase);
-                PanelCount = (MidRailHeight > 0) ? 2 : 1;
+                HingeCupInset           = string.IsNullOrEmpty(arrProductVal[17].Trim()) ? 0 : double.Parse(arrProductVal[17].Trim());
+                HingeBlockInset         = string.IsNullOrEmpty(arrProductVal[18].Trim()) ? 0 : double.Parse(arrProductVal[18].Trim());
+                Hole1FromBot            = string.IsNullOrEmpty(arrProductVal[19].Trim()) ? 0 : double.Parse(arrProductVal[19].Trim());
+                Hole2FromTop            = string.IsNullOrEmpty(arrProductVal[20].Trim()) ? 0 : double.Parse(arrProductVal[20].Trim());
+                Hole3FromTop            = string.IsNullOrEmpty(arrProductVal[21].Trim()) ? 0 : double.Parse(arrProductVal[21].Trim());
+                Hole4FromTop            = string.IsNullOrEmpty(arrProductVal[22].Trim()) ? 0 : double.Parse(arrProductVal[22].Trim());
+                Hole5FromTop            = string.IsNullOrEmpty(arrProductVal[23].Trim()) ? 0 : double.Parse(arrProductVal[23].Trim());
+                Hole6FromTop            = string.IsNullOrEmpty(arrProductVal[24].Trim()) ? 0 : double.Parse(arrProductVal[24].Trim());
+                NumHoles                = (Hole1FromBot > 0 ? 1 : 0) + (Hole2FromTop > 0 ? 1 : 0) + (Hole3FromTop > 0 ? 1 : 0) + (Hole4FromTop > 0 ? 1 : 0) + (Hole5FromTop > 0 ? 1 : 0) + (Hole6FromTop > 0 ? 1 : 0);
+                HTOD                    = string.IsNullOrEmpty(arrProductVal[25].Trim()) ? 0 : double.Parse(arrProductVal[25].Trim());
+                BifoldHingeCupInset     = string.IsNullOrEmpty(arrProductVal[26].Trim()) ? 0 : double.Parse(arrProductVal[26].Trim());
+                KickHeight              = string.IsNullOrEmpty(arrProductVal[27].Trim()) ? 0 : Int32.Parse(arrProductVal[27].Trim());
+                MidRailHeight           = string.IsNullOrEmpty(arrProductVal[28].Trim()) ? 0 : Int32.Parse(arrProductVal[28].Trim());
+                DoubleMidRail           = string.Equals(arrProductVal[29].Trim(), "yes", StringComparison.OrdinalIgnoreCase);
+                PanelCount              = (MidRailHeight > 0) ? 2 : 1;
 
                 //Set Drawer data
-                DTYP1 = string.IsNullOrEmpty(arrProductVal[32].Trim()) ? 0 : Int32.Parse(arrProductVal[32]);
-                INUP1 = string.IsNullOrEmpty(arrProductVal[33].Trim()) ? 0 : double.Parse(arrProductVal[33]);
-                LINS = string.IsNullOrEmpty(arrProductVal[34].Trim()) ? 0 : double.Parse(arrProductVal[34]);
-                RINS = string.IsNullOrEmpty(arrProductVal[35].Trim()) ? 0 : double.Parse(arrProductVal[35]);
-                HDIA = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
-                DTYP2 = string.IsNullOrEmpty(arrProductVal[37].Trim()) ? 0 : Int32.Parse(arrProductVal[37]);
-                INUP2 = string.IsNullOrEmpty(arrProductVal[38].Trim()) ? 0 : double.Parse(arrProductVal[38]);
-                HoleDepth = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
+                DTYP1       = string.IsNullOrEmpty(arrProductVal[32].Trim()) ? 0 : Int32.Parse(arrProductVal[32]);
+                INUP1       = string.IsNullOrEmpty(arrProductVal[33].Trim()) ? 0 : double.Parse(arrProductVal[33]);
+                LINS        = string.IsNullOrEmpty(arrProductVal[34].Trim()) ? 0 : double.Parse(arrProductVal[34]);
+                RINS        = string.IsNullOrEmpty(arrProductVal[35].Trim()) ? 0 : double.Parse(arrProductVal[35]);
+                HDIA        = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
+                DTYP2       = string.IsNullOrEmpty(arrProductVal[37].Trim()) ? 0 : Int32.Parse(arrProductVal[37]);
+                INUP2       = string.IsNullOrEmpty(arrProductVal[38].Trim()) ? 0 : double.Parse(arrProductVal[38]);
+                HoleDepth   = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
 
-                AdditionalInstructions = arrProductVal[41].Trim();
-                EdgeMould = arrProductVal[42].Trim();
-                FaceProfile = arrProductVal[43].Trim();
+                AdditionalInstructions  = arrProductVal[41].Trim();
+                EdgeMould               = arrProductVal[42].Trim();
+                FaceProfile             = arrProductVal[43].Trim();
                 if (string.Equals(FaceProfile, "Guildford", StringComparison.OrdinalIgnoreCase)) FaceProfile = "Guilford";
 
-                Colour = arrProductVal[44].Trim();
-                Finish = arrProductVal[45].Trim();
-                PoNumber = arrProductVal[46].Trim().ToUpper();
-                RequestedDate = arrProductVal[47].Trim();
+                Colour          = arrProductVal[44].Trim();
+                Finish          = arrProductVal[45].Trim();
+                PoNumber        = arrProductVal[46].Trim().ToUpper();
+                RequestedDate   = arrProductVal[47].Trim();
 
                 if (!string.IsNullOrEmpty(RequestedDate) && RequestedDate.Contains('/'))
                 {
@@ -173,41 +179,47 @@ namespace PolytecOrderEDI
                 Contact = arrProductVal[48].Trim();
 
                 ////Cutout and roller frame data
-                CutoutTopBorder = string.IsNullOrEmpty(arrProductVal[49].Trim()) ? 0 : double.Parse(arrProductVal[49].Trim());
-                CutoutBottomBorder = string.IsNullOrEmpty(arrProductVal[50].Trim()) ? 0 : double.Parse(arrProductVal[50].Trim());
-                CutoutLeftBorder = string.IsNullOrEmpty(arrProductVal[51].Trim()) ? 0 : double.Parse(arrProductVal[51].Trim());
-                CutoutRightBorder = string.IsNullOrEmpty(arrProductVal[52].Trim()) ? 0 : double.Parse(arrProductVal[52].Trim());
-                CutoutInternalHeight1 = string.IsNullOrEmpty(arrProductVal[53].Trim()) ? 0 : double.Parse(arrProductVal[53].Trim());
-                HasCutout2 = CutoutInternalHeight1 != 0;
-                CutoutLeftBorder2 = string.IsNullOrEmpty(arrProductVal[54].Trim()) ? 0 : double.Parse(arrProductVal[54].Trim());
-                CutoutRightBorder2 = string.IsNullOrEmpty(arrProductVal[55].Trim()) ? 0 : double.Parse(arrProductVal[55].Trim());
-                CutoutBottomBorder2 = string.IsNullOrEmpty(arrProductVal[56].Trim()) ? 0 : double.Parse(arrProductVal[56].Trim());
+                CutoutTopBorder         = string.IsNullOrEmpty(arrProductVal[49].Trim()) ? 0 : double.Parse(arrProductVal[49].Trim());
+                CutoutBottomBorder      = string.IsNullOrEmpty(arrProductVal[50].Trim()) ? 0 : double.Parse(arrProductVal[50].Trim());
+                CutoutLeftBorder        = string.IsNullOrEmpty(arrProductVal[51].Trim()) ? 0 : double.Parse(arrProductVal[51].Trim());
+                CutoutRightBorder       = string.IsNullOrEmpty(arrProductVal[52].Trim()) ? 0 : double.Parse(arrProductVal[52].Trim());
+                CutoutInternalHeight1   = string.IsNullOrEmpty(arrProductVal[53].Trim()) ? 0 : double.Parse(arrProductVal[53].Trim());
+                HasCutout2              = CutoutInternalHeight1 != 0;
+                CutoutLeftBorder2       = string.IsNullOrEmpty(arrProductVal[54].Trim()) ? 0 : double.Parse(arrProductVal[54].Trim());
+                CutoutRightBorder2      = string.IsNullOrEmpty(arrProductVal[55].Trim()) ? 0 : double.Parse(arrProductVal[55].Trim());
+                CutoutBottomBorder2     = string.IsNullOrEmpty(arrProductVal[56].Trim()) ? 0 : double.Parse(arrProductVal[56].Trim());
 
                 //Return1 info
-                Return1Edge = arrProductVal[57].Trim().ToLower();
-                Return1Thickness = string.IsNullOrEmpty(arrProductVal[58].Trim()) ? 0 : double.Parse(arrProductVal[58].Trim());
-                Return1Width = string.IsNullOrEmpty(arrProductVal[59].Trim()) ? 0 : double.Parse(arrProductVal[59].Trim());
+                Return1Edge         = arrProductVal[57].Trim().ToLower();
+                Return1Thickness    = string.IsNullOrEmpty(arrProductVal[58].Trim()) ? 0 : double.Parse(arrProductVal[58].Trim());
+                Return1Width        = string.IsNullOrEmpty(arrProductVal[59].Trim()) ? 0 : double.Parse(arrProductVal[59].Trim());
 
                 //Return2 info
-                Return2Edge = arrProductVal[60].Trim().ToLower();
-                Return2Thickness = string.IsNullOrEmpty(arrProductVal[61].Trim()) ? 0 : double.Parse(arrProductVal[61].Trim());
-                Return2Width = string.IsNullOrEmpty(arrProductVal[62].Trim()) ? 0 : double.Parse(arrProductVal[62].Trim());
+                Return2Edge         = arrProductVal[60].Trim().ToLower();
+                Return2Thickness    = string.IsNullOrEmpty(arrProductVal[61].Trim()) ? 0 : double.Parse(arrProductVal[61].Trim());
+                Return2Width        = string.IsNullOrEmpty(arrProductVal[62].Trim()) ? 0 : double.Parse(arrProductVal[62].Trim());
 
                 //Contrasting Edge info
                 ContrastingEdgeColour = arrProductVal[63].Trim();
                 ContrastingEdgeFinish = arrProductVal[64].Trim();
 
                 //Bar Panel Info
-                NumberOfPanels = string.IsNullOrEmpty(arrProductVal[65].Trim()) ? 0 : Int32.Parse(arrProductVal[65]);
+                NumberOfPanels      = string.IsNullOrEmpty(arrProductVal[65].Trim()) ? 0 : Int32.Parse(arrProductVal[65]);
                 EvenlySizedProfiles = string.Equals(arrProductVal[66].Trim(), "yes",StringComparison.OrdinalIgnoreCase);
-                Profile1Size = string.IsNullOrEmpty(arrProductVal[67].Trim()) ? 0 : double.Parse(arrProductVal[67].Trim());
-                Profile2Size = string.IsNullOrEmpty(arrProductVal[68].Trim()) ? 0 : double.Parse(arrProductVal[68].Trim());
-                Profile3Size = string.IsNullOrEmpty(arrProductVal[69].Trim()) ? 0 : double.Parse(arrProductVal[69].Trim());
-                Profile4Size = string.IsNullOrEmpty(arrProductVal[70].Trim()) ? 0 : double.Parse(arrProductVal[70].Trim());
-                Profile5Size = string.IsNullOrEmpty(arrProductVal[71].Trim()) ? 0 : double.Parse(arrProductVal[71].Trim());
-                Profile6Size = string.IsNullOrEmpty(arrProductVal[72].Trim()) ? 0 : double.Parse(arrProductVal[72].Trim());
-                Profile7Size = string.IsNullOrEmpty(arrProductVal[73].Trim()) ? 0 : double.Parse(arrProductVal[73].Trim());
-                Profile8Size = string.IsNullOrEmpty(arrProductVal[74].Trim()) ? 0 : double.Parse(arrProductVal[74].Trim());
+                Profile1Size        = string.IsNullOrEmpty(arrProductVal[67].Trim()) ? 0 : double.Parse(arrProductVal[67].Trim());
+                Profile2Size        = string.IsNullOrEmpty(arrProductVal[68].Trim()) ? 0 : double.Parse(arrProductVal[68].Trim());
+                Profile3Size        = string.IsNullOrEmpty(arrProductVal[69].Trim()) ? 0 : double.Parse(arrProductVal[69].Trim());
+                Profile4Size        = string.IsNullOrEmpty(arrProductVal[70].Trim()) ? 0 : double.Parse(arrProductVal[70].Trim());
+                Profile5Size        = string.IsNullOrEmpty(arrProductVal[71].Trim()) ? 0 : double.Parse(arrProductVal[71].Trim());
+                Profile6Size        = string.IsNullOrEmpty(arrProductVal[72].Trim()) ? 0 : double.Parse(arrProductVal[72].Trim());
+                Profile7Size        = string.IsNullOrEmpty(arrProductVal[73].Trim()) ? 0 : double.Parse(arrProductVal[73].Trim());
+                Profile8Size        = string.IsNullOrEmpty(arrProductVal[74].Trim()) ? 0 : double.Parse(arrProductVal[74].Trim());
+
+                //Custom Hole1 Info
+                CustomHole1LeftInset    = string.IsNullOrEmpty(arrProductVal[75].Trim()) ? 0 : double.Parse(arrProductVal[75].Trim());
+                CustomHole1TopInset     = string.IsNullOrEmpty(arrProductVal[76].Trim()) ? 0 : double.Parse(arrProductVal[76].Trim());
+                CustomHole1HDIA         = string.IsNullOrEmpty(arrProductVal[77].Trim()) ? 0 : double.Parse(arrProductVal[77].Trim());
+                CustomHole1Depth        = string.IsNullOrEmpty(arrProductVal[78].Trim()) ? 0 : double.Parse(arrProductVal[78].Trim());
             }
 
             catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -275,10 +287,6 @@ namespace PolytecOrderEDI
             try
             {
                 if (string.IsNullOrEmpty(partName)) return PARTNAME.None;
-                //if (string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    _ = partName.Replace("pp", "p");
-                //}
 
                 if (string.Equals(partName, "pair", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Pair;
                 if (string.Equals(partName, "left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left;
@@ -410,3 +418,8 @@ namespace PolytecOrderEDI
 //  72:Profile6Size
 //  73:Profile7Size
 //  74:Profile8Size
+
+//  75:Custom Hole1 Left Inset
+//  76:Custom Hole1 Top Inset
+//  77:Custom Hole1 HDIA
+//  78:Custom Hole1 Depth
