@@ -133,7 +133,6 @@ namespace PolytecOrderEDI
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     AddLeftAndRightVerticalHoles(DTYP2, INUP2);
                 }
-                  
             }
 
             switch (PartName)
@@ -144,11 +143,13 @@ namespace PolytecOrderEDI
                 case PARTNAME.Left:
                     AddHinges("right", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
+                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks("right", HingeBlockInset);
                     break;
 
                 case PARTNAME.Right:
                     AddHinges("left", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
+                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks("left", HingeBlockInset);
                     break;
 
                 case PARTNAME.Top:
