@@ -835,11 +835,14 @@ namespace PolytecOrderEDI
         {
             string errorMessage = string.Empty;
             double[] customHole1Values = [CurrentProduct.CustomHole1LeftInset, CurrentProduct.CustomHole1TopInset, CurrentProduct.CustomHole1HDIA, CurrentProduct.CustomHole1Depth];
+            
             if (customHole1Values.Any(value=>value>0))
             {
                 if (customHole1Values.Any(value => value == 0)) errorMessage += $"You haven't provided all the values of Custom Hole1 Info.\n";
+                if (CurrentProduct.CustomHole1ApplyTarget == APPLYTARGET.None) errorMessage += $"Custom Hole1 Apply Target is not provided.\n";
             }
 
+            
             return errorMessage;
         }
 
