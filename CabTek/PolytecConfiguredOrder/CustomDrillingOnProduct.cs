@@ -100,7 +100,7 @@ namespace PolytecOrderEDI
             CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
             CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
             CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
-            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
+            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
         }
 
 
@@ -113,12 +113,11 @@ namespace PolytecOrderEDI
             ConfiguredProduct = configuredProduct;
             SetDrillingProperties();
 
-            ////Add Custom Hole Drillings
-            //if (HasCustomHole1Drilling)
-            //{
-            //    ConfiguredProduct.Features.AddHoleFromTopLeft()
-            //}
-
+            //Add Custom Hole Drillings
+            if (HasCustomHole1Drilling)
+            {
+                AddCustomHole1FromTopLeft();
+            }
 
             //Single drawer fronts are added as a door
             if (ProductName == PRODUCT.DrawerFront)
@@ -511,6 +510,16 @@ namespace PolytecOrderEDI
             }
         }
 
+
+        private static void AddCustomHole1FromTopLeft()
+        {
+            if (ConfiguredProduct != null)
+            {
+                var applyTarget = CustomHole1ApplyTarget==APPLYTARGET.Front ? ApplyTarget.Front : ApplyTarget.Back;
+                var leftInset   = CustomHole1ApplyTarget == APPLYTARGET.Front ? CustomHole1LeftInset : Width - CustomHole1LeftInset;
+                ConfiguredProduct.Features.AddHoleFromTopLeft(applyTarget, CustomHole1TopInset, leftInset, CustomHole1HDIA / 2, CustomHole1Depth);
+            }
+        }
 
 
     }

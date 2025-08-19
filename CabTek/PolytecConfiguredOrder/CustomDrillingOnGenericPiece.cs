@@ -61,7 +61,7 @@ namespace PolytecOrderEDI
             CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
             CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
             CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
-            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
+            HasCustomHole1Drilling = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
         }
 
         public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
@@ -75,6 +75,11 @@ namespace PolytecOrderEDI
             SetDrillingProperties();
 
             // AddDrillings drillings
+            //Add Custom Hole Drillings
+            if (HasCustomHole1Drilling)
+            {
+                AddCustomHole1FromTopLeft();
+            }
             AddLeftAndRightVerticalHoles(DTYP1, INUP1);
             AddLeftAndRightVerticalHoles(DTYP2, INUP2);
             AddSingleSpotHole(addToSide: PartName.ToString().ToLower());   
@@ -151,6 +156,14 @@ namespace PolytecOrderEDI
             }
         }
 
-
+        private static void AddCustomHole1FromTopLeft()
+        {
+            if (ConfiguredPiece != null)
+            {
+                var applyTarget = CustomHole1ApplyTarget == APPLYTARGET.Front ? ApplyTarget.Front : ApplyTarget.Back;
+                var leftInset = CustomHole1ApplyTarget == APPLYTARGET.Front ? CustomHole1LeftInset : Width - CustomHole1LeftInset;
+                ConfiguredPiece.Features.AddHoleFromTopLeft(applyTarget, CustomHole1TopInset, leftInset, CustomHole1HDIA / 2, CustomHole1Depth);
+            }
+        }
     }
 }
