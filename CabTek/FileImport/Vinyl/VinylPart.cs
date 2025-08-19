@@ -100,6 +100,7 @@ namespace PolytecOrderEDI
         public double CustomHole1TopInset { get; set; }
         public double CustomHole1HDIA { get; set; }
         public double CustomHole1Depth { get; set; }
+        public APPLYTARGET CustomHole1ApplyTarget { get; set; }
 
 
         public VinylPart()
@@ -220,9 +221,18 @@ namespace PolytecOrderEDI
                 CustomHole1TopInset     = string.IsNullOrEmpty(arrProductVal[76].Trim()) ? 0 : double.Parse(arrProductVal[76].Trim());
                 CustomHole1HDIA         = string.IsNullOrEmpty(arrProductVal[77].Trim()) ? 0 : double.Parse(arrProductVal[77].Trim());
                 CustomHole1Depth        = string.IsNullOrEmpty(arrProductVal[78].Trim()) ? 0 : double.Parse(arrProductVal[78].Trim());
+                CustomHole1ApplyTarget  = Workout_ApplyTarget(arrProductVal[79].Trim());
             }
 
             catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+
+        private static APPLYTARGET Workout_ApplyTarget(string applyTarget)
+        {
+            if (string.Equals(applyTarget,"front", StringComparison.OrdinalIgnoreCase)) return APPLYTARGET.Front;
+            if (string.Equals(applyTarget,"back", StringComparison.OrdinalIgnoreCase))  return APPLYTARGET.Back;
+            return APPLYTARGET.None;
         }
 
         private static HINGETYPE Workout_HingeType(string hingeType)

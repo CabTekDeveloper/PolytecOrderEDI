@@ -55,11 +55,11 @@ namespace PolytecOrderEDI
 
             HoleDepth   = vinylPart != null ? vinylPart.HoleDepth   : 0 ;
 
-            CustomHole1LeftInset = vinylPart != null ? vinylPart.CustomHole1LeftInset : 0;
-            CustomHole1TopInset = vinylPart != null ? vinylPart.CustomHole1TopInset : 0;
-            CustomHole1HDIA = vinylPart != null ? vinylPart.CustomHole1HDIA : 0;
-            CustomHole1Depth = vinylPart != null ? vinylPart.CustomHole1Depth : 0;
-            HasCustomHole1Drilling = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
+            CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
+            CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
+            CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
+            CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
+            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
         }
 
         public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)

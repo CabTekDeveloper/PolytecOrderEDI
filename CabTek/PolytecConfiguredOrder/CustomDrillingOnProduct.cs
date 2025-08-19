@@ -110,6 +110,13 @@ namespace PolytecOrderEDI
             ConfiguredProduct = configuredProduct;
             SetDrillingProperties();
 
+            ////Add Custom Hole Drillings
+            //if (HasCustomHole1Drilling)
+            //{
+            //    ConfiguredProduct.Features.AddHoleFromTopLeft()
+            //}
+
+
             //Single drawer fronts are added as a door
             if (ProductName == PRODUCT.DrawerFront)
             {
