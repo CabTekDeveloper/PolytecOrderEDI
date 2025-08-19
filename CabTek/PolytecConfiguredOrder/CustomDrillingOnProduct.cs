@@ -50,6 +50,8 @@ namespace PolytecOrderEDI
         private static double CustomHole1TopInset { get; set; }
         private static double CustomHole1HDIA { get; set; }
         private static double CustomHole1Depth { get; set; }
+        private static APPLYTARGET CustomHole1ApplyTarget { get; set; } = APPLYTARGET.None;
+
         private static bool HasCustomHole1Drilling { get; set; }
 
         // Method to set the drilling properties.
@@ -97,6 +99,7 @@ namespace PolytecOrderEDI
             CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
             CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
             CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
+            CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
             HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0) : false;
         }
 
