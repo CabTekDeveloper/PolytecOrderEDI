@@ -24,8 +24,8 @@ namespace PolytecOrderEDI
         private static int DTYP2 { get; set; }
         private static double INUP1 { get; set; }
         private static double INUP2 { get; set; }
-        private static double HDIA { get; set; }
-        private static double HoleDepth { get; set; }
+        private static double DrawerHDIA { get; set; }
+        private static double DrawerHoleDepth { get; set; }
 
         private static double CustomHole1LeftInset { get; set; }
         private static double CustomHole1TopInset { get; set; }
@@ -52,16 +52,16 @@ namespace PolytecOrderEDI
             DTYP2       = vinylPart != null ? vinylPart.DTYP2       : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
             INUP1       = vinylPart != null ? vinylPart.INUP1       : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
             INUP2       = vinylPart != null ? vinylPart.INUP2       : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
-            HDIA        = vinylPart != null ? vinylPart.HDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            DrawerHDIA        = vinylPart != null ? vinylPart.DrawerHDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
 
-            HoleDepth   = vinylPart != null ? vinylPart.HoleDepth   : 0 ;
+            DrawerHoleDepth   = vinylPart != null ? vinylPart.DrawerHoleDepth   : 0 ;
 
             CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
             CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
             CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
             CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
             CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
-            HasCustomHole1Drilling = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
+            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
         }
 
         public static void AddDrillings( GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
@@ -97,9 +97,9 @@ namespace PolytecOrderEDI
                     if (holePattern.HasDrillingInfo)
                     {
                         //double holeDepth = (HoleDepth > 0) ? HoleDepth : holePattern.HoleDepth;
-                        double holeDepth = (HoleDepth > 0) ? HoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
+                        double holeDepth = (DrawerHoleDepth > 0) ? DrawerHoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
 
-                        var holeRadius = HDIA / 2;
+                        var holeRadius = DrawerHDIA / 2;
 
                         //AddDrillings leftside drilling 
                         double hole1Height = INUP + holePattern.LeftDefaultINUP;

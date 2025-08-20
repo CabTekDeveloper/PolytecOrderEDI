@@ -46,8 +46,8 @@ namespace PolytecOrderEDI
         private static int DTYP2 { get; set; }
         private static double INUP1 { get; set; }
         private static double INUP2 { get; set; }
-        private static double HDIA { get; set; }
-        private static double HoleDepth { get; set; }
+        private static double DrawerHDIA { get; set; }
+        private static double DrawerHoleDepth { get; set; }
 
         private static double CustomHole1LeftInset { get; set; }
         private static double CustomHole1TopInset { get; set; }
@@ -95,9 +95,9 @@ namespace PolytecOrderEDI
             DTYP2               = vinylPart != null ? vinylPart.DTYP2   : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
             INUP1               = vinylPart != null ? vinylPart.INUP1   : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
             INUP2               = vinylPart != null ? vinylPart.INUP2   : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
-            HDIA                = vinylPart != null ? vinylPart.HDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            DrawerHDIA                = vinylPart != null ? vinylPart.DrawerHDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
 
-            HoleDepth           = vinylPart != null ? vinylPart.HoleDepth : 0;
+            DrawerHoleDepth           = vinylPart != null ? vinylPart.DrawerHoleDepth : 0;
 
             CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
             CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
@@ -398,8 +398,8 @@ namespace PolytecOrderEDI
 
                     if (holePattern.HasDrillingInfo)
                     {
-                        double holeDepth = (HoleDepth > 0) ? HoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
-                        var holeRadius = HDIA / 2;
+                        double holeDepth = (DrawerHoleDepth > 0) ? DrawerHoleDepth : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDrawerHoleDepth.HoleDepth : holePattern.HoleDepth;
+                        var holeRadius = DrawerHDIA / 2;
 
                         //AddDrillings leftside drilling 
                         double hole1Height = INUP + holePattern.LeftDefaultINUP;
@@ -467,8 +467,8 @@ namespace PolytecOrderEDI
                     {
                         if (ConfiguredProduct != null)
                         {
-                            if (drillingInfo.NumHolesLeft > 0) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, HDIA / 2, drillingInfo.HoleDepth); }  // Left Hole1
-                            if (drillingInfo.NumHolesLeft > 1) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, HDIA / 2, drillingInfo.HoleDepth); }  //Left Hole2
+                            if (drillingInfo.NumHolesLeft > 0) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole1Height, leftOffset, DrawerHDIA / 2, drillingInfo.HoleDepth); }  // Left Hole1
+                            if (drillingInfo.NumHolesLeft > 1) { ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hole2Height, leftOffset, DrawerHDIA / 2, drillingInfo.HoleDepth); }  //Left Hole2
                         }
                     }
                 }

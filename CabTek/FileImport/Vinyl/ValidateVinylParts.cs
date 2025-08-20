@@ -458,7 +458,7 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.DTYP1 != 0 || CurrentProduct.DTYP2 != 0)
             {
-                if (CurrentProduct.HDIA == 0)   errorMessage += $"Missing HDIA.\n";
+                if (CurrentProduct.DrawerHDIA == 0)   errorMessage += $"Missing Drawer HDIA.\n";
                 if (CurrentProduct.INUP1 == 0)  errorMessage += $"Missing INUP.\n";
                 if (CurrentProduct.LINS == 0)   errorMessage += $"Missing LINS.\n";
                 if (CurrentProduct.RINS == 0)   errorMessage += $"Missing RINS.\n";

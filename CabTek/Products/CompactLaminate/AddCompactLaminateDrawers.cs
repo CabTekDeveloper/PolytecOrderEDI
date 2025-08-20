@@ -83,7 +83,7 @@ namespace PolytecOrderEDI
         //    int DTYP2 = Part.DTYP2;
         //    double INUP1 = Part.INUP1;
         //    double INUP2 = Part.INUP2;
-        //    double holeRadius = (Part.HDIA / 2);
+        //    double holeRadius = (Part.DrawerHDIA / 2);
 
         //    //AddDrillings Drilling
         //    AddLeftAndRightVerticalHoles(DTYP1, INUP1);

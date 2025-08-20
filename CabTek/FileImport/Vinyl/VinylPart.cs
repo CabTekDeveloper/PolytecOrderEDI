@@ -57,10 +57,10 @@ namespace PolytecOrderEDI
         public double INUP1 { get; set; }
         public double LINS {  get; set; }
         public double RINS { get; set; }
-        public double HDIA { get; set; }
+        public double DrawerHDIA { get; set; }
         public int DTYP2 { get; set; }
         public double INUP2 { get; set; }
-        public double HoleDepth { get; set; }
+        public double DrawerHoleDepth { get; set; }
         
         //For panels like Microwave panel, cuouts, roller frame cutous..
         public double CutoutTopBorder { get; set; }
@@ -160,10 +160,10 @@ namespace PolytecOrderEDI
                 INUP1       = string.IsNullOrEmpty(arrProductVal[33].Trim()) ? 0 : double.Parse(arrProductVal[33]);
                 LINS        = string.IsNullOrEmpty(arrProductVal[34].Trim()) ? 0 : double.Parse(arrProductVal[34]);
                 RINS        = string.IsNullOrEmpty(arrProductVal[35].Trim()) ? 0 : double.Parse(arrProductVal[35]);
-                HDIA        = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
+                DrawerHDIA  = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
                 DTYP2       = string.IsNullOrEmpty(arrProductVal[37].Trim()) ? 0 : Int32.Parse(arrProductVal[37]);
                 INUP2       = string.IsNullOrEmpty(arrProductVal[38].Trim()) ? 0 : double.Parse(arrProductVal[38]);
-                HoleDepth   = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
+                DrawerHoleDepth   = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
 
                 AdditionalInstructions  = arrProductVal[41].Trim();
                 EdgeMould               = arrProductVal[42].Trim();
