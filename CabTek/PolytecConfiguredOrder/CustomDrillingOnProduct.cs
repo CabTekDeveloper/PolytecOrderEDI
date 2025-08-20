@@ -515,11 +515,12 @@ namespace PolytecOrderEDI
         {
             if (ConfiguredProduct != null)
             {
-                var applyTarget = CustomHole1ApplyTarget==APPLYTARGET.Front ? ApplyTarget.Front : ApplyTarget.Back;
+                var applyTarget = CustomHole1ApplyTarget == APPLYTARGET.Front ? ApplyTarget.Front : ApplyTarget.Back;
                 var leftInset   = CustomHole1ApplyTarget == APPLYTARGET.Front ? CustomHole1LeftInset : Width - CustomHole1LeftInset;
                 ConfiguredProduct.Features.AddHoleFromTopLeft(applyTarget, CustomHole1TopInset, leftInset, CustomHole1HDIA / 2, CustomHole1Depth);
             }
         }
+
 
 
     }
