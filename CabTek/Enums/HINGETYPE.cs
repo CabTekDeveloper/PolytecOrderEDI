@@ -8,6 +8,7 @@ namespace PolytecOrderEDI
     {
         None,
         Blum,
-        Hettich
+        Hettich,
+        Blum11
     }
 }
