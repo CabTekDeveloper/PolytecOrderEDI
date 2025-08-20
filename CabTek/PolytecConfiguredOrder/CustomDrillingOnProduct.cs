@@ -296,8 +296,9 @@ namespace PolytecOrderEDI
         {
             if (ConfiguredProduct != null)
             {
-                if (NumHoles > 0 && offset > 0 && HingeType != HINGETYPE.None)
-                {
+                //if (NumHoles > 0 && offset > 0 && HingeType != HINGETYPE.None && HingeType != HINGETYPE.Blum11)
+                if (NumHoles > 0 && offset > 0 && (HingeType == HINGETYPE.Blum || HingeType== HINGETYPE.Hettich ))
+                    {
                     HingeType Htype = HingeType == HINGETYPE.Blum ? BorgEdi.Enums.HingeType.Blum : BorgEdi.Enums.HingeType.Hettich;
 
                     if (addToSide == "left" || addToSide == "right")
