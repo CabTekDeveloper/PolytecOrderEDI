@@ -249,6 +249,7 @@ namespace PolytecOrderEDI
                 if (string.IsNullOrEmpty(hingeType)) return HINGETYPE.None;
                 if (string.Equals(hingeType, "blum", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum;
                 if (string.Equals(hingeType, "hettich", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Hettich;
+                if (string.Equals(hingeType, "blum11", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum11;
                 return HINGETYPE.None;
             }
             catch (Exception ex)
