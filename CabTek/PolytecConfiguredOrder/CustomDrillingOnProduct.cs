@@ -149,13 +149,13 @@ namespace PolytecOrderEDI
                 case PARTNAME.Left:
                     AddHinges("right", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
-                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks("right", HingeBlockInset);
+                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks(addToSide: "right", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA );
                     break;
 
                 case PARTNAME.Right:
                     AddHinges("left", HingeCupInset);
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
-                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks("left", HingeBlockInset);
+                    if (ProductType == PRODUCTTYPE.CompactLaminate) AddHingeBlocks(addToSide: "left", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     break;
 
                 case PARTNAME.Top:
@@ -188,20 +188,20 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Top_Bifold:
                     AddHinges("top", HingeCupInset);
-                    AddHingeBlocks(addToSide: "bottom", offset: HingeBlockInset, hDepth: HoleDepth);
+                    AddHingeBlocks(addToSide: "bottom", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
                     break;
 
                 case PARTNAME.Bottom_Bifold:
                     AddHinges("bottom", HingeCupInset);
-                    AddHingeBlocks(addToSide: "top", offset: HingeBlockInset);
+                    AddHingeBlocks(addToSide: "top", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     if (NumHoles > 2) AddExtraHingeBlockHolesToHamperBifoldDoor(INUP1);
                     break;
 
                 case PARTNAME.Left_Leaf: //Left LEaf
-                    AddHingeBlocks(addToSide: "left", offset: HingeBlockInset);
+                    AddHingeBlocks(addToSide: "left", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     if (cabPart != null && cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
                     {
                         if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
@@ -209,7 +209,7 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Right_Leaf: //Right leaf
-                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset);
+                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     if (cabPart != null && cabPart.CabinetName.Contains("Corner", StringComparison.OrdinalIgnoreCase))
                     {
                         if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
@@ -227,11 +227,11 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Left_Blind_Panel:
-                    AddHingeBlocks(addToSide: "left", offset: HingeBlockInset);
+                    AddHingeBlocks(addToSide: "left", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     break;
 
                 case PARTNAME.Right_Blind_Panel:
-                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset);
+                    AddHingeBlocks(addToSide: "right", offset: HingeBlockInset, hDepth: HingeBlockHoleDepth, hdia: HingeBlockHDIA);
                     break;
 
                 case PARTNAME.Left_770: 
@@ -330,15 +330,15 @@ namespace PolytecOrderEDI
 
 
         ////Method to add Hinge Block
-        private static void AddHingeBlocks(string addToSide, double offset, double hDepth = 0, double hRadius = 0, double hGap = 0)
+        private static void AddHingeBlocks(string addToSide, double offset, double hDepth = 0, double hdia = 0, double hGap = 0)
         {
             if (ConfiguredProduct != null)
             {
                 if (NumHoles > 0 && offset > 0)
                 {
-                    hDepth  = (hDepth > 0)  ? hDepth    : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Depth    : CustomHingeBlock.HoleDepth;
-                    hRadius = (hRadius > 0) ? hRadius   : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Radius   : CustomHingeBlock.HoleRadius;
-                    hGap    = (hGap > 0)    ? hGap      : (ProductType == PRODUCTTYPE.CompactLaminate) ? CompactDoorHingeBlockHole.Gap      : CustomHingeBlock.HoleGap;
+                    hDepth      = hDepth    > 0 ? hDepth    : CustomHingeBlock.HoleDepth;
+                    var hRadius = hdia      > 0 ? hdia/2    : CustomHingeBlock.HoleRadius;
+                    hGap        = hGap      > 0 ? hGap      : CustomHingeBlock.HoleGap;
 
                     if (addToSide == "left" || addToSide == "right")
                     {
