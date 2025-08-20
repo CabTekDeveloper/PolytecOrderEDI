@@ -400,6 +400,7 @@ namespace PolytecOrderEDI
             return errorMessage;
         }
 
+
         //DOOR INFO VALIDATION
         private static string DoorInfoValidation(VinylPart CurrentProduct)
         {
