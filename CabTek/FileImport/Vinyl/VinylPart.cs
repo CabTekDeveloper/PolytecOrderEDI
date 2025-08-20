@@ -152,8 +152,8 @@ namespace PolytecOrderEDI
                 DoubleMidRail           = string.Equals(arrProductVal[29].Trim(), "yes", StringComparison.OrdinalIgnoreCase);
                 PanelCount              = (MidRailHeight > 0) ? 2 : 1;
 
-                HingeBlockHDIA = string.IsNullOrEmpty(arrProductVal[30].Trim()) ? 0 : double.Parse(arrProductVal[30]);
-                HingeBlockHoleDepth = string.IsNullOrEmpty(arrProductVal[31].Trim()) ? 0 : double.Parse(arrProductVal[31]);
+                HingeBlockHDIA          = string.IsNullOrEmpty(arrProductVal[30].Trim()) ? 0 : double.Parse(arrProductVal[30]);
+                HingeBlockHoleDepth     = string.IsNullOrEmpty(arrProductVal[31].Trim()) ? 0 : double.Parse(arrProductVal[31]);
 
                 //Set Drawer data
                 DTYP1 = string.IsNullOrEmpty(arrProductVal[32].Trim()) ? 0 : Int32.Parse(arrProductVal[32]);
@@ -382,8 +382,8 @@ namespace PolytecOrderEDI
 //  28:Mid Rail Height,
 //  29:Double Mid Rail
 
-//  30:spare,
-//  31:spare,
+//  30:Hinge Block HDIA,
+//  31:Hinge Block Hole Depth,
 
 //  32:DTYP,
 //  33:Bot Inset (INUP),

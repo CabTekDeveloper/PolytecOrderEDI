@@ -27,6 +27,9 @@ namespace PolytecOrderEDI
         private static HINGETYPE HingeType { get; set; } = HINGETYPE.None;
         private static double HingeCupInset { get; set; }
         private static double HingeBlockInset { get; set; }
+        private static double HingeBlockHDIA { get; set; }
+        private static double HingeBlockHoleDepth { get; set; }
+
         private static double BifoldHingeCupInset { get; set; }
         private static double HTOD { get; set; }
         private static double Hole1FromBot { get; set; }
@@ -51,7 +54,6 @@ namespace PolytecOrderEDI
         private static double CustomHole1HDIA { get; set; }
         private static double CustomHole1Depth { get; set; }
         private static APPLYTARGET CustomHole1ApplyTarget { get; set; } = APPLYTARGET.None;
-
         private static bool HasCustomHole1Drilling { get; set; }
 
         // Method to set the drilling properties.
@@ -74,6 +76,8 @@ namespace PolytecOrderEDI
             HingeType           = vinylPart != null ? vinylPart.HingeType           : DoorParams != null ? DoorParams.HingeType             : HINGETYPE.None;
             HingeCupInset       = vinylPart != null ? vinylPart.HingeCupInset       : DoorParams != null ? DoorParams.HingeCupInset         : 0;
             HingeBlockInset     = vinylPart != null ? vinylPart.HingeBlockInset     : DoorParams != null ? DoorParams.HingeBlockInset       : 0;
+            HingeBlockHDIA      = vinylPart != null ? vinylPart.HingeBlockHDIA      : 0;
+            HingeBlockHoleDepth = vinylPart != null ? vinylPart.HingeBlockHoleDepth : 0;
             BifoldHingeCupInset = vinylPart != null ? vinylPart.BifoldHingeCupInset : DoorParams != null ? DoorParams.BifoldHingeCupInset   : 0;
             HTOD                = vinylPart != null ? vinylPart.HTOD                : DoorParams != null ? DoorParams.HTOD                  : 0;
 
