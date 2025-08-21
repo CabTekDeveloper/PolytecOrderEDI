@@ -163,12 +163,16 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Top:
-                    AddHinges("top", HingeCupInset);
+                    if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("top", HingeCupInset); }
+                    else { AddHinges("top", HingeCupInset); }
+            
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
                 case PARTNAME.Bottom:
-                    AddHinges("bottom", HingeCupInset);
+                    if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("bottom", HingeCupInset); }
+                    else { AddHinges("bottom", HingeCupInset); }
+                    
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
 
@@ -349,14 +353,14 @@ namespace PolytecOrderEDI
 
                     if (addToSide == "left" || addToSide == "right")
                     {
-                        if (Hole1FromBot > 0) { AddCustomLeftOrRightBlumHinge(Hole1FromBot); }
-                        if (Hole6FromTop > 0) { AddCustomLeftOrRightBlumHinge(Height - Hole6FromTop); }
-                        if (Hole5FromTop > 0) { AddCustomLeftOrRightBlumHinge(Height - Hole5FromTop); }
-                        if (Hole4FromTop > 0) { AddCustomLeftOrRightBlumHinge(Height - Hole4FromTop); }
-                        if (Hole3FromTop > 0) { AddCustomLeftOrRightBlumHinge(Height - Hole3FromTop); }
-                        if (Hole2FromTop > 0) { AddCustomLeftOrRightBlumHinge(Height - Hole2FromTop); }
+                        if (Hole1FromBot > 0) { AddLeftOrRightCustomBlumHinge(Hole1FromBot); }
+                        if (Hole2FromTop > 0) { AddLeftOrRightCustomBlumHinge(Height - Hole2FromTop); }
+                        if (Hole3FromTop > 0) { AddLeftOrRightCustomBlumHinge(Height - Hole3FromTop); }
+                        if (Hole4FromTop > 0) { AddLeftOrRightCustomBlumHinge(Height - Hole4FromTop); }
+                        if (Hole5FromTop > 0) { AddLeftOrRightCustomBlumHinge(Height - Hole5FromTop); }
+                        if (Hole6FromTop > 0) { AddLeftOrRightCustomBlumHinge(Height - Hole6FromTop); }
 
-                        void AddCustomLeftOrRightBlumHinge(double hingeHolePositionFromBottom)
+                        void AddLeftOrRightCustomBlumHinge(double hingeHolePositionFromBottom)
                         {
                             double cupHoleLeftOffset    = (addToSide == "left") ? offset : (Width - offset);
                             double cupHoleBottomOffset  = hingeHolePositionFromBottom;
@@ -372,15 +376,38 @@ namespace PolytecOrderEDI
                                 ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, lugHole1BottomOffset, lugHoleLeftOffset, lugHoleHdia / 2, lugHoleDepth);
                                 // Add Lug Hole2
                                 ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, lugHole2BottomOffset, lugHoleLeftOffset, lugHoleHdia / 2, lugHoleDepth);
-
                             }
                         }
 
                     }
                     else if (addToSide == "top" || addToSide == "bottom")
                     {
-                        double bottomOffset = (addToSide == "top") ? (Height - offset) : offset ;
+                        if (Hole1FromBot > 0) { AddTopOrBottomCustomBlumHinge(Width - Hole1FromBot); }
+                        if (Hole2FromTop > 0) { AddTopOrBottomCustomBlumHinge((Hole2FromTop)); }
+                        if (Hole3FromTop > 0) { AddTopOrBottomCustomBlumHinge((Hole3FromTop)); }
+                        if (Hole4FromTop > 0) { AddTopOrBottomCustomBlumHinge((Hole4FromTop)); }
+                        if (Hole5FromTop > 0) { AddTopOrBottomCustomBlumHinge((Hole5FromTop)); }
+                        if (Hole6FromTop > 0) { AddTopOrBottomCustomBlumHinge((Hole6FromTop)); }
 
+                        void AddTopOrBottomCustomBlumHinge(double hingeHolePositionFromLeft)
+                        {
+                            double cupHoleLeftOffset = hingeHolePositionFromLeft;
+                            double cupHoleBottomOffset = (addToSide == "top") ? (Height - offset) : offset;
+                            double lugHoleBottomOffset = (addToSide == "top") ? cupHoleBottomOffset - cupHoleAndlugHoleGap : cupHoleBottomOffset + cupHoleAndlugHoleGap;
+                            double lugHole1LeftOffset = cupHoleLeftOffset - lugHolesGap / 2;
+                            double lugHole2LeftOffset = cupHoleLeftOffset + lugHolesGap / 2;
+
+                            if (ConfiguredProduct != null)
+                            {
+                                // Add 35mm Cup Hole
+                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, cupHoleBottomOffset, cupHoleLeftOffset, cupHoleHdia / 2, cupHoleDepth);
+                                // Add Lug Hole1
+                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, lugHoleBottomOffset, lugHole1LeftOffset, lugHoleHdia / 2, lugHoleDepth);
+                                // Add Lug Hole1
+                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, lugHoleBottomOffset, lugHole2LeftOffset, lugHoleHdia / 2, lugHoleDepth);
+
+                            }
+                        }
                     }
 
                 }
