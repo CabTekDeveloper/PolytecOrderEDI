@@ -40,8 +40,9 @@ namespace PolytecOrderEDI
         public static double HoleDepth { get; } = 6;
     }
 
-    // This class class holds the customised Blum hinge to suit thinner materials.
-    static class CustomBlum11
+    // This class holds the customised Blum hinge info to suit thinner materials.
+    // The Hinge is named Blum11 since the depth of the Cup hole is 11mm.
+    static class Blum11
     {
         public static double CupHoleDepth { get { return 11; } }
         public static double CupHoleHdia { get { return 35; } }

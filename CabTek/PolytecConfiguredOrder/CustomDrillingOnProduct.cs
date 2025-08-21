@@ -147,7 +147,7 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Left:
-                    if (HingeType == HINGETYPE.Blum11) { AddBlum11Hinge("right", HingeCupInset); }
+                    if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("right", HingeCupInset); }
                     else { AddHinges("right", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
@@ -155,7 +155,7 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Right:
-                    if (HingeType == HINGETYPE.Blum11) { AddBlum11Hinge("left", HingeCupInset); }
+                    if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("left", HingeCupInset); }
                     else { AddHinges("left", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
@@ -334,18 +334,18 @@ namespace PolytecOrderEDI
         }
 
         // Method to add Blum11 Hinge
-        private static void AddBlum11Hinge(string addToSide, double offset)
+        private static void AddHinges_Blum11(string addToSide, double offset)
         {
             if (ConfiguredProduct != null)
             {
                 if (NumHoles > 0 && offset > 0 && HingeType == HINGETYPE.Blum11)
                 {
-                    double cupHoleDepth         = CustomBlum11.CupHoleDepth;
-                    double cupHoleHdia          = CustomBlum11.CupHoleHdia;
-                    double lugHoleDepth         = CustomBlum11.LugHoleDepth;
-                    double lugHoleHdia          = CustomBlum11.LugHoleHdia;
-                    double lugHolesGap          = CustomBlum11.LugHolesGap;
-                    double cupHoleAndlugHoleGap = CustomBlum11.CupHoleAndLugHoleGap;
+                    double cupHoleDepth         = Blum11.CupHoleDepth;
+                    double cupHoleHdia          = Blum11.CupHoleHdia;
+                    double lugHoleDepth         = Blum11.LugHoleDepth;
+                    double lugHoleHdia          = Blum11.LugHoleHdia;
+                    double lugHolesGap          = Blum11.LugHolesGap;
+                    double cupHoleAndlugHoleGap = Blum11.CupHoleAndLugHoleGap;
 
                     if (addToSide == "left" || addToSide == "right")
                     {
