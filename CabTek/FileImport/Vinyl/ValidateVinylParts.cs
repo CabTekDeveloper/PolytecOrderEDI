@@ -813,22 +813,30 @@ namespace PolytecOrderEDI
                     DoorStyleDetails? doorStyleDetails = TableDoorStyles.GetDoorStyleDetails(CurrentProduct.FaceProfile);
                     if (doorStyleDetails != null)
                     {
-                        if (CurrentProduct.Product == PRODUCT.DrawerFront)
-                        {
-                            if (CurrentProduct.DfHeight < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm\n";
-                        }
-                        else
+                        // Wangchuk added 08-09-2025
+                        if (CurrentProduct.Product != PRODUCT.DrawerFront)
                         {
                             if (CurrentProduct.Height < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm.\n";
+                            if (CurrentProduct.Width < doorStyleDetails.MinWidth) errorMessage += $"The min width for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinWidth}mm.\n";
                         }
 
-                        if (CurrentProduct.Width < doorStyleDetails.MinWidth) errorMessage += $"The min width for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinWidth}mm.\n";
+                        // Wangchuk commented the code below // 08-09-2025
+                        //if (CurrentProduct.Product == PRODUCT.DrawerFront)
+                        //{
+                        //    if (CurrentProduct.DfHeight < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm\n";
+                        //}
+                        //else
+                        //{
+                        //    if (CurrentProduct.Height < doorStyleDetails.MinHeight) errorMessage += $"The min height for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinHeight}mm.\n";
+                        //}
+
+                        //if (CurrentProduct.Width < doorStyleDetails.MinWidth) errorMessage += $"The min width for Face Profile {CurrentProduct.FaceProfile} is {doorStyleDetails.MinWidth}mm.\n";
                     }
                 }
             }
 
             return errorMessage;
-        }
+        }   
 
 
         //CUSTOM HOLE1 INFO VALIDATION
