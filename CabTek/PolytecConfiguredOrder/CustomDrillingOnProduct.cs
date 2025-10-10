@@ -16,7 +16,6 @@ namespace PolytecOrderEDI
         private static BuildParameter_DrawerFront? DrawerFrontParams { get; set; } = null;
         private static BuildParameter_Handle? HandleParams { get; set; } = null;
 
-
         private static PRODUCTTYPE ProductType { get; set; } = PRODUCTTYPE.None;
         private static PRODUCT ProductName { get; set; } = PRODUCT.None;
         private static PARTNAME PartName { get; set; } =PARTNAME.None;
@@ -440,8 +439,8 @@ namespace PolytecOrderEDI
                         {
                             if (ConfiguredProduct != null)
                             {
-                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hingeHolePositionFromBottom - (hGap / 2), leftOffset, hRadius, hDepth);
-                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, hingeHolePositionFromBottom + (hGap / 2), leftOffset, hRadius, hDepth);
+                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, Math.Round(hingeHolePositionFromBottom - (hGap / 2),2), leftOffset, hRadius, hDepth);
+                                ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, Math.Round(hingeHolePositionFromBottom + (hGap / 2), 2), leftOffset, hRadius, hDepth);
                             }
                         }
                     }
