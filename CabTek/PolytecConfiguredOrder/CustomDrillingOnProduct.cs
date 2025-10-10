@@ -221,7 +221,7 @@ namespace PolytecOrderEDI
                     {
                         if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
                     }
-                    break;
+                    break; 
 
                 case PARTNAME.Top_Leaf: //Top leaf
                     AddHinges("bottom", HingeCupInset);
