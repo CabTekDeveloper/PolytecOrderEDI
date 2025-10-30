@@ -51,6 +51,19 @@ namespace PolytecOrderEDI
                 PanelCount = Part.PanelCount,
             };
 
+            if (Part.Return1Edge != "" || Part.Return2Edge != "")
+            {
+                ConfiguredProduct.Returns = [];
+                if (Part.Return1Edge != "")
+                {
+                    ConfiguredProduct.Returns.Add(new Return() { Edge = HelperMethods.GetReturnPanelEdge(Part.Return1Edge), Thickness = Part.Return1Thickness, Width = Part.Return1Width });
+                }
+                if (Part.Return2Edge != "")
+                {
+                    ConfiguredProduct.Returns.Add(new Return() { Edge = HelperMethods.GetReturnPanelEdge(Part.Return2Edge), Thickness = Part.Return2Thickness, Width = Part.Return2Width });
+                }
+            }
+
             CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
