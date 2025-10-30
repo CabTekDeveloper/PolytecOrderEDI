@@ -690,7 +690,7 @@ namespace PolytecOrderEDI
                     {
                         errorMessage += $"Returns are only available in Thermo Products.\n";
                     }
-                    else if (CurrentProduct.Product !=PRODUCT.Panel && CurrentProduct.Product != PRODUCT.Door)
+                    else if (CurrentProduct.Product !=PRODUCT.Panel && CurrentProduct.Product != PRODUCT.Door && CurrentProduct.Product != PRODUCT.PantryDoor)
                     {
                         errorMessage += $"Returns are only available in Doors and Panels.\n";
                     }
