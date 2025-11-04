@@ -9,6 +9,8 @@ namespace PolytecOrderEDI
         None,
         Blum,
         Hettich,
-        Blum11
+        Blum11,
+        BlumLdf,
+        BlumRdf
     }
 }
