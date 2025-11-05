@@ -362,6 +362,16 @@ namespace PolytecOrderEDI
                     if (CurrentProduct.ProductType != PRODUCTTYPE.Thermo && CurrentProduct.ProductType != PRODUCTTYPE.CutAndRout) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available in 'Thermo' and 'Cut&Rout' ProductTypes only.\n";
                     if (CurrentProduct.Product != PRODUCT.DrawerFront) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available on Drawers only.\n";
                 }
+                else
+                {
+                    if (CurrentProduct.Product == PRODUCT.DrawerFront)
+                    {
+                        errorMessage += $"Drawers can only use hinge types 'BlumLdf' and 'BlumRdf'.\n";
+                    }
+                }
+
+                if (CurrentProduct.NumHoles == 0 ) errorMessage += $"Hinge Type provided but missing hole positions .\n";
+                if (CurrentProduct.HingeCupInset ==0 || CurrentProduct.BifoldHingeCupInset ==0) errorMessage += $"Hinge Type provided but missing Hinge inset.\n";
             }
             return errorMessage;
         }
