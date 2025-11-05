@@ -1,6 +1,4 @@
-﻿using BorgEdi.Enums;
-using BorgEdi.Models;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace PolytecOrderEDI
 {
@@ -15,7 +13,7 @@ namespace PolytecOrderEDI
             ExitImportation = false;
         }
 
-        static  ValidateVinylParts()
+        static ValidateVinylParts()
         {
 
         }
@@ -24,16 +22,16 @@ namespace PolytecOrderEDI
         {
             try
             {
-                Reset(); 
+                Reset();
 
                 for (int i = 0; i < LstProducts.Count; i++)
                 {
-                    ValidateProduct(LstProducts[i], i == 0 );
+                    ValidateProduct(LstProducts[i], i == 0);
                     if (ExitImportation) break;
                 }
 
                 if (ErrorMessage != "")
-                { 
+                {
                     MessageBox.Show(ErrorMessage, "Fix the errors and import again.");
                     FileManager.FileImportMessage = $"Fix the errors and import again.";
                     return false;
@@ -111,7 +109,7 @@ namespace PolytecOrderEDI
                 missingValueMessage += MultiPieceIdValidation(CurrentProduct);
                 missingValueMessage += PressedSideValidation(CurrentProduct);
                 if (CurrentProduct.EzeNo == 0) missingValueMessage += $"Missing Eze No.\n";
-                
+
                 missingValueMessage += DoorInfoValidation(CurrentProduct);
                 missingValueMessage += DrawerInfoValidation(CurrentProduct);
                 if (CurrentProduct.Product == PRODUCT.CutOut) missingValueMessage += CutoutMissingValues(CurrentProduct);
@@ -226,7 +224,7 @@ namespace PolytecOrderEDI
             }
             else
             {
-                if(CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
+                if (CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
                 {
                     if (CurrentProduct.Thickness != 5 && CurrentProduct.Thickness != 13) errorMessage += $"CompactLaminate is available in 5mm and 13mm (Thickness).\n";
                 }
@@ -239,11 +237,11 @@ namespace PolytecOrderEDI
         private static string PartNameValidation(VinylPart CurrentProduct)
         {
             string errorMessage = "";
-            if (CurrentProduct.Product == PRODUCT.RecessedRail )
+            if (CurrentProduct.Product == PRODUCT.RecessedRail)
             {
                 if (CurrentProduct.PartName != PARTNAME.C_Shaped && CurrentProduct.PartName != PARTNAME.L_Shaped) { errorMessage += $"Set Part Name to C Shapped or L Shapped.\n"; }
             }
-        
+
             if (CurrentProduct.Product == PRODUCT.HeatDeflectors)
             {
                 if (CurrentProduct.PartName != PARTNAME.Angled && CurrentProduct.PartName != PARTNAME.Straight) { errorMessage += $"Set Part Name to Angled or Straight.\n"; }
@@ -269,7 +267,7 @@ namespace PolytecOrderEDI
             {
                 errorMessage += $"Edge Location ({CurrentProduct.EdgeLocation}) cannot have more than 4 characters.\n";
             }
-            else 
+            else
             {
                 if (!("THX".Contains(CurrentProduct.EdgeLocation[0]))) errorMessage += $"Top edge location is invalid. \n";
                 if (!("BHX".Contains(CurrentProduct.EdgeLocation[1]))) errorMessage += $"Bottom edge location is invalid. \n";
@@ -298,14 +296,14 @@ namespace PolytecOrderEDI
 
             if (!string.Equals(CurrentProduct.HandleSystem, "None", StringComparison.OrdinalIgnoreCase))
             {
-           
+
                 if (!CurrentProduct.EdgeLocation.Contains('H'))
                 {
                     errorMessage += $"You have selected {CurrentProduct.HandleSystem} handle but its location is not provided.\n";
                 }
                 else
                 {
-                    if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo|| CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
+                    if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                     {
                         if (!string.Equals(CurrentProduct.EdgeMould, "Square", StringComparison.OrdinalIgnoreCase) && !string.Equals(CurrentProduct.EdgeMould, "3mm Pencil", StringComparison.OrdinalIgnoreCase))
                         {
@@ -323,7 +321,7 @@ namespace PolytecOrderEDI
 
                             if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                             {
-                                if (!CustomValidation.IsCutAndRoutHandle(CurrentProduct.HandleSystem)) errorMessage += $"Cut&Rout products cannot have {CurrentProduct.HandleSystem} handle.\n"; 
+                                if (!CustomValidation.IsCutAndRoutHandle(CurrentProduct.HandleSystem)) errorMessage += $"Cut&Rout products cannot have {CurrentProduct.HandleSystem} handle.\n";
                             }
 
                             if (CurrentProduct.Product == PRODUCT.GlassFrame)
@@ -345,7 +343,7 @@ namespace PolytecOrderEDI
                         }
                     }
                 }
-                
+
 
             }
             return errorMessage;
@@ -355,7 +353,7 @@ namespace PolytecOrderEDI
         private static string HingeTypeInfoValidation(VinylPart CurrentProduct)
         {
             string errorMessage = "";
-            if(CurrentProduct.HingeType != HINGETYPE.None)
+            if (CurrentProduct.HingeType != HINGETYPE.None)
             {
                 if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf)
                 {
@@ -370,8 +368,8 @@ namespace PolytecOrderEDI
                     }
                 }
 
-                if (CurrentProduct.NumHoles == 0 ) errorMessage += $"Hinge Type provided but missing hole positions .\n";
-                if (CurrentProduct.HingeCupInset ==0 || CurrentProduct.BifoldHingeCupInset ==0) errorMessage += $"Hinge Type provided but missing Hinge inset.\n";
+                if (CurrentProduct.NumHoles == 0) errorMessage += $"Hinge Type provided but missing hole positions .\n";
+                if (CurrentProduct.HingeCupInset == 0 && CurrentProduct.BifoldHingeCupInset == 0) errorMessage += $"Hinge Type provided but missing Hinge inset.\n";
             }
             return errorMessage;
         }
@@ -382,8 +380,8 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
             {
-                if (CurrentProduct.Product == PRODUCT.GlassFrame )
-                { 
+                if (CurrentProduct.Product == PRODUCT.GlassFrame)
+                {
                     if (!(CustomValidation.IsValidGlassFrameDoorStyleProfile(CurrentProduct.StyleProfile))) errorMessage += $"Pick a valid Glass frame door style profile.\n";
                 }
                 else if (CurrentProduct.Product == PRODUCT.DrawerFront)
@@ -396,7 +394,7 @@ namespace PolytecOrderEDI
                 //    if (!CustomValidation.IsBarPanelStyleProfile(Part.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
                 //}
             }
-            
+
             return errorMessage;
         }
 
@@ -404,7 +402,7 @@ namespace PolytecOrderEDI
         private static string MultiPieceIdValidation(VinylPart CurrentProduct)
         {
             string errorMessage = "";
-            if (CurrentProduct.Product == PRODUCT.DrawerFront  && CurrentProduct.MultiPieceID == 0) errorMessage += $"Drawers should have Multi piece ID.\n";
+            if (CurrentProduct.Product == PRODUCT.DrawerFront && CurrentProduct.MultiPieceID == 0) errorMessage += $"Drawers should have Multi piece ID.\n";
 
             return errorMessage;
         }
@@ -417,8 +415,8 @@ namespace PolytecOrderEDI
             {
                 if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail)
                 {
-                    if (CurrentProduct.PressedSides < 1)        errorMessage += $"Missing Pressed Side.\n";
-                    else if (CurrentProduct.PressedSides > 2)   errorMessage += $"Pressed Side can only be 1 or 2.\n";
+                    if (CurrentProduct.PressedSides < 1) errorMessage += $"Missing Pressed Side.\n";
+                    else if (CurrentProduct.PressedSides > 2) errorMessage += $"Pressed Side can only be 1 or 2.\n";
                 }
             }
             else
@@ -440,15 +438,15 @@ namespace PolytecOrderEDI
                 {
                     errorMessage += $"Hole positions are provided but missing insets.\n";
                 }
-                
-                if(CurrentProduct.PartName != PARTNAME.Left_Leaf_770 && CurrentProduct.PartName != PARTNAME.Right_Leaf_770)
+
+                if (CurrentProduct.PartName != PARTNAME.Left_Leaf_770 && CurrentProduct.PartName != PARTNAME.Right_Leaf_770)
                 {
                     if ((CurrentProduct.HingeCupInset > 0 || CurrentProduct.BifoldHingeCupInset > 0) && CurrentProduct.HingeType == HINGETYPE.None)
                     {
                         errorMessage += $"Hinge hole position and inset provided, but missing Hinge type.\n";
                     }
                 }
-            
+
                 if (CurrentProduct.PartName == PARTNAME.Left_Bifold || CurrentProduct.PartName == PARTNAME.Right_Bifold)
                 {
                     if (CurrentProduct.HingeCupInset == 0) errorMessage += $"Hinge hole position provided, but missing Hinge Cup Inset.\n";
@@ -463,7 +461,7 @@ namespace PolytecOrderEDI
                 }
             }
 
-            if (CurrentProduct.Product == PRODUCT.PantryDoor )
+            if (CurrentProduct.Product == PRODUCT.PantryDoor)
             {
                 if (CurrentProduct.MidRailHeight == 0 && (TableDoorStyles.GetDoorStyleNo(CurrentProduct.FaceProfile) > 1))
                 {
@@ -473,13 +471,13 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.Product == PRODUCT.Door)
             {
-                if (CurrentProduct.KickHeight > 0)      errorMessage += $"If you need Kick height, add that into Additional Instructions field.\n";
-                if (CurrentProduct.MidRailHeight > 0)   errorMessage += $"Remove midrail height info or change Product to a PantryDoor";
+                if (CurrentProduct.KickHeight > 0) errorMessage += $"If you need Kick height, add that into Additional Instructions field.\n";
+                if (CurrentProduct.MidRailHeight > 0) errorMessage += $"Remove midrail height info or change Product to a PantryDoor";
             }
 
             return errorMessage;
         }
-        
+
         //DRAWER INFO VALIDATION
         private static string DrawerInfoValidation(VinylPart CurrentProduct)
         {
@@ -487,10 +485,10 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.DTYP1 != 0 || CurrentProduct.DTYP2 != 0)
             {
-                if (CurrentProduct.DrawerHDIA == 0)     errorMessage += $"Missing Drawer HDIA.\n";
-                if (CurrentProduct.INUP1 == 0)          errorMessage += $"Missing INUP.\n";
-                if (CurrentProduct.LINS == 0)           errorMessage += $"Missing LINS.\n";
-                if (CurrentProduct.RINS == 0)           errorMessage += $"Missing RINS.\n";
+                if (CurrentProduct.DrawerHDIA == 0) errorMessage += $"Missing Drawer HDIA.\n";
+                if (CurrentProduct.INUP1 == 0) errorMessage += $"Missing INUP.\n";
+                if (CurrentProduct.LINS == 0) errorMessage += $"Missing LINS.\n";
+                if (CurrentProduct.RINS == 0) errorMessage += $"Missing RINS.\n";
                 if (CurrentProduct.DTYP2 != 0 && CurrentProduct.INUP2 == 0) errorMessage += $"2nd DTYP provided but missing 2nd INUP.\n";
             }
 
@@ -514,7 +512,7 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
             {
-                if (CurrentProduct.Product == PRODUCT.RecessedRail  || CurrentProduct.Product == PRODUCT.HeatDeflectors )
+                if (CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors)
                 {
                     if (CurrentProduct.EdgeMould != "") errorMessage += $"This product cannot have Edge mould.\n";
                 }
@@ -562,7 +560,7 @@ namespace PolytecOrderEDI
                 }
                 else
                 {
-                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors )
+                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors)
                     {
                         if (CurrentProduct.FaceProfile != "") errorMessage += $"This product cannot have Face Profile.\n";
                     }
@@ -638,7 +636,7 @@ namespace PolytecOrderEDI
             }
             else
             {
-                if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout )
+                if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                 {
                     if (!string.Equals(CurrentProduct.Finish, "None", StringComparison.OrdinalIgnoreCase))
                     {
@@ -729,7 +727,7 @@ namespace PolytecOrderEDI
                     {
                         errorMessage += $"Returns are only available in Thermo Products.\n";
                     }
-                    else if (CurrentProduct.Product !=PRODUCT.Panel && CurrentProduct.Product != PRODUCT.Door && CurrentProduct.Product != PRODUCT.PantryDoor)
+                    else if (CurrentProduct.Product != PRODUCT.Panel && CurrentProduct.Product != PRODUCT.Door && CurrentProduct.Product != PRODUCT.PantryDoor)
                     {
                         errorMessage += $"Returns are only available in Doors and Panels.\n";
                     }
@@ -791,7 +789,7 @@ namespace PolytecOrderEDI
         }
 
 
-        
+
 
 
         //BAR PANEL INFO VALIDATION
@@ -799,16 +797,16 @@ namespace PolytecOrderEDI
         {
             string errorMessage = "";
 
-            double[] barPanelSizes = 
+            double[] barPanelSizes =
             [
-                CurrentProduct.Profile1Size, CurrentProduct.Profile2Size, CurrentProduct.Profile3Size, CurrentProduct.Profile4Size, 
+                CurrentProduct.Profile1Size, CurrentProduct.Profile2Size, CurrentProduct.Profile3Size, CurrentProduct.Profile4Size,
                 CurrentProduct.Profile5Size, CurrentProduct.Profile6Size, CurrentProduct.Profile7Size, CurrentProduct.Profile8Size
             ];
 
             if (CurrentProduct.Product == PRODUCT.BarPanel)
             {
-                if( CurrentProduct.NumberOfPanels == 0) errorMessage += $"Missing Number of Panels.\n";
-                if( CurrentProduct.NumberOfPanels == 1) errorMessage += $"Number of Panels must be 2 or more.\n";
+                if (CurrentProduct.NumberOfPanels == 0) errorMessage += $"Missing Number of Panels.\n";
+                if (CurrentProduct.NumberOfPanels == 1) errorMessage += $"Number of Panels must be 2 or more.\n";
 
                 if (CurrentProduct.EvenlySizedProfiles)
                 {
@@ -822,16 +820,16 @@ namespace PolytecOrderEDI
                     for (int i = 0; i < CurrentProduct.NumberOfPanels; i++)
                     {
                         totalBarPanelSize += barPanelSizes[i];
-                        if (barPanelSizes[i] == 0) missingSizeMsg += $"Missing Profile {i+1} Size. You opted to have different sized profiles.\n";
+                        if (barPanelSizes[i] == 0) missingSizeMsg += $"Missing Profile {i + 1} Size. You opted to have different sized profiles.\n";
                     }
 
                     if (missingSizeMsg == string.Empty && totalBarPanelSize != CurrentProduct.Width) errorMessage += $"The Width ({CurrentProduct.Width}) of Bar Panel does not match the sum of bar panel sizes ({totalBarPanelSize}).\n";
-     
+
                     errorMessage += missingSizeMsg;
 
                     for (int i = CurrentProduct.NumberOfPanels; i < barPanelSizes.Length; i++)
                     {
-                        if (barPanelSizes[i] != 0) errorMessage += $"Remove Profile {i+1} Size. Number of Panels picked is {CurrentProduct.NumberOfPanels}.\n";
+                        if (barPanelSizes[i] != 0) errorMessage += $"Remove Profile {i + 1} Size. Number of Panels picked is {CurrentProduct.NumberOfPanels}.\n";
                     }
 
                 }
@@ -875,7 +873,7 @@ namespace PolytecOrderEDI
             }
 
             return errorMessage;
-        }   
+        }
 
 
         //CUSTOM HOLE1 INFO VALIDATION
@@ -883,14 +881,14 @@ namespace PolytecOrderEDI
         {
             string errorMessage = string.Empty;
             double[] customHole1Values = [CurrentProduct.CustomHole1LeftInset, CurrentProduct.CustomHole1TopInset, CurrentProduct.CustomHole1HDIA, CurrentProduct.CustomHole1Depth];
-            
-            if (customHole1Values.Any(value=>value>0))
+
+            if (customHole1Values.Any(value => value > 0))
             {
                 if (customHole1Values.Any(value => value == 0)) errorMessage += $"You haven't provided all the values of Custom Hole1 Info.\n";
                 if (CurrentProduct.CustomHole1ApplyTarget == APPLYTARGET.None) errorMessage += $"Custom Hole1 Apply Target is not provided.\n";
             }
 
-            
+
             return errorMessage;
         }
 

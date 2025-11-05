@@ -125,9 +125,22 @@ namespace PolytecOrderEDI
             //Single drawer fronts are added as a door
             if (ProductName == PRODUCT.DrawerFront)
             {
-                AddLeftAndRightVerticalHoles(DTYP1, INUP1);
-                AddLeftAndRightVerticalHoles(DTYP2, INUP2);
-                AddSingleSpotHole(addToSide: PartName.ToString().ToLower());
+                if (HingeType == HINGETYPE.BlumLdf)
+                {
+                    HingeType = HINGETYPE.Blum; //Set the  hinge type to Blum
+                    AddHinges("right", HingeCupInset);
+                }
+                else if (HingeType == HINGETYPE.BlumRdf)
+                {
+                    HingeType = HINGETYPE.Blum; //Set the  hinge type to Blum
+                    AddHinges("left", HingeCupInset);
+                }
+                else
+                {
+                    AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                    AddLeftAndRightVerticalHoles(DTYP2, INUP2);
+                    AddSingleSpotHole(addToSide: PartName.ToString().ToLower());
+                }
                 return;
             }
 
@@ -174,7 +187,7 @@ namespace PolytecOrderEDI
                     
                     AddLeftAndRightVerticalHoles(DTYP1, INUP1);
                     break;
-
+                
                 case PARTNAME.Left_Bifold:
                     AddHinges("right", HingeCupInset);
                     AddHinges("left", BifoldHingeCupInset);
