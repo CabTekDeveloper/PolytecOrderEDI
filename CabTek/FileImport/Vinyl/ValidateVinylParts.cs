@@ -477,11 +477,22 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.DTYP1 != 0 || CurrentProduct.DTYP2 != 0)
             {
-                if (CurrentProduct.DrawerHDIA == 0)   errorMessage += $"Missing Drawer HDIA.\n";
-                if (CurrentProduct.INUP1 == 0)  errorMessage += $"Missing INUP.\n";
-                if (CurrentProduct.LINS == 0)   errorMessage += $"Missing LINS.\n";
-                if (CurrentProduct.RINS == 0)   errorMessage += $"Missing RINS.\n";
+                if (CurrentProduct.DrawerHDIA == 0)     errorMessage += $"Missing Drawer HDIA.\n";
+                if (CurrentProduct.INUP1 == 0)          errorMessage += $"Missing INUP.\n";
+                if (CurrentProduct.LINS == 0)           errorMessage += $"Missing LINS.\n";
+                if (CurrentProduct.RINS == 0)           errorMessage += $"Missing RINS.\n";
                 if (CurrentProduct.DTYP2 != 0 && CurrentProduct.INUP2 == 0) errorMessage += $"2nd DTYP provided but missing 2nd INUP.\n";
+            }
+
+            if (CurrentProduct.Product == PRODUCT.DrawerFront)
+            {
+                if (CurrentProduct.DTYP1 != 0 || CurrentProduct.DTYP2 != 0)
+                {
+                    if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf)
+                    {
+                        errorMessage += $"You have entered details for both hinges and drawer drillings.Drawers cannot have both. Pick one.\n";
+                    }
+                }
             }
 
             return errorMessage;
