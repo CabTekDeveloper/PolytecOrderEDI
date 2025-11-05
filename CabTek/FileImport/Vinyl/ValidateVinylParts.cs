@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using BorgEdi.Enums;
+using BorgEdi.Models;
+using System.Globalization;
 
 namespace PolytecOrderEDI
 {
@@ -104,11 +106,12 @@ namespace PolytecOrderEDI
                 missingValueMessage += PartNameValidation(CurrentProduct);
                 missingValueMessage += EdgeLocationValidation(CurrentProduct);
                 missingValueMessage += HandleSystemValidation(CurrentProduct);
+                missingValueMessage += HingeTypeInfoValidation(CurrentProduct);
                 missingValueMessage += StyleProfileValidation(CurrentProduct);
                 missingValueMessage += MultiPieceIdValidation(CurrentProduct);
                 missingValueMessage += PressedSideValidation(CurrentProduct);
                 if (CurrentProduct.EzeNo == 0) missingValueMessage += $"Missing Eze No.\n";
-
+                
                 missingValueMessage += DoorInfoValidation(CurrentProduct);
                 missingValueMessage += DrawerInfoValidation(CurrentProduct);
                 if (CurrentProduct.Product == PRODUCT.CutOut) missingValueMessage += CutoutMissingValues(CurrentProduct);
@@ -349,6 +352,21 @@ namespace PolytecOrderEDI
         }
 
         //STYLE PROFILE VALIDATION
+        private static string HingeTypeInfoValidation(VinylPart CurrentProduct)
+        {
+            string errorMessage = "";
+            if(CurrentProduct.HingeType != HINGETYPE.None)
+            {
+                if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf)
+                {
+                    if (CurrentProduct.ProductType != PRODUCTTYPE.Thermo && CurrentProduct.ProductType != PRODUCTTYPE.CutAndRout) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available in 'Thermo' and 'Cut&Rout' ProductTypes only.\n";
+                    if (CurrentProduct.Product != PRODUCT.DrawerFront) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available on Drawers only.\n";
+                }
+            }
+            return errorMessage;
+        }
+
+        //STYLE PROFILE VALIDATION
         private static string StyleProfileValidation(VinylPart CurrentProduct)
         {
             string errorMessage = "";
@@ -368,7 +386,7 @@ namespace PolytecOrderEDI
                 //    if (!CustomValidation.IsBarPanelStyleProfile(Part.StyleProfile)) errorMessage += $"Pick a valid Bar Panel style profile. \n";
                 //}
             }
-        
+            
             return errorMessage;
         }
 
@@ -412,15 +430,15 @@ namespace PolytecOrderEDI
                 {
                     errorMessage += $"Hole positions are provided but missing insets.\n";
                 }
-
+                
                 if(CurrentProduct.PartName != PARTNAME.Left_Leaf_770 && CurrentProduct.PartName != PARTNAME.Right_Leaf_770)
                 {
                     if ((CurrentProduct.HingeCupInset > 0 || CurrentProduct.BifoldHingeCupInset > 0) && CurrentProduct.HingeType == HINGETYPE.None)
                     {
-                        errorMessage += $"Hinge hole position and inset provided, but missing Hinge type (Blum or Hettich).\n";
+                        errorMessage += $"Hinge hole position and inset provided, but missing Hinge type.\n";
                     }
                 }
-
+            
                 if (CurrentProduct.PartName == PARTNAME.Left_Bifold || CurrentProduct.PartName == PARTNAME.Right_Bifold)
                 {
                     if (CurrentProduct.HingeCupInset == 0) errorMessage += $"Hinge hole position provided, but missing Hinge Cup Inset.\n";
@@ -451,7 +469,7 @@ namespace PolytecOrderEDI
 
             return errorMessage;
         }
-
+        
         //DRAWER INFO VALIDATION
         private static string DrawerInfoValidation(VinylPart CurrentProduct)
         {
