@@ -73,13 +73,13 @@ namespace PolytecOrderEDI
                 HandleParams = new(cabPart);
             }
 
-            HingeType = vinylPart != null ? vinylPart.HingeType : DoorParams != null ? DoorParams.HingeType : HINGETYPE.None;
-            HingeCupInset = vinylPart != null ? vinylPart.HingeCupInset : DoorParams != null ? DoorParams.HingeCupInset : 0;
-            HingeBlockInset = vinylPart != null ? vinylPart.HingeBlockInset : DoorParams != null ? DoorParams.HingeBlockInset : 0;
-            HingeBlockHDIA = vinylPart != null ? vinylPart.HingeBlockHDIA : 0;
+            HingeType           = vinylPart != null ? vinylPart.HingeType           : DoorParams != null ? DoorParams.HingeType : HINGETYPE.None;
+            HingeCupInset       = vinylPart != null ? vinylPart.HingeCupInset       : DoorParams != null ? DoorParams.HingeCupInset : 0;
+            HingeBlockInset     = vinylPart != null ? vinylPart.HingeBlockInset     : DoorParams != null ? DoorParams.HingeBlockInset : 0;
+            HingeBlockHDIA      = vinylPart != null ? vinylPart.HingeBlockHDIA      : 0;
             HingeBlockHoleDepth = vinylPart != null ? vinylPart.HingeBlockHoleDepth : 0;
             BifoldHingeCupInset = vinylPart != null ? vinylPart.BifoldHingeCupInset : DoorParams != null ? DoorParams.BifoldHingeCupInset : 0;
-            HTOD = vinylPart != null ? vinylPart.HTOD : DoorParams != null ? DoorParams.HTOD : 0;
+            HTOD                = vinylPart != null ? vinylPart.HTOD                : DoorParams != null ? DoorParams.HTOD : 0;
 
             Hole1FromBot = vinylPart != null ? vinylPart.Hole1FromBot : DoorParams != null ? DoorParams.Hole1FromBot : 0;
             Hole2FromTop = vinylPart != null ? vinylPart.Hole2FromTop : DoorParams != null ? DoorParams.Hole2FromTop : 0;
@@ -87,7 +87,7 @@ namespace PolytecOrderEDI
             Hole4FromTop = vinylPart != null ? vinylPart.Hole4FromTop : DoorParams != null ? DoorParams.Hole4FromTop : 0;
             Hole5FromTop = vinylPart != null ? vinylPart.Hole5FromTop : DoorParams != null ? DoorParams.Hole5FromTop : 0;
             Hole6FromTop = vinylPart != null ? vinylPart.Hole6FromTop : DoorParams != null ? DoorParams.Hole6FromTop : 0;
-            NumHoles = vinylPart != null ? vinylPart.NumHoles : DoorParams != null ? DoorParams.NumHoles : 0;
+            NumHoles     = vinylPart != null ? vinylPart.NumHoles     : DoorParams != null ? DoorParams.NumHoles     : 0;
 
             LINS        = vinylPart != null ? vinylPart.RINS        : DrawerFrontParams != null ? DrawerFrontParams.RINS    : 0;     // The LINS of the Back view is the RINS of the Front view
             RINS        = vinylPart != null ? vinylPart.LINS        : DrawerFrontParams != null ? DrawerFrontParams.LINS    : 0;      // The RINS of the Back view is the LINS of the Front view 
@@ -95,9 +95,9 @@ namespace PolytecOrderEDI
             DTYP2       = vinylPart != null ? vinylPart.DTYP2       : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
             INUP1       = vinylPart != null ? vinylPart.INUP1       : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
             INUP2       = vinylPart != null ? vinylPart.INUP2       : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
-            DrawerHDIA        = vinylPart != null ? vinylPart.DrawerHDIA        : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            DrawerHDIA  = vinylPart != null ? vinylPart.DrawerHDIA  : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
 
-            DrawerHoleDepth   = vinylPart != null ? vinylPart.DrawerHoleDepth   : 0 ;
+            DrawerHoleDepth         = vinylPart != null ? vinylPart.DrawerHoleDepth         : 0 ;
 
             CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
             CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
