@@ -153,6 +153,17 @@ namespace PolytecOrderEDI
                 }
             }
 
+            //This block of code will add drawer drillings to Pantry doors and Doors    //Requested by Matt 10-11-2025
+            if ( PartName == PARTNAME.None && (ProductName == PRODUCT.PantryDoor || ProductName == PRODUCT.Door))
+            {
+                //Change the product name to DrawerFront so we can add the drawer drillings.
+                var tempProductName = ProductName;
+                ProductName = PRODUCT.DrawerFront;
+                AddLeftAndRightVerticalHoles(DTYP1, INUP1);
+                AddLeftAndRightVerticalHoles(DTYP2, INUP2);
+                ProductName = tempProductName;
+            }
+
             switch (PartName)
             {
                 case PARTNAME.None:
@@ -541,7 +552,7 @@ namespace PolytecOrderEDI
                 }
             }
         }
-
+                        
 
 
         //Method to add extra holes to Hamper Bifold door to match the number of hinges on the Bifold leaf door
@@ -621,8 +632,6 @@ namespace PolytecOrderEDI
                 ConfiguredProduct.Features.AddHoleFromTopLeft(applyTarget, CustomHole1TopInset, leftInset, CustomHole1HDIA / 2, CustomHole1Depth);
             }
         }
-
-
 
     }
 }

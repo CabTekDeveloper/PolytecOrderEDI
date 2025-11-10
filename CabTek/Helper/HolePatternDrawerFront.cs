@@ -25,8 +25,8 @@ namespace PolytecOrderEDI
         private static HolePatternBP DFdrillingType7 { get; } = new(holePatternOrientation: HOLEPATTERNORIENTATION.Vertical, numHolesLeft: 3, numHolesRight: 3, gap1: 32, gap2: 32, holeDepth: 12);
         private static HolePatternBP DFdrillingType8 { get; } = new(holePatternOrientation: HOLEPATTERNORIENTATION.None, numHolesLeft: 1, numHolesRight: 1, holeDepth: 12);
         private static HolePatternBP DFdrillingType9 { get; } = new(holePatternOrientation: HOLEPATTERNORIENTATION.Vertical, numHolesLeft: 6, numHolesRight: 6, gap1: 32, gap2: 64, gap3: 32, gap4: 32, gap5: 32, holeDepth: 12);
-
-
+                
+                        
         public static HolePatternBP GetDrillingInfo(int DTYP,string LorR)
         {
             switch (DTYP)
@@ -60,21 +60,21 @@ namespace PolytecOrderEDI
                 case 10:
                 case 100:
                     return  DFdrillingType3;
-
+                    
                 case 11:
                 case 110:
                 case 406:
                 case 407:
                     return DFdrillingType4;
-
+                    
                 case 12:
                     return DFdrillingType5;
-
+                    
                 case 14:
                 case 182:
                 case 183:
                     return DFdrillingType6;
-
+                    
                 case 17:
                 case 181:
                     return DFdrillingType7;
@@ -90,6 +90,6 @@ namespace PolytecOrderEDI
             }
         }
 
-
+                
     }
 }
