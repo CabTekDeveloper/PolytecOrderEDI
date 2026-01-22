@@ -338,6 +338,11 @@ namespace PolytecOrderEDI
                 if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
                 if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
 
+                if (string.Equals(partName, "revego right outer", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Outer;
+                if (string.Equals(partName, "revego right inner", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Inner;
+                if (string.Equals(partName, "revego left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Left;
+
+
                 return PARTNAME.None;
             }
             catch (Exception ex)
@@ -345,7 +350,7 @@ namespace PolytecOrderEDI
                 MessageBox.Show($"Error in working out Part Name of Vinyl part!\n\n{ex.Message}");
                 return PARTNAME.None;
             }
-        }
+        }   
     }
 }
 

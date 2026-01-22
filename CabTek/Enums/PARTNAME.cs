@@ -38,7 +38,12 @@ namespace PolytecOrderEDI
 
         //Recessed rails
         C_Shaped,
-        L_Shaped
-    
+        L_Shaped,
+
+        //Revego doors 
+        Revego_Right_Outer,
+        Revego_Right_Inner,
+        Revego_Left
+
     }
 }
