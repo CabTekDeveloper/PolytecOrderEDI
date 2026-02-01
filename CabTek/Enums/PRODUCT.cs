@@ -9,14 +9,16 @@ namespace PolytecOrderEDI
         None,
         CutOut,
         Door,
+        PantryDoor,
         DrawerFront,
         GlassFrame,
         Panel,
         RollerFrame,
-        HeatDeflectors,
         BarPanel,
         RecessedRail,
-        PantryDoor
+        HeatDeflectors,
+        Mouldings,
+        Capping
 
     }
 }

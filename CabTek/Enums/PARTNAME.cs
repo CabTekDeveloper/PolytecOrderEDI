@@ -32,13 +32,20 @@ namespace PolytecOrderEDI
         Left_Leaf_770,
         Right_Leaf_770,
 
-        //Heat Deflectors
+        //Accessories: Heat Deflectors
         Angled,
         Straight,
 
-        //Recessed rails
+        //Accessories: Recessed rails
         C_Shaped,
         L_Shaped,
+
+        //Accessories: Mouldings
+        Traditional_Profile,
+        Bevelled_Profile,
+
+        //Accessories: Capping
+        Bullnose_Federation,
 
         //Revego doors 
         Revego_Right_Outer,
