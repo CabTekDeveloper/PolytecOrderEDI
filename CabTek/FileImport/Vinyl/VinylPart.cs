@@ -284,6 +284,7 @@ namespace PolytecOrderEDI
             {   
                 if (string.IsNullOrEmpty(product)) return PRODUCT.None; 
                 if (string.Equals(product, "door", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Door;
+                if (string.Equals(product, "pantrydoor", StringComparison.OrdinalIgnoreCase)) return PRODUCT.PantryDoor;
                 if (string.Equals(product, "drawers", StringComparison.OrdinalIgnoreCase)) return PRODUCT.DrawerFront;
                 if (string.Equals(product, "heatdeflectors", StringComparison.OrdinalIgnoreCase)) return PRODUCT.HeatDeflectors;
                 if (string.Equals(product, "barpanel", StringComparison.OrdinalIgnoreCase)) return PRODUCT.BarPanel;
@@ -292,7 +293,9 @@ namespace PolytecOrderEDI
                 if (string.Equals(product, "cutout", StringComparison.OrdinalIgnoreCase)) return PRODUCT.CutOut;
                 if (string.Equals(product, "rollerframe", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RollerFrame;
                 if (string.Equals(product, "recessedrail", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RecessedRail;
-                if (string.Equals(product, "pantrydoor", StringComparison.OrdinalIgnoreCase)) return PRODUCT.PantryDoor;
+                if (string.Equals(product, "mouldings", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Mouldings;
+                if (string.Equals(product, "capping", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Capping;
+
                 return PRODUCT.None;
             }
             catch(Exception ex)
@@ -337,6 +340,11 @@ namespace PolytecOrderEDI
 
                 if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
                 if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
+
+                if (string.Equals(partName, "Traditional Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Traditional_Profile;
+                if (string.Equals(partName, "Bevelled Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bevelled_Profile;
+                
+                if (string.Equals(partName, "Bullnose/Federation", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bullnose_Federation;
 
                 if (string.Equals(partName, "revego right outer", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Outer;
                 if (string.Equals(partName, "revego right inner", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Inner;
