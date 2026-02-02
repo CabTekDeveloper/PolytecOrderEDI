@@ -196,6 +196,13 @@ namespace PolytecOrderEDI
                         errorMessage += $"This product is available in 750mm and 2400mm only.\n";
                     }
                 }
+                else if (CurrentProduct.Product == PRODUCT.Mouldings)
+                {
+                    if (CurrentProduct.Height != 3115)
+                    {
+                        errorMessage += $"This product is available in 3115mm only. Set Height to 3115\n";
+                    }
+                }
             }
 
             return errorMessage;
@@ -206,7 +213,7 @@ namespace PolytecOrderEDI
         {
             string errorMessage = "";
 
-            if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.HeatDeflectors)
+            if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings)
             {
                 if (CurrentProduct.Width == 0) errorMessage += $"Missing Width.\n";
             }
@@ -220,7 +227,7 @@ namespace PolytecOrderEDI
 
             if (CurrentProduct.Thickness == 0)
             {
-                if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.HeatDeflectors) errorMessage += $"Missing Thickness.\n";
+                if (CurrentProduct.Product != PRODUCT.HeatDeflectors) errorMessage += $"Missing Thickness.\n";
             }
             else
             {
@@ -241,13 +248,16 @@ namespace PolytecOrderEDI
             {
                 if (CurrentProduct.PartName != PARTNAME.C_Shaped && CurrentProduct.PartName != PARTNAME.L_Shaped) { errorMessage += $"Set Part Name to C Shapped or L Shapped.\n"; }
             }
-
-            if (CurrentProduct.Product == PRODUCT.HeatDeflectors)
+            else if (CurrentProduct.Product == PRODUCT.HeatDeflectors)
             {
                 if (CurrentProduct.PartName != PARTNAME.Angled && CurrentProduct.PartName != PARTNAME.Straight) { errorMessage += $"Set Part Name to Angled or Straight.\n"; }
             }
+            else if (CurrentProduct.Product == PRODUCT.Mouldings)
+            {
+                if (CurrentProduct.PartName != PARTNAME.Traditional_Profile && CurrentProduct.PartName != PARTNAME.Bevelled_Profile) { errorMessage += $"Set Part Name to Traditional or Bevelled Profile.\n"; }
+            }
 
-            return errorMessage;
+                return errorMessage;
         }
 
         //EDGE LOCATION VALIDATION
@@ -413,7 +423,7 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo)
             {
-                if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail)
+                if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings)
                 {
                     if (CurrentProduct.PressedSides < 1) errorMessage += $"Missing Pressed Side.\n";
                     else if (CurrentProduct.PressedSides > 2) errorMessage += $"Pressed Side can only be 1 or 2.\n";
@@ -512,7 +522,7 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
             {
-                if (CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors)
+                if (CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings)
                 {
                     if (CurrentProduct.EdgeMould != "") errorMessage += $"This product cannot have Edge mould.\n";
                 }
@@ -560,7 +570,7 @@ namespace PolytecOrderEDI
                 }
                 else
                 {
-                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors)
+                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings)
                     {
                         if (CurrentProduct.FaceProfile != "") errorMessage += $"This product cannot have Face Profile.\n";
                     }

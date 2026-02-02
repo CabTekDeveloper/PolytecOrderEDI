@@ -71,6 +71,10 @@ namespace PolytecOrderEDI
                             case PRODUCT.Panel:
                                 AddThermoPanel.Add(objCurrentProduct);
                                 break;
+                                
+                            case PRODUCT.Mouldings:
+                                AddThermoMouldings.Add(objCurrentProduct);
+                                break;
 
                             case PRODUCT.DrawerFront:
                                 DrawerBankPieces.Add(objCurrentProduct);
