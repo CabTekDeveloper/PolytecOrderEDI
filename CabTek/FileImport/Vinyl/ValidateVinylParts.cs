@@ -203,6 +203,13 @@ namespace PolytecOrderEDI
                         errorMessage += $"This product is available in 3115mm only. Set Height to 3115\n";
                     }
                 }
+                else if (CurrentProduct.Product == PRODUCT.Capping)
+                {
+                    if (CurrentProduct.Height != 2400 && CurrentProduct.Height != 3000)
+                    {
+                        errorMessage += $"This product is available in 2400mm and 3000mm only.\n";
+                    }
+                }
             }
 
             return errorMessage;
@@ -213,7 +220,7 @@ namespace PolytecOrderEDI
         {
             string errorMessage = "";
 
-            if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings)
+            if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings && CurrentProduct.Product != PRODUCT.Capping)
             {
                 if (CurrentProduct.Width == 0) errorMessage += $"Missing Width.\n";
             }
@@ -255,6 +262,11 @@ namespace PolytecOrderEDI
             else if (CurrentProduct.Product == PRODUCT.Mouldings)
             {
                 if (CurrentProduct.PartName != PARTNAME.Traditional_Profile && CurrentProduct.PartName != PARTNAME.Bevelled_Profile) { errorMessage += $"Set Part Name to Traditional or Bevelled Profile.\n"; }
+            }
+
+            else if (CurrentProduct.Product == PRODUCT.Capping)
+            {
+                if (CurrentProduct.PartName != PARTNAME.Bullnose_Federation) { errorMessage += $"Set Part Name to Bullnose/Federation.\n"; }
             }
 
                 return errorMessage;
@@ -423,7 +435,7 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo)
             {
-                if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings)
+                if (CurrentProduct.Product != PRODUCT.HeatDeflectors && CurrentProduct.Product != PRODUCT.RecessedRail && CurrentProduct.Product != PRODUCT.Mouldings && CurrentProduct.Product !=PRODUCT.Capping)
                 {
                     if (CurrentProduct.PressedSides < 1) errorMessage += $"Missing Pressed Side.\n";
                     else if (CurrentProduct.PressedSides > 2) errorMessage += $"Pressed Side can only be 1 or 2.\n";
@@ -522,7 +534,7 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
             {
-                if (CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings)
+                if (CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings || CurrentProduct.Product == PRODUCT.Capping)
                 {
                     if (CurrentProduct.EdgeMould != "") errorMessage += $"This product cannot have Edge mould.\n";
                 }
@@ -570,7 +582,7 @@ namespace PolytecOrderEDI
                 }
                 else
                 {
-                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings)
+                    if (CurrentProduct.Product == PRODUCT.Panel || CurrentProduct.Product == PRODUCT.RecessedRail || CurrentProduct.Product == PRODUCT.HeatDeflectors || CurrentProduct.Product == PRODUCT.Mouldings || CurrentProduct.Product == PRODUCT.Capping)
                     {
                         if (CurrentProduct.FaceProfile != "") errorMessage += $"This product cannot have Face Profile.\n";
                     }

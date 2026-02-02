@@ -76,6 +76,10 @@ namespace PolytecOrderEDI
                                 AddThermoMouldings.Add(objCurrentProduct);
                                 break;
 
+                            case PRODUCT.Capping:
+                                AddThermoCapping.Add(objCurrentProduct);
+                                break;
+
                             case PRODUCT.DrawerFront:
                                 DrawerBankPieces.Add(objCurrentProduct);
 
