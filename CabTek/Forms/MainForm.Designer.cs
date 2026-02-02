@@ -499,7 +499,7 @@
             Name = "MainForm";
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Polytec Order EDI (V.2025.11.10)";
+            Text = "Polytec Order EDI (V.2026.02.02)";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             ResumeLayout(false);
