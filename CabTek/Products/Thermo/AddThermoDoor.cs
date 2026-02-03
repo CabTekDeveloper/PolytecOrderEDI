@@ -64,17 +64,14 @@ namespace PolytecOrderEDI
             }
 
             //Added 22 - 01 - 2026 : The if block is a temp bock of code to add drillings to Revego Doors.The drilings will be out if the door size is changed
-            if (Part.PartName.ToString().Contains("revego", StringComparison.OrdinalIgnoreCase))
-            {
-                TempRevegoDoorDrillings.AddDrillings(ConfiguredProduct, Part);
-            }
+            //if (Part.PartName.ToString().Contains("revego", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    TempRevegoDoorDrillings.AddDrillings(ConfiguredProduct, Part);
+            //}
 
             CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);  //AddDrillings drilling
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);   
         }
-
-
-
 
     }
 
