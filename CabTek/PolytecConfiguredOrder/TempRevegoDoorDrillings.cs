@@ -26,11 +26,11 @@ namespace PolytecOrderEDI
                     break;
 
                 case PARTNAME.Revego_Left:
-                    //RevegoLefFronttDrillings();
+                    RevegoLefFronttDrillings();
                     break;
 
                 case PARTNAME.Revego_Right_Inner:
-                    //RevegoRightInnerFrontDrillings();
+                    RevegoRightInnerFrontDrillings();
                     break;
 
                 case PARTNAME.Revego_Right_Outer:
