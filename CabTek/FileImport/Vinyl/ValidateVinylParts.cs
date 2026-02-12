@@ -240,7 +240,11 @@ namespace PolytecOrderEDI
             {
                 if (CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
                 {
-                    if (CurrentProduct.Thickness != 5 && CurrentProduct.Thickness != 13) errorMessage += $"CompactLaminate is available in 5mm and 13mm (Thickness).\n";
+                    if (CurrentProduct.Thickness != 5 && CurrentProduct.Thickness != 13) errorMessage += $"Thickness error: {CurrentProduct.ProductType} products are available in 5mm and 13mm only.\n";
+                }
+                else if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
+                {
+                    if (CurrentProduct.Thickness != 18 && CurrentProduct.Thickness != 21) errorMessage += $"Thickness error: {CurrentProduct.ProductType} products are available in 18mm and 21mm only.\n";
                 }
             }
             return errorMessage;
