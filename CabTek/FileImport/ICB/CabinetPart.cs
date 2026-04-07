@@ -42,26 +42,26 @@ namespace PolytecOrderEDI
 
         public CabinetPart(ICBPart part)
         {
-            CabinetName = part.CabinetName;
-            CNCCODE = part.CNCCODE;
-            CabinetNumber = part.CabinetNumber;
-            Quantity = part.Quantity;
-            Height = HelperMethods.RoundDownNumberLessThanDecimalValueElseRoundUp(part.Dimx, lessThanDecimal:0.7);
-            Width =  HelperMethods.RoundDownNumberLessThanDecimalValueElseRoundUp(part.Dimy, lessThanDecimal:0.7);
-            Thickness = (int) part.Dimz;
-            Parameter = part.Parameter;
-            PartDescription = part.PartDescription;
-            PartNumber = part.PartNumber;
-            UniquePartId = part.UniquePartId;
+            CabinetName         = part.CabinetName;
+            CNCCODE             = part.CNCCODE;
+            CabinetNumber       = part.CabinetNumber;
+            Quantity            = part.Quantity;
+            Height              = HelperMethods.RoundDownNumberLessThanDecimalValueElseRoundUp(part.Dimx, lessThanDecimal:0.7);
+            Width               =  HelperMethods.RoundDownNumberLessThanDecimalValueElseRoundUp(part.Dimy, lessThanDecimal:0.7);
+            Thickness           = (int) part.Dimz;
+            Parameter           = part.Parameter;
+            PartDescription     = part.PartDescription;
+            PartNumber          = part.PartNumber;
+            UniquePartId        = part.UniquePartId;
 
-            ProductType = Workout_ProductType(part);
-            Product = Workout_Product(part);
-            PartName = Workout_PartName(part);
-            HingeType = Workout_HingeType(part);
-            EdgeLocation = Workout_EdgeLocation(part);
-            HandleSystem = Workout_HandleSystem(part);
+            ProductType         = Workout_ProductType(part);
+            Product             = Workout_Product(part);
+            PartName            = Workout_PartName(part);
+            HingeType           = Workout_HingeType(part);
+            EdgeLocation        = Workout_EdgeLocation(part);
+            HandleSystem        = Workout_HandleSystem(part);
 
-            var materialInfo = Workout_MaterialInfo(part);
+            var materialInfo    = Workout_MaterialInfo(part);
             if (materialInfo != null)
             {
                 Color = materialInfo.Color;
@@ -162,22 +162,43 @@ namespace PolytecOrderEDI
                 //Bi-fold doors
                 if (CncCode == "BCCDOORL" || CncCode == "BCCDOORR") 
                 {
-                    if  (hand == 1) partName = PARTNAME.Left_Bifold;
-                    else if (hand == 3) partName = PARTNAME.Right_Leaf;
-                    else if (hand == 2) partName = PARTNAME.Right_Bifold;
-                    else if (hand == 4) partName = PARTNAME.Left_Leaf;
-                    else partName = PARTNAME.None;
+                    //if  (hand == 1) partName = PARTNAME.Left_Bifold;
+                    //else if (hand == 3) partName = PARTNAME.Right_Leaf;
+                    //else if (hand == 2) partName = PARTNAME.Right_Bifold;
+                    //else if (hand == 4) partName = PARTNAME.Left_Leaf;
+                    //else partName = PARTNAME.None;
+
+                    //08-04-2026 Wangchuk - Replaced code block above
+                    partName = hand switch
+                    {
+                        1 => PARTNAME.Left_Bifold,
+                        3 => PARTNAME.Right_Leaf,
+                        2 => PARTNAME.Right_Bifold,
+                        4 => PARTNAME.Left_Leaf,
+                        _ => PARTNAME.None // The underscore is the 'else' / default case
+                    };
                 }
                 //770 Style Bi-fold doors 
                 else if (CncCode.Contains("BFDR_", StringComparison.OrdinalIgnoreCase))
                 {
                     if (hand == 1 || hand == 2)
                     {
-                        if (CncCode == "BFDR_L1") partName = PARTNAME.Left_770;
-                        else if (CncCode == "BFDR_L2") partName = PARTNAME.Right_Leaf_770;
-                        else if (CncCode == "BFDR_R1") partName = PARTNAME.Right_770;
-                        else if (CncCode == "BFDR_R2") partName = PARTNAME.Left_Leaf_770 ;
-                        else partName = PARTNAME.None; 
+                        //if (CncCode == "BFDR_L1") partName = PARTNAME.Left_770;
+                        //else if (CncCode == "BFDR_L2") partName = PARTNAME.Right_Leaf_770;
+                        //else if (CncCode == "BFDR_R1") partName = PARTNAME.Right_770;
+                        //else if (CncCode == "BFDR_R2") partName = PARTNAME.Left_Leaf_770 ;
+                        //else partName = PARTNAME.None; 
+
+
+                        //08-04-2026 Wangchuk - Replaced code block above
+                        partName = CncCode switch
+                        {
+                            "BFDR_L1" => PARTNAME.Left_770,
+                            "BFDR_L2" => PARTNAME.Right_Leaf_770,
+                            "BFDR_R1" => PARTNAME.Right_770,
+                            "BFDR_R2" => PARTNAME.Left_Leaf_770,
+                            _ => PARTNAME.None // The default case
+                        };
                     }
                 }
                 //Hamper Doors

@@ -156,18 +156,19 @@ namespace PolytecOrderEDI
                 HingeBlockHoleDepth     = string.IsNullOrEmpty(arrProductVal[31].Trim()) ? 0 : double.Parse(arrProductVal[31]);
 
                 //Set Drawer data
-                DTYP1 = string.IsNullOrEmpty(arrProductVal[32].Trim()) ? 0 : Int32.Parse(arrProductVal[32]);
-                INUP1       = string.IsNullOrEmpty(arrProductVal[33].Trim()) ? 0 : double.Parse(arrProductVal[33]);
-                LINS        = string.IsNullOrEmpty(arrProductVal[34].Trim()) ? 0 : double.Parse(arrProductVal[34]);
-                RINS        = string.IsNullOrEmpty(arrProductVal[35].Trim()) ? 0 : double.Parse(arrProductVal[35]);
-                DrawerHDIA  = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
-                DTYP2       = string.IsNullOrEmpty(arrProductVal[37].Trim()) ? 0 : Int32.Parse(arrProductVal[37]);
-                INUP2       = string.IsNullOrEmpty(arrProductVal[38].Trim()) ? 0 : double.Parse(arrProductVal[38]);
-                DrawerHoleDepth   = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
+                DTYP1                   = string.IsNullOrEmpty(arrProductVal[32].Trim()) ? 0 : Int32.Parse(arrProductVal[32]);
+                INUP1                   = string.IsNullOrEmpty(arrProductVal[33].Trim()) ? 0 : double.Parse(arrProductVal[33]);
+                LINS                    = string.IsNullOrEmpty(arrProductVal[34].Trim()) ? 0 : double.Parse(arrProductVal[34]);
+                RINS                    = string.IsNullOrEmpty(arrProductVal[35].Trim()) ? 0 : double.Parse(arrProductVal[35]);
+                DrawerHDIA              = string.IsNullOrEmpty(arrProductVal[36].Trim()) ? 0 : double.Parse(arrProductVal[36]);
+                DTYP2                   = string.IsNullOrEmpty(arrProductVal[37].Trim()) ? 0 : Int32.Parse(arrProductVal[37]);
+                INUP2                   = string.IsNullOrEmpty(arrProductVal[38].Trim()) ? 0 : double.Parse(arrProductVal[38]);
+                DrawerHoleDepth         = string.IsNullOrEmpty(arrProductVal[39].Trim()) ? 0 : double.Parse(arrProductVal[39]);
 
                 AdditionalInstructions  = arrProductVal[41].Trim();
                 EdgeMould               = arrProductVal[42].Trim();
                 FaceProfile             = arrProductVal[43].Trim();
+
                 if (string.Equals(FaceProfile, "Guildford", StringComparison.OrdinalIgnoreCase)) FaceProfile = "Guilford";
 
                 Colour          = arrProductVal[44].Trim();
@@ -237,22 +238,43 @@ namespace PolytecOrderEDI
 
         private static APPLYTARGET Workout_ApplyTarget(string applyTarget)
         {
-            if (string.Equals(applyTarget,"front", StringComparison.OrdinalIgnoreCase)) return APPLYTARGET.Front;
-            if (string.Equals(applyTarget,"back", StringComparison.OrdinalIgnoreCase))  return APPLYTARGET.Back;
-            return APPLYTARGET.None;
+            //if (string.Equals(applyTarget,"front", StringComparison.OrdinalIgnoreCase)) return APPLYTARGET.Front;
+            //if (string.Equals(applyTarget,"back", StringComparison.OrdinalIgnoreCase))  return APPLYTARGET.Back;
+            //return APPLYTARGET.None;
+
+
+            //08-04-2026 Wangchuk -Replaced the code block above.
+            return (applyTarget?.ToLowerInvariant()) switch
+            {
+                "front"     => APPLYTARGET.Front,
+                "back"      => APPLYTARGET.Back,
+                _           => APPLYTARGET.None
+            };
         }
 
         private static HINGETYPE Workout_HingeType(string hingeType)
         {
             try
             {
-                if (string.IsNullOrEmpty(hingeType)) return HINGETYPE.None;
-                if (string.Equals(hingeType, "blum", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum;
-                if (string.Equals(hingeType, "hettich", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Hettich;
-                if (string.Equals(hingeType, "blum11", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum11;
-                if (string.Equals(hingeType, "blumLdf", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.BlumLdf;
-                if (string.Equals(hingeType, "blumRdf", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.BlumRdf;
-                return HINGETYPE.None;
+                //if (string.IsNullOrEmpty(hingeType)) return HINGETYPE.None;
+                //if (string.Equals(hingeType, "blum", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum;
+                //if (string.Equals(hingeType, "hettich", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Hettich;
+                //if (string.Equals(hingeType, "blum11", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.Blum11;
+                //if (string.Equals(hingeType, "blumLdf", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.BlumLdf;
+                //if (string.Equals(hingeType, "blumRdf", StringComparison.OrdinalIgnoreCase)) return HINGETYPE.BlumRdf;
+                //return HINGETYPE.None;
+
+
+                //08-04-2026 Wangchuk -Replaced the code block above.
+                return (hingeType?.ToLowerInvariant()) switch
+                {
+                    "blum"      => HINGETYPE.Blum,
+                    "hettich"   => HINGETYPE.Hettich,
+                    "blum11"    => HINGETYPE.Blum11,
+                    "blumLdf"   => HINGETYPE.BlumLdf,
+                    "blumRdf"   => HINGETYPE.BlumRdf,
+                    _           => HINGETYPE.None
+                };
             }
             catch (Exception ex)
             {
@@ -265,11 +287,21 @@ namespace PolytecOrderEDI
         {
             try
             {
-                if (string.IsNullOrEmpty(productType)) return PRODUCTTYPE.None;
-                if (string.Equals(productType, "thermo", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.Thermo;
-                if (string.Equals(productType, "cut&rout", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.CutAndRout;
-                if (string.Equals(productType, "compactlaminate", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.CompactLaminate;
-                return PRODUCTTYPE.None;
+                //if (string.IsNullOrEmpty(productType)) return PRODUCTTYPE.None;
+                //if (string.Equals(productType, "thermo", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.Thermo;
+                //if (string.Equals(productType, "cut&rout", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.CutAndRout;
+                //if (string.Equals(productType, "compactlaminate", StringComparison.OrdinalIgnoreCase)) return PRODUCTTYPE.CompactLaminate;
+                //return PRODUCTTYPE.None;
+
+
+                //08-04-2026 Wangchuk -Replaced the code block above.
+                return (productType?.ToLowerInvariant()) switch
+                {
+                    "thermo"            => PRODUCTTYPE.Thermo,
+                    "cut&rout"          => PRODUCTTYPE.CutAndRout,
+                    "compactlaminate"   => PRODUCTTYPE.CompactLaminate,
+                    _                   => PRODUCTTYPE.None   // Default case
+                };
             }
             catch (Exception ex)
             {
@@ -282,23 +314,41 @@ namespace PolytecOrderEDI
         {
             try
             {   
-                if (string.IsNullOrEmpty(product)) return PRODUCT.None; 
-                if (string.Equals(product, "door", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Door;
-                if (string.Equals(product, "pantrydoor", StringComparison.OrdinalIgnoreCase)) return PRODUCT.PantryDoor;
-                if (string.Equals(product, "drawers", StringComparison.OrdinalIgnoreCase)) return PRODUCT.DrawerFront;
-                if (string.Equals(product, "heatdeflectors", StringComparison.OrdinalIgnoreCase)) return PRODUCT.HeatDeflectors;
-                if (string.Equals(product, "barpanel", StringComparison.OrdinalIgnoreCase)) return PRODUCT.BarPanel;
-                if (string.Equals(product, "panel", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Panel;
-                if (string.Equals(product, "glassframe", StringComparison.OrdinalIgnoreCase)) return PRODUCT.GlassFrame;
-                if (string.Equals(product, "cutout", StringComparison.OrdinalIgnoreCase)) return PRODUCT.CutOut;
-                if (string.Equals(product, "rollerframe", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RollerFrame;
-                if (string.Equals(product, "recessedrail", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RecessedRail;
-                if (string.Equals(product, "mouldings", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Mouldings;
-                if (string.Equals(product, "capping", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Capping;
+                //if (string.IsNullOrEmpty(product)) return PRODUCT.None; 
+                //if (string.Equals(product, "door", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Door;
+                //if (string.Equals(product, "pantrydoor", StringComparison.OrdinalIgnoreCase)) return PRODUCT.PantryDoor;
+                //if (string.Equals(product, "drawers", StringComparison.OrdinalIgnoreCase)) return PRODUCT.DrawerFront;
+                //if (string.Equals(product, "heatdeflectors", StringComparison.OrdinalIgnoreCase)) return PRODUCT.HeatDeflectors;
+                //if (string.Equals(product, "barpanel", StringComparison.OrdinalIgnoreCase)) return PRODUCT.BarPanel;
+                //if (string.Equals(product, "panel", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Panel;
+                //if (string.Equals(product, "glassframe", StringComparison.OrdinalIgnoreCase)) return PRODUCT.GlassFrame;
+                //if (string.Equals(product, "cutout", StringComparison.OrdinalIgnoreCase)) return PRODUCT.CutOut;
+                //if (string.Equals(product, "rollerframe", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RollerFrame;
+                //if (string.Equals(product, "recessedrail", StringComparison.OrdinalIgnoreCase)) return PRODUCT.RecessedRail;
+                //if (string.Equals(product, "mouldings", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Mouldings;
+                //if (string.Equals(product, "capping", StringComparison.OrdinalIgnoreCase)) return PRODUCT.Capping;
+                //return PRODUCT.None;
 
-                return PRODUCT.None;
+
+                //08-04-2026 Wangchuk -Replaced the code block above.
+                return (product?.ToLowerInvariant()) switch
+                {
+                    "door"              => PRODUCT.Door,
+                    "pantrydoor"        => PRODUCT.PantryDoor,
+                    "drawers"           => PRODUCT.DrawerFront,
+                    "heatdeflectors"    => PRODUCT.HeatDeflectors,
+                    "barpanel"          => PRODUCT.BarPanel,
+                    "panel"             => PRODUCT.Panel,
+                    "glassframe"        => PRODUCT.GlassFrame,
+                    "cutout"            => PRODUCT.CutOut,
+                    "rollerframe"       => PRODUCT.RollerFrame,
+                    "recessedrail"      => PRODUCT.RecessedRail,
+                    "mouldings"         => PRODUCT.Mouldings,
+                    "capping"           => PRODUCT.Capping,
+                    _                   => PRODUCT.None     // Default case
+                };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Error in working out Product name of Vinyl part!\n\n{ex.Message}");
                 return PRODUCT.None;
@@ -309,49 +359,94 @@ namespace PolytecOrderEDI
         {
             try
             {
-                if (string.IsNullOrEmpty(partName)) return PARTNAME.None;
+                //if (string.IsNullOrEmpty(partName)) return PARTNAME.None;
 
-                if (string.Equals(partName, "pair", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Pair;
-                if (string.Equals(partName, "left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left;
-                if (string.Equals(partName, "right", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right;
-                if (string.Equals(partName, "top", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top;
-                if (string.Equals(partName, "bottom", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom;
+                //if (string.Equals(partName, "pair", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Pair;
+                //if (string.Equals(partName, "left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left;
+                //if (string.Equals(partName, "right", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right;
+                //if (string.Equals(partName, "top", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top;
+                //if (string.Equals(partName, "bottom", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom;
 
-                if (string.Equals(partName, "left bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Bifold;
-                if (string.Equals(partName, "right bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Bifold;
-                if (string.Equals(partName, "top bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top_Bifold;
-                if (string.Equals(partName, "bottom bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom_Bifold;
+                //if (string.Equals(partName, "left bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Bifold;
+                //if (string.Equals(partName, "right bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Bifold;
+                //if (string.Equals(partName, "top bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top_Bifold;
+                //if (string.Equals(partName, "bottom bifold", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom_Bifold;
 
-                if (string.Equals(partName, "left bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Leaf;
-                if (string.Equals(partName, "right bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Leaf;
-                if (string.Equals(partName, "top bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom_Leaf;
-                if (string.Equals(partName, "bottom bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top_Leaf;
+                //if (string.Equals(partName, "left bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Leaf;
+                //if (string.Equals(partName, "right bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Leaf;
+                //if (string.Equals(partName, "top bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bottom_Leaf;
+                //if (string.Equals(partName, "bottom bifold leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top_Leaf;
 
-                if (string.Equals(partName, "770 left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_770;
-                if (string.Equals(partName, "770 right", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_770;
-                if (string.Equals(partName, "770 left leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Leaf_770;
-                if (string.Equals(partName, "770 right leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Leaf_770;
+                //if (string.Equals(partName, "770 left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_770;
+                //if (string.Equals(partName, "770 right", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_770;
+                //if (string.Equals(partName, "770 left leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Leaf_770;
+                //if (string.Equals(partName, "770 right leaf", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Leaf_770;
 
-                if (string.Equals(partName, "left blind panel", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Blind_Panel;
-                if (string.Equals(partName, "right blind panel", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Blind_Panel;
+                //if (string.Equals(partName, "left blind panel", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Left_Blind_Panel;
+                //if (string.Equals(partName, "right blind panel", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Right_Blind_Panel;
 
-                if (string.Equals(partName, "angled", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Angled;
-                if (string.Equals(partName, "straight", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Straight;
+                //if (string.Equals(partName, "angled", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Angled;
+                //if (string.Equals(partName, "straight", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Straight;
 
-                if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
-                if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
+                //if (string.Equals(partName, "c shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "c shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.C_Shaped;
+                //if (string.Equals(partName, "l shaped", StringComparison.OrdinalIgnoreCase) || string.Equals(partName, "l shapped", StringComparison.OrdinalIgnoreCase)) return PARTNAME.L_Shaped;
 
-                if (string.Equals(partName, "Traditional Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Traditional_Profile;
-                if (string.Equals(partName, "Bevelled Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bevelled_Profile;
-                
-                if (string.Equals(partName, "Bullnose/Federation", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bullnose_Federation;
+                //if (string.Equals(partName, "Traditional Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Traditional_Profile;
+                //if (string.Equals(partName, "Bevelled Profile", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bevelled_Profile;
 
-                if (string.Equals(partName, "revego right outer", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Outer;
-                if (string.Equals(partName, "revego right inner", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Inner;
-                if (string.Equals(partName, "revego left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Left;
+                //if (string.Equals(partName, "Bullnose/Federation", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Bullnose_Federation;
+
+                //if (string.Equals(partName, "revego right outer", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Outer;
+                //if (string.Equals(partName, "revego right inner", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Right_Inner;
+                //if (string.Equals(partName, "revego left", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Revego_Left;
 
 
-                return PARTNAME.None;
+                //return PARTNAME.None;
+
+
+                //08-04-2026 Wangchuk -Replaced the code block above.
+                return partName?.ToLowerInvariant() switch
+                {
+                    "pair"                      => PARTNAME.Pair,
+                    "left"                      => PARTNAME.Left,
+                    "right"                     => PARTNAME.Right,
+                    "top"                       => PARTNAME.Top,
+                    "bottom"                    => PARTNAME.Bottom,
+
+                    "left bifold"               => PARTNAME.Left_Bifold,
+                    "right bifold"              => PARTNAME.Right_Bifold,
+                    "top bifold"                => PARTNAME.Top_Bifold,
+                    "bottom bifold"             => PARTNAME.Bottom_Bifold,
+
+                    "left bifold leaf"          => PARTNAME.Right_Leaf,
+                    "right bifold leaf"         => PARTNAME.Left_Leaf,
+                    "top bifold leaf"           => PARTNAME.Bottom_Leaf,
+                    "bottom bifold leaf"        => PARTNAME.Top_Leaf,
+
+                    "770 left"                  => PARTNAME.Left_770,
+                    "770 right"                 => PARTNAME.Right_770,
+                    "770 left leaf"             => PARTNAME.Right_Leaf_770,
+                    "770 right leaf"            => PARTNAME.Left_Leaf_770,
+
+                    "left blind panel"          => PARTNAME.Left_Blind_Panel,
+                    "right blind panel"         => PARTNAME.Right_Blind_Panel,
+
+                    "angled"                    => PARTNAME.Angled,
+                    "straight"                  => PARTNAME.Straight,
+
+                    "c shaped" or "c shapped"   => PARTNAME.C_Shaped,
+                    "l shaped" or "l shapped"   => PARTNAME.L_Shaped,
+
+                    "traditional profile"       => PARTNAME.Traditional_Profile,
+                    "bevelled profile"          => PARTNAME.Bevelled_Profile,
+                    "bullnose/federation"       => PARTNAME.Bullnose_Federation,
+
+                    "revego right outer"        => PARTNAME.Revego_Right_Outer,
+                    "revego right inner"        => PARTNAME.Revego_Right_Inner,
+                    "revego left"               => PARTNAME.Revego_Left,
+
+                    _                           => PARTNAME.None // Default case
+                };
             }
             catch (Exception ex)
             {
