@@ -58,12 +58,20 @@ namespace PolytecOrderEDI
         // Method to set the drilling properties.
         private static void SetDrillingProperties()
         {
-            ProductType = vinylPart != null ? vinylPart.ProductType : cabPart != null ? cabPart.ProductType : PRODUCTTYPE.None;
-            ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
-            PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None;
-            Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
-            Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width       : 0;
-            Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness   : 0;
+            //ProductType = vinylPart != null ? vinylPart.ProductType : cabPart != null ? cabPart.ProductType : PRODUCTTYPE.None;
+            //ProductName = vinylPart != null ? vinylPart.Product     : cabPart != null ? cabPart.Product     : PRODUCT.None;
+            //PartName    = vinylPart != null ? vinylPart.PartName    : cabPart != null ? cabPart.PartName    : PARTNAME.None;
+            //Height      = vinylPart != null ? vinylPart.Height      : cabPart != null ? cabPart.Height      : 0;
+            //Width       = vinylPart != null ? vinylPart.Width       : cabPart != null ? cabPart.Width       : 0;
+            //Thickness   = vinylPart != null ? vinylPart.Thickness   : cabPart != null ? cabPart.Thickness   : 0;
+
+            //09-04-2026 Wangchuk 'Replaced above code block
+            ProductType = vinylPart?.ProductType    ?? cabPart?.ProductType     ?? PRODUCTTYPE.None;
+            ProductName = vinylPart?.Product        ?? cabPart?.Product         ?? PRODUCT.None;
+            PartName    = vinylPart?.PartName       ?? cabPart?.PartName        ?? PARTNAME.None;
+            Height      = vinylPart?.Height         ?? cabPart?.Height          ?? 0;
+            Width       = vinylPart?.Width          ?? cabPart?.Width           ?? 0;
+            Thickness   = vinylPart?.Thickness      ?? cabPart?.Thickness       ?? 0;
 
             if (cabPart != null)
             {
@@ -72,38 +80,78 @@ namespace PolytecOrderEDI
                 HandleParams        = new(cabPart);
             }
 
-            HingeType           = vinylPart != null ? vinylPart.HingeType           : DoorParams != null ? DoorParams.HingeType             : HINGETYPE.None;
-            HingeCupInset       = vinylPart != null ? vinylPart.HingeCupInset       : DoorParams != null ? DoorParams.HingeCupInset         : 0;
-            HingeBlockInset     = vinylPart != null ? vinylPart.HingeBlockInset     : DoorParams != null ? DoorParams.HingeBlockInset       : 0;
-            HingeBlockHDIA      = vinylPart != null ? vinylPart.HingeBlockHDIA      : 0;
-            HingeBlockHoleDepth = vinylPart != null ? vinylPart.HingeBlockHoleDepth : 0;
-            BifoldHingeCupInset = vinylPart != null ? vinylPart.BifoldHingeCupInset : DoorParams != null ? DoorParams.BifoldHingeCupInset   : 0;
-            HTOD                = vinylPart != null ? vinylPart.HTOD                : DoorParams != null ? DoorParams.HTOD                  : 0;
+            //HingeType           = vinylPart != null ? vinylPart.HingeType           : DoorParams != null ? DoorParams.HingeType             : HINGETYPE.None;
+            //HingeCupInset       = vinylPart != null ? vinylPart.HingeCupInset       : DoorParams != null ? DoorParams.HingeCupInset         : 0;
+            //HingeBlockInset     = vinylPart != null ? vinylPart.HingeBlockInset     : DoorParams != null ? DoorParams.HingeBlockInset       : 0;
+            //HingeBlockHDIA      = vinylPart != null ? vinylPart.HingeBlockHDIA      : 0;
+            //HingeBlockHoleDepth = vinylPart != null ? vinylPart.HingeBlockHoleDepth : 0;
+            //BifoldHingeCupInset = vinylPart != null ? vinylPart.BifoldHingeCupInset : DoorParams != null ? DoorParams.BifoldHingeCupInset   : 0;
+            //HTOD                = vinylPart != null ? vinylPart.HTOD                : DoorParams != null ? DoorParams.HTOD                  : 0;
 
-            Hole1FromBot        = vinylPart != null ? vinylPart.Hole1FromBot   : DoorParams != null ? DoorParams.Hole1FromBot  : 0;
-            Hole2FromTop        = vinylPart != null ? vinylPart.Hole2FromTop   : DoorParams != null ? DoorParams.Hole2FromTop  : 0;
-            Hole3FromTop        = vinylPart != null ? vinylPart.Hole3FromTop   : DoorParams != null ? DoorParams.Hole3FromTop  : 0;
-            Hole4FromTop        = vinylPart != null ? vinylPart.Hole4FromTop   : DoorParams != null ? DoorParams.Hole4FromTop  : 0;
-            Hole5FromTop        = vinylPart != null ? vinylPart.Hole5FromTop   : DoorParams != null ? DoorParams.Hole5FromTop  : 0;
-            Hole6FromTop        = vinylPart != null ? vinylPart.Hole6FromTop   : DoorParams != null ? DoorParams.Hole6FromTop  : 0;
-            NumHoles            = vinylPart != null ? vinylPart.NumHoles       : DoorParams != null ? DoorParams.NumHoles      : 0;
+            //09-04-2026 Wangchuk 'Replaced above code block
+            HingeType           = vinylPart?.HingeType                  ?? DoorParams?.HingeType        ?? HINGETYPE.None;
+            HingeCupInset       = vinylPart?.HingeCupInset              ?? DoorParams?.HingeCupInset    ?? 0;
+            HingeBlockInset     = vinylPart?.HingeBlockInset            ?? DoorParams?.HingeBlockInset  ?? 0;
+            HingeBlockHDIA      = vinylPart?.HingeBlockHDIA             ?? 0;
+            HingeBlockHoleDepth = vinylPart?.HingeBlockHoleDepth        ?? 0;
+            BifoldHingeCupInset = vinylPart?.BifoldHingeCupInset        ?? DoorParams?.BifoldHingeCupInset ?? 0;
+            HTOD                = vinylPart?.HTOD ?? DoorParams?.HTOD   ?? 0;
 
-            LINS                = vinylPart != null ? vinylPart.RINS    : DrawerFrontParams != null ? DrawerFrontParams.RINS    : 0;     // The LINS of the Back view is the RINS of the Front view
-            RINS                = vinylPart != null ? vinylPart.LINS    : DrawerFrontParams != null ? DrawerFrontParams.LINS    : 0;     // The RINS of the Back view is the LINS of the Front view 
-            DTYP1               = vinylPart != null ? vinylPart.DTYP1   : DrawerFrontParams != null ? DrawerFrontParams.DTYP1   : 0;
-            DTYP2               = vinylPart != null ? vinylPart.DTYP2   : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
-            INUP1               = vinylPart != null ? vinylPart.INUP1   : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
-            INUP2               = vinylPart != null ? vinylPart.INUP2   : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
-            DrawerHDIA                = vinylPart != null ? vinylPart.DrawerHDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            //Hole1FromBot        = vinylPart != null ? vinylPart.Hole1FromBot   : DoorParams != null ? DoorParams.Hole1FromBot  : 0;
+            //Hole2FromTop        = vinylPart != null ? vinylPart.Hole2FromTop   : DoorParams != null ? DoorParams.Hole2FromTop  : 0;
+            //Hole3FromTop        = vinylPart != null ? vinylPart.Hole3FromTop   : DoorParams != null ? DoorParams.Hole3FromTop  : 0;
+            //Hole4FromTop        = vinylPart != null ? vinylPart.Hole4FromTop   : DoorParams != null ? DoorParams.Hole4FromTop  : 0;
+            //Hole5FromTop        = vinylPart != null ? vinylPart.Hole5FromTop   : DoorParams != null ? DoorParams.Hole5FromTop  : 0;
+            //Hole6FromTop        = vinylPart != null ? vinylPart.Hole6FromTop   : DoorParams != null ? DoorParams.Hole6FromTop  : 0;
+            //NumHoles            = vinylPart != null ? vinylPart.NumHoles       : DoorParams != null ? DoorParams.NumHoles      : 0;
 
-            DrawerHoleDepth           = vinylPart != null ? vinylPart.DrawerHoleDepth : 0;
+            //09-04-2026 Wangchuk 'Replaced above code block
+            Hole1FromBot = vinylPart?.Hole1FromBot ?? DoorParams?.Hole1FromBot ?? 0;
+            Hole2FromTop = vinylPart?.Hole2FromTop ?? DoorParams?.Hole2FromTop ?? 0;
+            Hole3FromTop = vinylPart?.Hole3FromTop ?? DoorParams?.Hole3FromTop ?? 0;
+            Hole4FromTop = vinylPart?.Hole4FromTop ?? DoorParams?.Hole4FromTop ?? 0;
+            Hole5FromTop = vinylPart?.Hole5FromTop ?? DoorParams?.Hole5FromTop ?? 0;
+            Hole6FromTop = vinylPart?.Hole6FromTop ?? DoorParams?.Hole6FromTop ?? 0;
+            NumHoles     = vinylPart?.NumHoles     ?? DoorParams?.NumHoles     ?? 0;
 
-            CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
-            CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
-            CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
-            CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
-            CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
-            HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
+            //LINS                = vinylPart != null ? vinylPart.RINS    : DrawerFrontParams != null ? DrawerFrontParams.RINS    : 0;     // The LINS of the Back view is the RINS of the Front view
+            //RINS                = vinylPart != null ? vinylPart.LINS    : DrawerFrontParams != null ? DrawerFrontParams.LINS    : 0;     // The RINS of the Back view is the LINS of the Front view 
+            //DTYP1               = vinylPart != null ? vinylPart.DTYP1   : DrawerFrontParams != null ? DrawerFrontParams.DTYP1   : 0;
+            //DTYP2               = vinylPart != null ? vinylPart.DTYP2   : DrawerFrontParams != null ? DrawerFrontParams.DTYP2   : 0;
+            //INUP1               = vinylPart != null ? vinylPart.INUP1   : DrawerFrontParams != null ? DrawerFrontParams.INUP1   : 0;
+            //INUP2               = vinylPart != null ? vinylPart.INUP2   : DrawerFrontParams != null ? DrawerFrontParams.INUP2   : 0;
+            //DrawerHDIA                = vinylPart != null ? vinylPart.DrawerHDIA    : DrawerFrontParams != null ? DrawerFrontParams.HDIA    : 0;
+            //DrawerHoleDepth           = vinylPart != null ? vinylPart.DrawerHoleDepth : 0;
+
+            //09-04-2026 Wangchuk 'Replaced above code block
+            LINS            = vinylPart?.RINS            ?? DrawerFrontParams?.RINS  ?? 0;     // LINS of the Back view is the RINS of the Front view
+            RINS            = vinylPart?.LINS            ?? DrawerFrontParams?.LINS  ?? 0;     // RINS of the Back view is the LINS of the Front view 
+            DTYP1           = vinylPart?.DTYP1           ?? DrawerFrontParams?.DTYP1 ?? 0;
+            DTYP2           = vinylPart?.DTYP2           ?? DrawerFrontParams?.DTYP2 ?? 0;
+            INUP1           = vinylPart?.INUP1           ?? DrawerFrontParams?.INUP1 ?? 0;
+            INUP2           = vinylPart?.INUP2           ?? DrawerFrontParams?.INUP2 ?? 0;
+            DrawerHDIA      = vinylPart?.DrawerHDIA      ?? DrawerFrontParams?.HDIA  ?? 0;
+            DrawerHoleDepth = vinylPart?.DrawerHoleDepth ?? 0;
+
+            //CustomHole1LeftInset    = vinylPart != null ? vinylPart.CustomHole1LeftInset    : 0;
+            //CustomHole1TopInset     = vinylPart != null ? vinylPart.CustomHole1TopInset     : 0;
+            //CustomHole1HDIA         = vinylPart != null ? vinylPart.CustomHole1HDIA         : 0;
+            //CustomHole1Depth        = vinylPart != null ? vinylPart.CustomHole1Depth        : 0;
+            //CustomHole1ApplyTarget  = vinylPart != null ? vinylPart.CustomHole1ApplyTarget  : APPLYTARGET.None;
+            //HasCustomHole1Drilling  = vinylPart != null ? (vinylPart.CustomHole1LeftInset > 0 && vinylPart.CustomHole1TopInset > 0 && vinylPart.CustomHole1HDIA > 0 && vinylPart.CustomHole1Depth > 0 && vinylPart.CustomHole1ApplyTarget != APPLYTARGET.None) : false;
+
+            //09-04-2026 Wangchuk 'Replaced above code block
+            CustomHole1LeftInset    = vinylPart?.CustomHole1LeftInset   ?? 0;
+            CustomHole1TopInset     = vinylPart?.CustomHole1TopInset    ?? 0;
+            CustomHole1HDIA         = vinylPart?.CustomHole1HDIA        ?? 0;
+            CustomHole1Depth        = vinylPart?.CustomHole1Depth       ?? 0;
+            CustomHole1ApplyTarget  = vinylPart?.CustomHole1ApplyTarget ?? APPLYTARGET.None;
+            HasCustomHole1Drilling  = CustomHole1LeftInset > 0
+                                      && CustomHole1TopInset > 0
+                                      && CustomHole1HDIA > 0
+                                      && CustomHole1Depth > 0
+                                      && CustomHole1ApplyTarget != APPLYTARGET.None;
+
         }
 
 
