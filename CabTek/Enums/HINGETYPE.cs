@@ -12,7 +12,7 @@ namespace PolytecOrderEDI
         Blum11,
         BlumLdf,
         BlumRdf,
-        HingeCup
+        Hole35mm
     }
 }
 
@@ -23,4 +23,4 @@ namespace PolytecOrderEDI
 // Blum11   : Customized Blum hinge with different hole depts to standard blum hinge
 // BlumLdf  : Add standard Blum hinge to Left of Drawer front provided the hinge insets and hole positions are provided.
 // BlumRdf  : Add standard Blum hinge to Right of Drawer front provided the hinge insets and hole positions are provided.
-//HingeCup  : Add 35mm wide and 13mm deep hinge cup hole
+//Hole35mm  : Add 35mm wide and 13mm deep hinge cup hole

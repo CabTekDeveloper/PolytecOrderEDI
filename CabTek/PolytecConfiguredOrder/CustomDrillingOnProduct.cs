@@ -220,7 +220,7 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Left:
                     if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("right", HingeCupInset); }
-                    else if(HingeType == HINGETYPE.HingeCup) { AddHingeCup("right", HingeCupInset); }
+                    else if(HingeType == HINGETYPE.Hole35mm) { AddHole35mm("right", HingeCupInset); }
                     else { AddHinges("right", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
@@ -229,7 +229,7 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Right:
                     if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("left", HingeCupInset); }
-                    else if (HingeType == HINGETYPE.HingeCup) { AddHingeCup("left", HingeCupInset); }
+                    else if (HingeType == HINGETYPE.Hole35mm) { AddHole35mm("left", HingeCupInset); }
                     else { AddHinges("left", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
@@ -373,7 +373,7 @@ namespace PolytecOrderEDI
         }
 
         //09-04-2026 -Add 35mm and 12mm deep Cup hole. No lug holes.
-        private static void AddHingeCup(string addToSide, double offset)
+        private static void AddHole35mm(string addToSide, double offset)
         {
             if (ConfiguredProduct != null && NumHoles > 0 && offset > 0)
             {

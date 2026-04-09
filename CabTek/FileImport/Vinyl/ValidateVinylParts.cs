@@ -381,14 +381,32 @@ namespace PolytecOrderEDI
             string errorMessage = "";
             if (CurrentProduct.HingeType != HINGETYPE.None)
             {
-                if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf)
+                if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf || CurrentProduct.HingeType == HINGETYPE.Hole35mm)
                 {
                     if (CurrentProduct.ProductType != PRODUCTTYPE.Thermo && CurrentProduct.ProductType != PRODUCTTYPE.CutAndRout) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available in 'Thermo' and 'Cut&Rout' ProductTypes only.\n";
-                    if (CurrentProduct.Product != PRODUCT.DrawerFront) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available on Drawers only.\n";
+
+                    if (CurrentProduct.HingeType == HINGETYPE.BlumLdf || CurrentProduct.HingeType == HINGETYPE.BlumRdf)
+                    {
+                        if (CurrentProduct.Product != PRODUCT.DrawerFront) errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available for Drawers only.\n";
+                    }
+
+                    if (CurrentProduct.HingeType == HINGETYPE.Hole35mm)
+                    {
+                        if (CurrentProduct.PartName != PARTNAME.Left && CurrentProduct.PartName != PARTNAME.Right && CurrentProduct.PartName != PARTNAME.Pair)
+                        {
+                            errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available for Part Names: Left, Right, and Pair only.\n";
+                        }
+
+                        if (CurrentProduct.Product != PRODUCT.Door && CurrentProduct.Product != PRODUCT.PantryDoor )
+                        {
+                            errorMessage += $"Hinge type '{CurrentProduct.HingeType}' is available for Products: Door and PantryDoor only.\n";
+                        }
+                    }
                 }
-                else
+
+                if (CurrentProduct.Product == PRODUCT.DrawerFront)
                 {
-                    if (CurrentProduct.Product == PRODUCT.DrawerFront)
+                    if (CurrentProduct.HingeType != HINGETYPE.BlumLdf && CurrentProduct.HingeType != HINGETYPE.BlumRdf)
                     {
                         errorMessage += $"Drawers can only use hinge types 'BlumLdf' and 'BlumRdf'.\n";
                     }
@@ -498,7 +516,7 @@ namespace PolytecOrderEDI
             if (CurrentProduct.Product == PRODUCT.Door)
             {
                 if (CurrentProduct.KickHeight > 0) errorMessage += $"If you need Kick height, add that into Additional Instructions field.\n";
-                if (CurrentProduct.MidRailHeight > 0) errorMessage += $"Remove midrail height info or change Product to a PantryDoor";
+                if (CurrentProduct.MidRailHeight > 0) errorMessage += $"Remove midrail height info or change Product to a PantryDoor.\n";
             }
 
             return errorMessage;

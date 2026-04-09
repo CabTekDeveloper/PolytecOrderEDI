@@ -273,7 +273,7 @@ namespace PolytecOrderEDI
                     "blum11"        => HINGETYPE.Blum11,
                     "blumldf"       => HINGETYPE.BlumLdf,
                     "blumrdf"       => HINGETYPE.BlumRdf,
-                    "hingecup"      => HINGETYPE.HingeCup,
+                    "hole35mm"      => HINGETYPE.Hole35mm,
                     _               => HINGETYPE.None
                 };
             }
