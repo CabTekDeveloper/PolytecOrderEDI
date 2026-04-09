@@ -163,7 +163,6 @@ namespace PolytecOrderEDI
             ConfiguredPiece = configuredPiece;
             SetDrillingProperties();
 
-            // AddDrillings drillings
             //Add Custom Hole Drillings
             if (HasCustomHole1Drilling)
             {

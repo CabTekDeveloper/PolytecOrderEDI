@@ -268,12 +268,13 @@ namespace PolytecOrderEDI
                 //08-04-2026 Wangchuk -Replaced the code block above.
                 return (hingeType?.ToLowerInvariant()) switch
                 {
-                    "blum"      => HINGETYPE.Blum,
-                    "hettich"   => HINGETYPE.Hettich,
-                    "blum11"    => HINGETYPE.Blum11,
-                    "blumLdf"   => HINGETYPE.BlumLdf,
-                    "blumRdf"   => HINGETYPE.BlumRdf,
-                    _           => HINGETYPE.None
+                    "blum"          => HINGETYPE.Blum,
+                    "hettich"       => HINGETYPE.Hettich,
+                    "blum11"        => HINGETYPE.Blum11,
+                    "blumldf"       => HINGETYPE.BlumLdf,
+                    "blumrdf"       => HINGETYPE.BlumRdf,
+                    "hingecup"      => HINGETYPE.HingeCup,
+                    _               => HINGETYPE.None
                 };
             }
             catch (Exception ex)

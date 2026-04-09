@@ -220,6 +220,7 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Left:
                     if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("right", HingeCupInset); }
+                    else if(HingeType == HINGETYPE.HingeCup) { AddHingeCup("right", HingeCupInset); }
                     else { AddHinges("right", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("right");
@@ -228,6 +229,7 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Right:
                     if (HingeType == HINGETYPE.Blum11) { AddHinges_Blum11("left", HingeCupInset); }
+                    else if (HingeType == HINGETYPE.HingeCup) { AddHingeCup("left", HingeCupInset); }
                     else { AddHinges("left", HingeCupInset); }
 
                     if (HandleParams != null && HandleParams.HasHandle) AddHandleOnFront("left");
@@ -370,7 +372,24 @@ namespace PolytecOrderEDI
             }
         }
 
-        
+        //09-04-2026 -Add 35mm and 12mm deep Cup hole. No lug holes.
+        private static void AddHingeCup(string addToSide, double offset)
+        {
+            if (ConfiguredProduct != null && NumHoles > 0 && offset > 0)
+            {
+                double radius = 17.5;
+                double depth = 13;
+                double leftOffset = (addToSide == "left") ? offset : (addToSide == "right") ? (Width - offset) : 0;
+
+                if (Hole1FromBot > 0) ConfiguredProduct.Features.AddHoleFromBottomLeft(ApplyTarget.Back, Hole1FromBot, leftOffset, radius, depth);
+                if (Hole2FromTop > 0) ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, Hole2FromTop, leftOffset, radius, depth);
+                if (Hole3FromTop > 0) ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, Hole3FromTop, leftOffset, radius, depth);
+                if (Hole4FromTop > 0) ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, Hole4FromTop, leftOffset, radius, depth);
+                if (Hole5FromTop > 0) ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, Hole5FromTop, leftOffset, radius, depth);
+                if (Hole6FromTop > 0) ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, Hole6FromTop, leftOffset, radius, depth);
+
+            }
+        }
 
         //AddDrillings hinge holes to door from back
         private static void AddHinges(string addToSide, double offset)
