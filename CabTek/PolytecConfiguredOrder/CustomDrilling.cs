@@ -63,10 +63,6 @@ namespace PolytecOrderEDI
         private static bool HasCustomHole1Drilling { get; set; }
 
         // ── Target-agnostic feature accessors ────────────────────────────────
-        // All drilling methods call these helpers instead of touching
-        // ConfiguredProduct / ConfiguredPiece directly, which keeps every
-        // private method free of duplicated null-checks and branching.
-
         private static void AddHoleFromBottomLeft(ApplyTarget target, double fromBottom, double fromLeft, double radius, double depth)
         {
             ConfiguredProduct?.Features.AddHoleFromBottomLeft(target, fromBottom, fromLeft, radius, depth);
@@ -93,68 +89,67 @@ namespace PolytecOrderEDI
         private static void SetDrillingProperties()
         {
             // Reset build parameters — prevents stale values leaking when the same
-            // static class is called alternately for Product and GenericPiece targets.
-            DoorParams = null;
-            DrawerFrontParams = null;
-            HandleParams = null;
+            DoorParams          = null;
+            DrawerFrontParams   = null;
+            HandleParams        = null;
 
-            ProductType = vinylPart?.ProductType ?? cabPart?.ProductType ?? PRODUCTTYPE.None;
-            ProductName = vinylPart?.Product ?? cabPart?.Product ?? PRODUCT.None;
-            PartName = vinylPart?.PartName ?? cabPart?.PartName ?? PARTNAME.None;
-            Height = vinylPart?.Height ?? cabPart?.Height ?? 0;
-            Width = vinylPart?.Width ?? cabPart?.Width ?? 0;
-            Thickness = vinylPart?.Thickness ?? cabPart?.Thickness ?? 0;
+            ProductType = vinylPart?.ProductType    ?? cabPart?.ProductType ?? PRODUCTTYPE.None;
+            ProductName = vinylPart?.Product        ?? cabPart?.Product     ?? PRODUCT.None;
+            PartName    = vinylPart?.PartName       ?? cabPart?.PartName    ?? PARTNAME.None;
+            Height      = vinylPart?.Height         ?? cabPart?.Height      ?? 0;
+            Width       = vinylPart?.Width          ?? cabPart?.Width       ?? 0;
+            Thickness   = vinylPart?.Thickness      ?? cabPart?.Thickness   ?? 0;
 
             if (cabPart != null)
             {
-                DoorParams = new(cabPart);
-                DrawerFrontParams = new(cabPart);
-                HandleParams = new(cabPart);
+                DoorParams          = new(cabPart);
+                DrawerFrontParams   = new(cabPart);
+                HandleParams        = new(cabPart);
             }
 
-            HingeType = vinylPart?.HingeType ?? DoorParams?.HingeType ?? HINGETYPE.None;
-            HingeCupInset = vinylPart?.HingeCupInset ?? DoorParams?.HingeCupInset ?? 0;
-            HingeBlockInset = vinylPart?.HingeBlockInset ?? DoorParams?.HingeBlockInset ?? 0;
-            HingeBlockHDIA = vinylPart?.HingeBlockHDIA ?? 0;
-            HingeBlockHoleDepth = vinylPart?.HingeBlockHoleDepth ?? 0;
-            BifoldHingeCupInset = vinylPart?.BifoldHingeCupInset ?? DoorParams?.BifoldHingeCupInset ?? 0;
-            HTOD = vinylPart?.HTOD ?? DoorParams?.HTOD ?? 0;
+            HingeType           = vinylPart?.HingeType              ?? DoorParams?.HingeType            ?? HINGETYPE.None;
+            HingeCupInset       = vinylPart?.HingeCupInset          ?? DoorParams?.HingeCupInset        ?? 0;
+            HingeBlockInset     = vinylPart?.HingeBlockInset        ?? DoorParams?.HingeBlockInset      ?? 0;
+            HingeBlockHDIA      = vinylPart?.HingeBlockHDIA         ?? 0;
+            HingeBlockHoleDepth = vinylPart?.HingeBlockHoleDepth    ?? 0;
+            BifoldHingeCupInset = vinylPart?.BifoldHingeCupInset    ?? DoorParams?.BifoldHingeCupInset  ?? 0;
+            HTOD                = vinylPart?.HTOD                   ?? DoorParams?.HTOD                 ?? 0;
 
-            Hole1FromBot = vinylPart?.Hole1FromBot ?? DoorParams?.Hole1FromBot ?? 0;
-            Hole2FromTop = vinylPart?.Hole2FromTop ?? DoorParams?.Hole2FromTop ?? 0;
-            Hole3FromTop = vinylPart?.Hole3FromTop ?? DoorParams?.Hole3FromTop ?? 0;
-            Hole4FromTop = vinylPart?.Hole4FromTop ?? DoorParams?.Hole4FromTop ?? 0;
-            Hole5FromTop = vinylPart?.Hole5FromTop ?? DoorParams?.Hole5FromTop ?? 0;
-            Hole6FromTop = vinylPart?.Hole6FromTop ?? DoorParams?.Hole6FromTop ?? 0;
-            NumHoles = vinylPart?.NumHoles ?? DoorParams?.NumHoles ?? 0;
+            Hole1FromBot    = vinylPart?.Hole1FromBot   ?? DoorParams?.Hole1FromBot ?? 0;
+            Hole2FromTop    = vinylPart?.Hole2FromTop   ?? DoorParams?.Hole2FromTop ?? 0;
+            Hole3FromTop    = vinylPart?.Hole3FromTop   ?? DoorParams?.Hole3FromTop ?? 0;
+            Hole4FromTop    = vinylPart?.Hole4FromTop   ?? DoorParams?.Hole4FromTop ?? 0;
+            Hole5FromTop    = vinylPart?.Hole5FromTop   ?? DoorParams?.Hole5FromTop ?? 0;
+            Hole6FromTop    = vinylPart?.Hole6FromTop   ?? DoorParams?.Hole6FromTop ?? 0;
+            NumHoles        = vinylPart?.NumHoles       ?? DoorParams?.NumHoles     ?? 0;
 
             // LINS/RINS are swapped intentionally: the Back view mirrors the Front view.
-            LINS = vinylPart?.RINS ?? DrawerFrontParams?.RINS ?? 0;
-            RINS = vinylPart?.LINS ?? DrawerFrontParams?.LINS ?? 0;
-            DTYP1 = vinylPart?.DTYP1 ?? DrawerFrontParams?.DTYP1 ?? 0;
-            DTYP2 = vinylPart?.DTYP2 ?? DrawerFrontParams?.DTYP2 ?? 0;
-            INUP1 = vinylPart?.INUP1 ?? DrawerFrontParams?.INUP1 ?? 0;
-            INUP2 = vinylPart?.INUP2 ?? DrawerFrontParams?.INUP2 ?? 0;
-            DrawerHDIA = vinylPart?.DrawerHDIA ?? DrawerFrontParams?.HDIA ?? 0;
-            DrawerHoleDepth = vinylPart?.DrawerHoleDepth ?? 0;
+            LINS                = vinylPart?.RINS               ?? DrawerFrontParams?.RINS  ?? 0;
+            RINS                = vinylPart?.LINS               ?? DrawerFrontParams?.LINS  ?? 0;
+            DTYP1               = vinylPart?.DTYP1              ?? DrawerFrontParams?.DTYP1 ?? 0;
+            DTYP2               = vinylPart?.DTYP2              ?? DrawerFrontParams?.DTYP2 ?? 0;
+            INUP1               = vinylPart?.INUP1              ?? DrawerFrontParams?.INUP1 ?? 0;
+            INUP2               = vinylPart?.INUP2              ?? DrawerFrontParams?.INUP2 ?? 0;
+            DrawerHDIA          = vinylPart?.DrawerHDIA         ?? DrawerFrontParams?.HDIA  ?? 0;
+            DrawerHoleDepth     = vinylPart?.DrawerHoleDepth    ?? 0;
 
-            CustomHole1LeftInset = vinylPart?.CustomHole1LeftInset ?? 0;
-            CustomHole1TopInset = vinylPart?.CustomHole1TopInset ?? 0;
-            CustomHole1HDIA = vinylPart?.CustomHole1HDIA ?? 0;
-            CustomHole1Depth = vinylPart?.CustomHole1Depth ?? 0;
-            CustomHole1ApplyTarget = vinylPart?.CustomHole1ApplyTarget ?? APPLYTARGET.None;
-            HasCustomHole1Drilling = CustomHole1LeftInset > 0
-                                  && CustomHole1TopInset > 0
-                                  && CustomHole1HDIA > 0
-                                  && CustomHole1Depth > 0
-                                  && CustomHole1ApplyTarget != APPLYTARGET.None;
+            CustomHole1LeftInset    = vinylPart?.CustomHole1LeftInset   ?? 0;
+            CustomHole1TopInset     = vinylPart?.CustomHole1TopInset    ?? 0;
+            CustomHole1HDIA         = vinylPart?.CustomHole1HDIA        ?? 0;
+            CustomHole1Depth        = vinylPart?.CustomHole1Depth       ?? 0;
+            CustomHole1ApplyTarget  = vinylPart?.CustomHole1ApplyTarget ?? APPLYTARGET.None;
+            HasCustomHole1Drilling  = CustomHole1LeftInset > 0
+                                    && CustomHole1TopInset > 0
+                                    && CustomHole1HDIA > 0
+                                    && CustomHole1Depth > 0
+                                    && CustomHole1ApplyTarget != APPLYTARGET.None;
         }
 
         // ─────────────────────────────────────────────────────────────────────
         // Public entry points
         // ─────────────────────────────────────────────────────────────────────
 
-        /// <summary>Adds drillings to a <see cref="Product"/>.</summary>
+        /// <summary>Entry for Type Product</summary>
         public static void AddDrillings(Product configuredProduct, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
         {
             if (vinyl_part == null && cabinet_part == null) return;
@@ -164,7 +159,7 @@ namespace PolytecOrderEDI
             InitAndDispatch(vinyl_part, cabinet_part, isGenericPiece: false);
         }
 
-        /// <summary>Adds drillings to a <see cref="GenericPiece"/>.</summary>
+        /// <summary>Entry for Type GenericPiece</summary>
         public static void AddDrillings(GenericPiece configuredPiece, VinylPart? vinyl_part = null, CabinetPart? cabinet_part = null)
         {
             if (vinyl_part == null && cabinet_part == null) return;
@@ -175,7 +170,7 @@ namespace PolytecOrderEDI
         }
 
         // ─────────────────────────────────────────────────────────────────────
-        // Core dispatch — shared logic after target assignment
+        // Initialize and dispatch
         // ─────────────────────────────────────────────────────────────────────
         private static void InitAndDispatch(VinylPart? vinyl_part, CabinetPart? cabinet_part, bool isGenericPiece)
         {
@@ -188,18 +183,18 @@ namespace PolytecOrderEDI
 
             if (isGenericPiece)
             {
-                // GenericPiece uses simplified dispatch (mirrors original CustomDrillingOnGenericPiece)
+                // GenericPiece
                 DispatchGenericPiece();
             }
             else
             {
-                // Product uses full switch-based dispatch
+                // Product
                 DispatchProduct();
             }
         }
 
         // ─────────────────────────────────────────────────────────────────────
-        // GenericPiece dispatch (formerly CustomDrillingOnGenericPiece.AddDrillings)
+        // GenericPiece dispatch 
         // ─────────────────────────────────────────────────────────────────────
         private static void DispatchGenericPiece()
         {
@@ -222,7 +217,7 @@ namespace PolytecOrderEDI
         }
 
         // ─────────────────────────────────────────────────────────────────────
-        // Product dispatch (formerly CustomDrillingOnProduct.AddDrillings)
+        // Product dispatch
         // ─────────────────────────────────────────────────────────────────────
         private static void DispatchProduct()
         {
@@ -658,7 +653,7 @@ namespace PolytecOrderEDI
             }
 
             if (Hole3FromTop > 0) DrillExtra(Hole3FromTop);
-            if (Hole4FromTop > 0) DrillExtra(Hole4FromTop);   // note: original used Hole3FromTop here too
+            if (Hole4FromTop > 0) DrillExtra(Hole4FromTop);   
             if (Hole5FromTop > 0) DrillExtra(Hole5FromTop);
             if (Hole6FromTop > 0) DrillExtra(Hole6FromTop);
         }

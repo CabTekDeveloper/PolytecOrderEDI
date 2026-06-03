@@ -320,57 +320,70 @@ namespace PolytecOrderEDI
         {
             string errorMessage = "";
 
-            if (!string.Equals(CurrentProduct.HandleSystem, "None", StringComparison.OrdinalIgnoreCase))
+            // Exit if there's no handle system , no validation is needed
+            if (string.Equals(CurrentProduct.HandleSystem, "None", StringComparison.OrdinalIgnoreCase))
             {
-
-                if (!CurrentProduct.EdgeLocation.Contains('H'))
+                return errorMessage;
+            }
+            
+            // Exit if handle is selected but it's location is not provided
+            if (!CurrentProduct.EdgeLocation.Contains('H'))
+            {
+                return $"You have selected {CurrentProduct.HandleSystem} handle but its location is not provided.\n";
+            }
+            
+            // Validation for Thermo and Cut & Rout products
+            if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
+            {
+                if (!string.Equals(CurrentProduct.EdgeMould, "Square", StringComparison.OrdinalIgnoreCase) && 
+                    !string.Equals(CurrentProduct.EdgeMould, "3mm Pencil", StringComparison.OrdinalIgnoreCase))
                 {
-                    errorMessage += $"You have selected {CurrentProduct.HandleSystem} handle but its location is not provided.\n";
+                    errorMessage += $"Handle is available in edge moulds Square and 3mm Pencil only.\n";
                 }
                 else
                 {
-                    if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo || CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
+                    if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo)
                     {
-                        if (!string.Equals(CurrentProduct.EdgeMould, "Square", StringComparison.OrdinalIgnoreCase) && !string.Equals(CurrentProduct.EdgeMould, "3mm Pencil", StringComparison.OrdinalIgnoreCase))
+                        if (!CustomValidation.IsThermoHandle(CurrentProduct.HandleSystem))
                         {
-                            errorMessage += $"Handle is available in edge moulds Square and 3mm Pencil only.\n";
-                        }
-                        else
-                        {
-                            if (CurrentProduct.ProductType == PRODUCTTYPE.Thermo)
-                            {
-                                if (!CustomValidation.IsThermoHandle(CurrentProduct.HandleSystem))
-                                {
-                                    errorMessage += $"Thermo products can only have Bronte handle.\n";
-                                }
-                            }
-
-                            if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
-                            {
-                                if (!CustomValidation.IsCutAndRoutHandle(CurrentProduct.HandleSystem)) errorMessage += $"Cut&Rout products cannot have {CurrentProduct.HandleSystem} handle.\n";
-                            }
-
-                            if (CurrentProduct.Product == PRODUCT.GlassFrame)
-                            {
-                                if (!CurrentProduct.AdditionalInstructions.Contains(CurrentProduct.HandleSystem, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    errorMessage += $"If you require handle on Galssframe doors, add it to the Additional Instructions field.\n";
-                                }
-                            }
-
+                            errorMessage += $"Thermo products can only have Bronte handle.\n";
                         }
                     }
 
-                    if (CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
+                    if (CurrentProduct.ProductType == PRODUCTTYPE.CutAndRout)
                     {
-                        if (!string.Equals(CurrentProduct.HandleSystem, "Shark Nose", StringComparison.OrdinalIgnoreCase))
+                        if (!CustomValidation.IsCutAndRoutHandle(CurrentProduct.HandleSystem))
                         {
-                            errorMessage += $"Compact Laminate products can only have Shark Nose for handle system.\n";
+                            errorMessage += $"Cut&Rout products cannot have {CurrentProduct.HandleSystem} handle.\n";
                         }
                     }
+
+                    if (CurrentProduct.Product == PRODUCT.GlassFrame)
+                    {
+                        if (!CurrentProduct.AdditionalInstructions.Contains(CurrentProduct.HandleSystem, StringComparison.OrdinalIgnoreCase))
+                        {
+                            errorMessage += $"If you require handle on Glassframe doors, add it to the Additional Instructions field.\n";
+                        }
+                    }
+
+                    if (CurrentProduct.Product == PRODUCT.PantryDoor)
+                    {
+                        if (string.Equals(CurrentProduct.HandleSystem, "Bronte", StringComparison.OrdinalIgnoreCase))
+                        {
+                            errorMessage += $"Bronte handle is not available on Pantry Doors.\n";
+                        }
+                    }
+
                 }
+            }
 
-
+            // Validation for Compact Laminate products
+            if (CurrentProduct.ProductType == PRODUCTTYPE.CompactLaminate)
+            {
+                if (!string.Equals(CurrentProduct.HandleSystem, "Shark Nose", StringComparison.OrdinalIgnoreCase))
+                {
+                    errorMessage += $"Compact Laminate products can only have Shark Nose for handle system.\n";
+                }
             }
             return errorMessage;
         }
