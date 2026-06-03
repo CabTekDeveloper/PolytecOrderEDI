@@ -651,6 +651,7 @@ namespace PolytecOrderEDI
             return errorMessage;
         }
 
+
         //COLOR VALIDATION
         private static string ColorValidation(VinylPart CurrentProduct)
         {
