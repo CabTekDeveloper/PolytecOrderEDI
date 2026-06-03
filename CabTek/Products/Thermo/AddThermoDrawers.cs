@@ -51,7 +51,7 @@ namespace PolytecOrderEDI
                     AdditionalInstructions = Part.AdditionalInstructions,
                     LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"EzeNo: {Part.EzeNo}" },
                 };
-                CustomDrillingOnGenericPiece.AddDrillings(configuredPiece: DrawerPiece, vinyl_part: Part);
+                CustomDrilling.AddDrillings(configuredPiece: DrawerPiece, vinyl_part: Part);
                 ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
             }
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);

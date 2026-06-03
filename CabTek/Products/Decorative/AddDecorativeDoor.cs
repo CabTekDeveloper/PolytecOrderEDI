@@ -46,7 +46,7 @@ namespace PolytecOrderEDI
 
             //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);       //AddDrillings Drilling
             //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
-            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
+            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
 
 
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);   //AddDrillings to Configured Order
@@ -78,7 +78,7 @@ namespace PolytecOrderEDI
 
             //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
             //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
-            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
+            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
 
 
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);

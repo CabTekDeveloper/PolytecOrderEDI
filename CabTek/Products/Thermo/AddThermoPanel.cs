@@ -44,7 +44,7 @@ namespace PolytecOrderEDI
                 }
             }
             
-            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
+            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
 

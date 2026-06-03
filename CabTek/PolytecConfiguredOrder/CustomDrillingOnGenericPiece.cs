@@ -4,6 +4,8 @@ using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
+    // 03-06-2026 Wangchuk 
+    // This class is not in use. Combined under a common class "CustomDrilling"
     static class CustomDrillingOnGenericPiece
     {
         private static GenericPiece? ConfiguredPiece { get; set; }

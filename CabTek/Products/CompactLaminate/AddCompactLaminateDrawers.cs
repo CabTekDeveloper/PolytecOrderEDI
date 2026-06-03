@@ -64,7 +64,7 @@ namespace PolytecOrderEDI
                 };
 
                 //DrawerPiece = AddDrillings(DrawerPiece);
-                CustomDrillingOnGenericPiece.AddDrillings(configuredPiece: DrawerPiece, vinyl_part: Part);
+                CustomDrilling.AddDrillings(configuredPiece: DrawerPiece, vinyl_part: Part);
                 ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
             }
 

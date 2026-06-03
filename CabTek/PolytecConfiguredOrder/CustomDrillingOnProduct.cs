@@ -1,11 +1,10 @@
-﻿
-
-using BorgEdi.Enums;
+﻿using BorgEdi.Enums;
 using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
-    
+    // 03-06-2026 Wangchuk 
+    // This class is not in use. Combined under a common class "CustomDrilling"
     static class CustomDrillingOnProduct
     {
         private static Product? ConfiguredProduct { get; set; }
@@ -635,7 +634,7 @@ namespace PolytecOrderEDI
                     double hole2Height = INUP + drillingInfo.LeftDefaultINUP + drillingInfo.Gap1;
 
                     if (Hole3FromTop > 0) { DrillExtraHoles((Hole3FromTop)); }  //hole3FromTop == hole3 from left
-                    if (Hole4FromTop > 0) { DrillExtraHoles((Hole3FromTop)); }  //hole4FromTop == hole4 from left
+                    if (Hole4FromTop > 0) { DrillExtraHoles((Hole4FromTop)); }  //hole4FromTop == hole4 from left
                     if (Hole5FromTop > 0) { DrillExtraHoles((Hole5FromTop)); }  //hole5FromTop == hole5 from left
                     if (Hole6FromTop > 0) { DrillExtraHoles((Hole6FromTop)); }  //hole6FromTop == hole5 from left
 

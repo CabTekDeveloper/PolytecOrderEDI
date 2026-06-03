@@ -50,7 +50,7 @@ namespace PolytecOrderEDI
             };
 
             //CustomDrillingOnProduct.AddDrillings(Part, ConfiguredProduct);  //AddDrillings drilling
-            CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);  //AddDrillings drilling
+            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);  //AddDrillings drilling
             PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
         }
        
