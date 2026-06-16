@@ -8,6 +8,8 @@
 //using BorgEdi.Enums;
 //using BorgEdi.Models;
 
+using BorgEdi.Models;
+
 namespace PolytecOrderEDI
 {
     class CabinetPart
@@ -84,51 +86,49 @@ namespace PolytecOrderEDI
             var productType = PRODUCTTYPE.None;
             int thickness = (int)part.Dimz;
 
-            //if (thickness == 16) productType = PRODUCTTYPE.Decorative16mm;
-            //else if (thickness == 18) productType = PRODUCTTYPE.Decorative18mm;
-
-            //Until Polytec adds new models for different thciknesses of Decoratitive products, any thickness other than 18mm will be categorized as decorative16mm.
-            if (thickness == 18) productType = PRODUCTTYPE.Decorative18mm;
-            else productType = PRODUCTTYPE.Decorative16mm;
+            //Until Polytec adds new models for different thciknesses of Decoratitive products, any thickness other than 16mm will be categorized as decorative18mm.
+            if (thickness == 16) 
+                productType = PRODUCTTYPE.Decorative16mm;
+            else 
+                productType = PRODUCTTYPE.Decorative18mm;
 
             return productType;
         }
 
 
-        //Workout ConfiguredPiece
+        //Workout Product
         private static PRODUCT Workout_Product(ICBPart part)
         {
-            var product = PRODUCT.None;
-            var PartDescription = part.PartDescription;
-            var CabinetName = part.CabinetName;
+            var description = part.PartDescription;
+            var cabinetName = part.CabinetName;
+
+            //Drawer front check
             string[] dfStrings = ["Drawer_Front", "Drw_Front"];
-            //string[] panelStrings = ["Panel", "pnl", "Filler"];
-
-
-            if (dfStrings.Any(str => PartDescription.Contains(str, StringComparison.OrdinalIgnoreCase)))
+            if (dfStrings.Any(str => description.Contains(str, StringComparison.OrdinalIgnoreCase)))
+                return PRODUCT.DrawerFront;
+            
+            //Door / Glassframe check
+            if (description.Contains("Door", StringComparison.OrdinalIgnoreCase))
             {
-                product = PRODUCT.DrawerFront;
+                if (cabinetName.Contains("Glass", StringComparison.OrdinalIgnoreCase) && cabinetName.Contains("Frame", StringComparison.OrdinalIgnoreCase))
+                    return PRODUCT.GlassFrame;
+                
+                return PRODUCT.Door;
             }
             
-            else if (PartDescription.Contains("Door", StringComparison.OrdinalIgnoreCase))
-            {
-                if (CabinetName.Contains("Glass", StringComparison.OrdinalIgnoreCase) && CabinetName.Contains("Frame", StringComparison.OrdinalIgnoreCase))
-                {
-                    product = PRODUCT.GlassFrame;
-                }
-                else { product = PRODUCT.Door; }
-               
+            //Panel check
+            if (part.CNCCODE == "RSMPANEL") 
+            { 
+                if (cabinetName.Contains("Roller Shutter Panel", StringComparison.OrdinalIgnoreCase)) 
+                    return PRODUCT.RollerFrame;
+                
+                if (cabinetName.Contains("Microwave Panel", StringComparison.OrdinalIgnoreCase)) 
+                    return PRODUCT.CutOut;
+
+                return PRODUCT.Panel;
             }
 
-            //else if (panelStrings.Any(str => PartDescription.Contains(str, StringComparison.OrdinalIgnoreCase)))
-            else
-            {
-                if (part.CNCCODE == "RSMPANEL" && CabinetName.Contains("Roller Shutter Panel", StringComparison.OrdinalIgnoreCase)) product = PRODUCT.RollerFrame;
-                else if (part.CNCCODE == "RSMPANEL" && CabinetName.Contains("Microwave Panel", StringComparison.OrdinalIgnoreCase)) product = PRODUCT.CutOut;
-                else product = PRODUCT.Panel;
-            }
-
-            return product;
+            return PRODUCT.None; 
         }
 
 
@@ -162,12 +162,6 @@ namespace PolytecOrderEDI
                 //Bi-fold doors
                 if (CncCode == "BCCDOORL" || CncCode == "BCCDOORR") 
                 {
-                    //if  (hand == 1) partName = PARTNAME.Left_Bifold;
-                    //else if (hand == 3) partName = PARTNAME.Right_Leaf;
-                    //else if (hand == 2) partName = PARTNAME.Right_Bifold;
-                    //else if (hand == 4) partName = PARTNAME.Left_Leaf;
-                    //else partName = PARTNAME.None;
-
                     //08-04-2026 Wangchuk - Replaced code block above
                     partName = hand switch
                     {
@@ -183,13 +177,6 @@ namespace PolytecOrderEDI
                 {
                     if (hand == 1 || hand == 2)
                     {
-                        //if (CncCode == "BFDR_L1") partName = PARTNAME.Left_770;
-                        //else if (CncCode == "BFDR_L2") partName = PARTNAME.Right_Leaf_770;
-                        //else if (CncCode == "BFDR_R1") partName = PARTNAME.Right_770;
-                        //else if (CncCode == "BFDR_R2") partName = PARTNAME.Left_Leaf_770 ;
-                        //else partName = PARTNAME.None; 
-
-
                         //08-04-2026 Wangchuk - Replaced code block above
                         partName = CncCode switch
                         {
