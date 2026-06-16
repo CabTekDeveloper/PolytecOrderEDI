@@ -1,10 +1,4 @@
 ﻿
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
 using BorgEdi.Enums;
 using BorgEdi.Models;
 
@@ -12,68 +6,64 @@ namespace PolytecOrderEDI
 {
     static class AddDecorativeGlassFrame
     {
-        private static CabinetPart Part { get; set; } = new();
-
         public static void Add(CabinetPart part)
         {
-            Part = part;
-            if (Part.ProductType == PRODUCTTYPE.Decorative16mm) Create16mmGlassFrame();
-            else Create18mmGlassFrame();
+            if (part.ProductType == PRODUCTTYPE.Decorative16mm) 
+                Create16mmGlassFrame(part);
+            else 
+                Create18mmGlassFrame(part);
         }
 
-        private static void Create16mmGlassFrame( )
+        private static void Create16mmGlassFrame(CabinetPart part)
         {
-            var ConfiguredProduct = new Decorative16mmGlassFrame()
+            var configuredProduct = new Decorative16mmGlassFrame()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.ContrastingEdgeColour,
-                Finish = Part.Finish,
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.ContrastingEdgeColour,
+                Finish = part.Finish,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
-            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
-            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
-            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
+            CustomDrilling.AddDrillings(configuredProduct: configuredProduct, cabinet_part: part);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct);
         }
 
 
-        private static void Create18mmGlassFrame()
+        private static void Create18mmGlassFrame(CabinetPart part)
         {
-            var ConfiguredProduct = new Decorative18mmGlassFrame()
+            var configuredProduct = new Decorative18mmGlassFrame()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.ContrastingEdgeColour,
-                Finish = Part.Finish,
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
-                CoatedSides = (string.Equals(Part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.ContrastingEdgeColour,
+                Finish = part.Finish,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
+                CoatedSides = (string.Equals(part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
-            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
-            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
+            CustomDrilling.AddDrillings(configuredProduct: configuredProduct, cabinet_part: part);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct);
         }
 
     }

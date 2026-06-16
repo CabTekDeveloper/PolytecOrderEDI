@@ -6,106 +6,97 @@ namespace PolytecOrderEDI
 {
     static class AddDecorativeDrawers
     {
-        private static List<CabinetPart> LstDrawerBank { get; set; } = [];
-        private static CabinetPart Part { get; set; } = new();
+        private const int DrawerGap = 3;
+        private const string DrawerBankEdge = "11111";
 
         public static void Add(List<CabinetPart> lstDrawerBank)
         {
-            LstDrawerBank   = lstDrawerBank;
-            Part            = lstDrawerBank[0];
-
-            if (LstDrawerBank.Count == 1)
-            {
-                AddDecorativeDoor.Add(Part); //Single drawer front is added as a door
-            }
-            else
-            {
-                if (Part.ProductType == PRODUCTTYPE.Decorative16mm) Create16mmDrawerBank();
-                else Create18mmDrawerBank();
-            }
+            var part = lstDrawerBank[0];
+            if (lstDrawerBank.Count == 1)
+                AddDecorativeDoor.Add(part); //Single drawer front is added as a door
+            else if (part.ProductType == PRODUCTTYPE.Decorative16mm) 
+                Create16mmDrawerBank(lstDrawerBank);
+            else 
+                Create18mmDrawerBank(lstDrawerBank);
         }
         
 
         //Create 16mm Drawer Bank
-        private static void Create16mmDrawerBank()
+        private static void Create16mmDrawerBank( List<CabinetPart> lstDrawerBank)
         {
-            var ConfiguredDrawerBank = new Decorative16mmDrawers()
+            var part = lstDrawerBank[0];
+            var configuredDrawerBank = new Decorative16mmDrawers()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal) LstDrawerBank.Sum(df => df.Height) + ((LstDrawerBank.Count - 1) * 3),  
-                Width = (decimal) Part.Width,
-                EdgeLocation = "11111",
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
-                Colour = Part.Color,
-                Finish = Part.Finish,
+                Quantity = part.Quantity,
+                Height = (decimal) lstDrawerBank.Sum(df => df.Height) + ((lstDrawerBank.Count - 1) * DrawerGap),  
+                Width = (decimal) part.Width,
+                EdgeLocation = DrawerBankEdge,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
+                Colour = part.Color,
+                Finish = part.Finish,
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredDrawerBank.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredDrawerBank.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredDrawerBank.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredDrawerBank.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
             //AddDrillings  drawer fronts           
-            foreach (var drawerFront in LstDrawerBank)
+            foreach (var drawerFront in lstDrawerBank)
             {
-                Part = drawerFront;
-
-                var DrawerPiece = new Decorative16mmDrawersPiece()
+                var drawerPiece = new Decorative16mmDrawersPiece()
                 {
                     Height = (decimal)drawerFront.Height,
-                    Width = (decimal) Part.Width,
-                    EdgeLocation = Part.EdgeLocation,
-                    AdditionalInstructions = Part.AdditionalInstructions,
-                    LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
+                    Width = (decimal)drawerFront.Width,
+                    EdgeLocation = drawerFront.EdgeLocation,
+                    AdditionalInstructions = drawerFront.AdditionalInstructions,
+                    LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{drawerFront.CabinetNumber}-P{drawerFront.PartNumber}" },
                 };
-                //DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, vinylPart);
-                CustomDrilling.AddDrillings(configuredPiece: DrawerPiece, cabinet_part:Part);
-                ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
-            }
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);
-        }
 
+                CustomDrilling.AddDrillings(configuredPiece: drawerPiece , cabinet_part: drawerFront);
+                configuredDrawerBank.Pieces.Add(drawerPiece);
+            }
+            PolytecConfiguredOrder.Order.AddProduct(configuredDrawerBank);
+        }
 
         //Create 18mm Drawer Bank
-        private static void Create18mmDrawerBank()
+        private static void Create18mmDrawerBank(List<CabinetPart> lstDrawerBank)
         {
-            var ConfiguredDrawerBank = new Decorative18mmDrawers()
+            var part = lstDrawerBank[0];
+            var configuredDrawerBank = new Decorative18mmDrawers()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)LstDrawerBank.Sum(df => df.Height) + ((LstDrawerBank.Count - 1) * 3),
-                Width = (decimal)Part.Width,
-                EdgeLocation = "11111",
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
-                Colour = Part.Color,
-                Finish = Part.Finish,
-                CoatedSides = (string.Equals(Part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2
+                Quantity = part.Quantity,
+                Height = (decimal)lstDrawerBank.Sum(df => df.Height) + ((lstDrawerBank.Count - 1) * DrawerGap),
+                Width = (decimal)part.Width,
+                EdgeLocation = DrawerBankEdge,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
+                Colour = part.Color,
+                Finish = part.Finish,
+                CoatedSides = (string.Equals(part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredDrawerBank.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredDrawerBank.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredDrawerBank.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredDrawerBank.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
            
-            foreach (var drawerFront in LstDrawerBank)
+            foreach (var drawerFront in lstDrawerBank)
             {
-                Part = drawerFront;
-                var DrawerPiece = new Decorative18mmDrawersPiece()
+                var drawerPiece = new Decorative18mmDrawersPiece()
                 {
                     Height = (decimal)drawerFront.Height,
-                    Width = (decimal)Part.Width,
-                    EdgeLocation = Part.EdgeLocation,
-                    AdditionalInstructions = Part.AdditionalInstructions,
-                    LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
+                    Width = (decimal)drawerFront.Width,
+                    EdgeLocation = drawerFront.EdgeLocation,
+                    AdditionalInstructions = drawerFront.AdditionalInstructions,
+                    LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{drawerFront.CabinetNumber}-P{drawerFront.PartNumber}" },
                 };
 
-                //DecorativeGenericPieceCustomDrilling.Add(DrawerPiece, vinylPart);
-                CustomDrilling.AddDrillings(configuredPiece: DrawerPiece, cabinet_part: Part);
-                ConfiguredDrawerBank.Pieces.Add(DrawerPiece);
+                CustomDrilling.AddDrillings(configuredPiece: drawerPiece , cabinet_part: drawerFront);
+                configuredDrawerBank.Pieces.Add(drawerPiece );
             }
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredDrawerBank);
+            PolytecConfiguredOrder.Order.AddProduct(configuredDrawerBank);
         }
-
     }
 }

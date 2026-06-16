@@ -7,81 +7,76 @@ namespace PolytecOrderEDI
 {
     static class AddDecorativeDoor
     {
-        private static CabinetPart Part { get; set; } = new();
-
         public static void Add(CabinetPart part)
         {
-            Part = part;
-
-            if (part.ProductType == PRODUCTTYPE.Decorative16mm) Create16mmDoor();
-            else Create18mmDoor();
+            if (part.ProductType == PRODUCTTYPE.Decorative16mm) 
+                Create16mmDoor(part);
+            else 
+                Create18mmDoor(part);
         }
 
-        private static void Create16mmDoor( )
+        private static void Create16mmDoor(CabinetPart part)
         {
-            var ConfiguredProduct = new Decorative16mmDoor()
+            var configuredProduct = new Decorative16mmDoor()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.Color,
-                Finish = Part.Finish,
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.Color,
+                Finish = part.Finish,
             };
 
             //if Thickness is not 16, specify the Thickness.
-            if (Part.Thickness != 16)
+            if (part.Thickness != 16)
             {
-                ConfiguredProduct.Thickness = Part.Thickness.ToString();
+                configuredProduct.Thickness = part.Thickness.ToString();
             }
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
-            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);       //AddDrillings Drilling
-            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
-            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
-
-
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);   //AddDrillings to Configured Order
+            CustomDrilling.AddDrillings(configuredProduct: configuredProduct, cabinet_part: part);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct); 
         }
 
 
-        private static void Create18mmDoor()
+        private static void Create18mmDoor(CabinetPart part)
         {
-
-            var ConfiguredProduct = new Decorative18mmDoor()
+            var configuredProduct = new Decorative18mmDoor()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                HandleSystem = (Part.HandleSystem == "") ? null : Part.HandleSystem,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.Color,
-                Finish = Part.Finish,
-                CoatedSides = (string.Equals(Part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2 
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                HandleSystem = (part.HandleSystem == "") ? null : part.HandleSystem,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.Color,
+                Finish = part.Finish,
+                CoatedSides = (string.Equals(part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2 
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            //if Thickness is not 18, specify the Thickness.
+            if (part.Thickness != 18)
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.Thickness = part.Thickness.ToString();
             }
 
-            //DecorativeProductCustomDrilling.Add(Part, ConfiguredProduct);
-            //CustomDrillingOnProduct.AddDrillings(configuredProduct: ConfiguredProduct, vinyl_part: Part);
-            CustomDrilling.AddDrillings(configuredProduct: ConfiguredProduct, cabinet_part: Part);
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
+            {
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
+            }
 
-
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
+            CustomDrilling.AddDrillings(configuredProduct: configuredProduct, cabinet_part: part);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct);
         }
     }
 

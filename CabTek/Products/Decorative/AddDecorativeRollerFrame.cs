@@ -1,91 +1,77 @@
-﻿
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
-using BorgEdi.Enums;
+﻿using BorgEdi.Enums;
 using BorgEdi.Models;
 
 namespace PolytecOrderEDI
 {
     static class AddDecorativeRollerFrame
     {
-        private static CabinetPart Part { get; set; } = new();
-        private static BuildParameter_Cutout CutoutParams { get; set; } = new();
-
         public static void Add(CabinetPart part)
         {
-            Part            = part;
-            CutoutParams    = new BuildParameter_Cutout(Part);
+           var cutoutParams    = new BuildParameter_Cutout(part);
 
-            if (CutoutParams.STTP == 0)
-            {
-                AddDecorativeDoor.Add(Part);
-            }
+            if (cutoutParams.STTP == 0)
+                AddDecorativeDoor.Add(part);
+            else if (part.ProductType == PRODUCTTYPE.Decorative16mm) 
+                Create16mmRollerFrame(part,cutoutParams);
             else
-            {
-                if (Part.ProductType == PRODUCTTYPE.Decorative16mm) Create16mmRollerFrame();
-                else Create18mmGlassFrame();
-            }
-        }
-
-        private static void Create16mmRollerFrame()
-        {
+                Create18mmRollerFrame(part,cutoutParams);
             
-            var ConfiguredProduct = new Decorative16mmRollerFrame()
-            {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.ContrastingEdgeColour,
-                Finish = Part.Finish,
+        }
 
-                A = (decimal)CutoutParams.CutoutTopBorder,
-                B = (decimal)CutoutParams.CutoutLeftBorder,
-                C = (decimal)CutoutParams.CutoutRightBorder,
+        private static void Create16mmRollerFrame(CabinetPart part, BuildParameter_Cutout cutoutParams)
+        {
+            var configuredProduct = new Decorative16mmRollerFrame()
+            {
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.ContrastingEdgeColour,
+                Finish = part.Finish,
+
+                A = (decimal)cutoutParams.CutoutTopBorder,
+                B = (decimal)cutoutParams.CutoutLeftBorder,
+                C = (decimal)cutoutParams.CutoutRightBorder,
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct);
         }
 
 
-        private static void Create18mmGlassFrame()
+        private static void Create18mmRollerFrame(CabinetPart part, BuildParameter_Cutout cutoutParams)
         {
-            var ConfiguredProduct = new Decorative18mmRollerFrame()
+            var configuredProduct = new Decorative18mmRollerFrame()
             {
-                Quantity = Part.Quantity,
-                Height = (decimal)Part.Height,
-                Width = (decimal)Part.Width,
-                EdgeLocation = Part.EdgeLocation,
-                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{Part.CabinetNumber}-P{Part.PartNumber}" },
-                AdditionalInstructions = Part.AdditionalInstructions,
-                Colour = Part.ContrastingEdgeColour,
-                Finish = Part.Finish,
-                CoatedSides = (string.Equals(Part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2,
+                Quantity = part.Quantity,
+                Height = (decimal)part.Height,
+                Width = (decimal)part.Width,
+                EdgeLocation = part.EdgeLocation,
+                LabelReference = new LabelReference() { Style = LabelStyle.Text, Reference = $"C{part.CabinetNumber}-P{part.PartNumber}" },
+                AdditionalInstructions = part.AdditionalInstructions,
+                Colour = part.ContrastingEdgeColour,
+                Finish = part.Finish,
+                CoatedSides = (string.Equals(part.Side, "SS", StringComparison.OrdinalIgnoreCase)) ? 1 : 2,
 
-                A = (decimal)CutoutParams.CutoutTopBorder,
-                B = (decimal)CutoutParams.CutoutLeftBorder,
-                C = (decimal)CutoutParams.CutoutRightBorder,
+                A = (decimal)cutoutParams.CutoutTopBorder,
+                B = (decimal)cutoutParams.CutoutLeftBorder,
+                C = (decimal)cutoutParams.CutoutRightBorder,
             };
 
-            if (Part.ContrastingEdgeColour != "" && Part.ContrastingEdgeFinish != "")
+            if (part.ContrastingEdgeColour != "" && part.ContrastingEdgeFinish != "")
             {
-                ConfiguredProduct.ContrastEdgeColour = Part.ContrastingEdgeColour;
-                ConfiguredProduct.ContrastEdgeFinish = Part.ContrastingEdgeFinish;
+                configuredProduct.ContrastEdgeColour = part.ContrastingEdgeColour;
+                configuredProduct.ContrastEdgeFinish = part.ContrastingEdgeFinish;
             }
 
-            PolytecConfiguredOrder.Order.AddProduct(ConfiguredProduct);
+            PolytecConfiguredOrder.Order.AddProduct(configuredProduct);
         }
 
     }
