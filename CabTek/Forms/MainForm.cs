@@ -11,13 +11,7 @@ namespace PolytecOrderEDI
         //FORM LOAD
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //Update MainForm caption
-            this.Text = $"Polytec Order EDI (V.2026.06.19)";
-
-            //Update Copyright label dynamically
-            LblCopyright.Text = $"© 2024 - {DateTime.Now.Year} | CabTek Industries";
-
-            //Set current user name
+            
             GlobalVariable.CurrentUserName = RegistryInfo.GetUserName();
 
             if (String.IsNullOrEmpty(GlobalVariable.CurrentUserName))
@@ -30,7 +24,15 @@ namespace PolytecOrderEDI
                 ChangeJobType();
                 ResetMainForm();
                 TableEdiAppConnectionLog.AddCurrentUserConnectDateTime();
+
+                //Set current user name
                 LblCurrentUserName.Text = GlobalVariable.CurrentUserName;
+
+                //Set MainForm caption
+                this.Text = $"Polytec Order EDI (V.2026.06.19)";
+
+                //Set Copyright label
+                LblCopyright.Text = $"© 2024 - {DateTime.Now.Year} | CabTek Industries";
             }
         }
 
