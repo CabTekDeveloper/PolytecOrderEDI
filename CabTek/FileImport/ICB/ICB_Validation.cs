@@ -42,10 +42,9 @@ namespace PolytecOrderEDI
                         errorMsg += Parameter_Validation(part);
 
                         //Concat error messages
-                        if (errorMsg != "")
-                        {
+                        if (errorMsg.Length > 0)
                             ErrorMessage += $"PART NUMBER: {part.PartNumber}\n{errorMsg}\n";
-                        }
+                        
                     }
                 }
 
@@ -56,7 +55,8 @@ namespace PolytecOrderEDI
                     FileManager.FileImportMessage = $"Fix the errors and import again.";
                     return false;
                 }
-                else { return true; }
+
+                return true; 
 
             }
             catch (Exception ex)
@@ -68,7 +68,6 @@ namespace PolytecOrderEDI
         }
 
        
-
         //UNIQUE PART NUMBER VALIDATION
         private static void UniquePartNumber_Validation(List<ICBPart> LstICBPart)
         {
@@ -77,10 +76,10 @@ namespace PolytecOrderEDI
 
             foreach (var part in LstICBPart)
             {
-                var partNo = part.PartNumber;
-                if (!tempSet.Add(partNo))
+                if (!tempSet.Add(part.PartNumber))
                 {
-                    if (!duplicatePartNos.Contains(partNo)) duplicatePartNos.Add(partNo);
+                    if (!duplicatePartNos.Contains(part.PartNumber)) 
+                        duplicatePartNos.Add(part.PartNumber);
                 }
             }
 
@@ -101,10 +100,10 @@ namespace PolytecOrderEDI
 
             foreach (var part in LstICBPart)
             {
-                var partId = part.UniquePartId;
-                if (!tempSet.Add(partId))
+                if (!tempSet.Add(part.UniquePartId))
                 {
-                    if (!duplicatePartIds.Contains(partId)) duplicatePartIds.Add(partId);
+                    if (!duplicatePartIds.Contains(part.UniquePartId)) 
+                        duplicatePartIds.Add(part.UniquePartId);
                 }
             }
 
@@ -118,66 +117,39 @@ namespace PolytecOrderEDI
 
         private static string Thickness_Validation(ICBPart part)
         {
-            
-            string errorMsg = string.Empty;
             if (part.Dimz == 0)
-            {
-                errorMsg += $"Thickness cannot left empty or set to 0.\n";
+                return "Thickness cannot be left empty or set to 0.\n";
 
-            }
-            else
-            {
-                //Until Polytec adds new models for different thciknesses of Decoratitive products, any thickness other than 18mm will be categorized as decorative16mm.
-                //And if the thickness is not 16mm no 18mm, we will validate if the product has been set to Door
+            //Until Polytec adds new models for different thciknesses of Decoratitive products, any thickness other than 18mm will be categorized as decorative16mm.
+            //And if the thickness is not 16mm no 18mm, we will validate if the product has been set to Door
+            var thickness = (int) part.Dimz;
+            if (thickness != 16 && thickness != 18 && !part.PartDescription.Contains("door", StringComparison.OrdinalIgnoreCase))
+                return "For thicknesses other than 16mm or 18mm, set PartDescription to 'Panel' or 'Door' in the ICB File.\n";
 
-                var thicness = (int) part.Dimz;
-                if (thicness != 16 && thicness != 18)
-                {
-                    if (!part.PartDescription.Contains("Door", StringComparison.OrdinalIgnoreCase))
-                    {
-                        errorMsg += $"For thickness other than 16mm or 18mm, set PartDescription to 'Panel' or 'Door' in the ICB File.\n";
-                    }
-                }
-            }
-
-                return errorMsg;
-
+             return string.Empty;
         }
 
         //PARAMETER VALIDATION
         private static string Parameter_Validation(ICBPart part)
         {
-            string errorMsg = string.Empty;
-            if (part.Parameter.Length > 0)
+            if (part.Parameter.Length == 0)
+                return string.Empty;
+
+            if (part.Parameter.Any(x => char.IsWhiteSpace(x))) 
+                return "Parameter field cannot have white spaces.\n";
+
+            var dict_param = HelperMethods.SplitParameter(part.Parameter);
+
+            if (dict_param.Count == 0)
+                return "Check the Parameters.\n";
+
+            foreach (var item in dict_param)
             {
-                if (part.Parameter.Any(x => Char.IsWhiteSpace(x)))
-                {
-                    errorMsg += $"Parameter field cannot have white spaces.\n";
-                }
-
-                else
-                {
-                    var dict_param = HelperMethods.SplitParameter(part.Parameter);
-                    if (dict_param.Count == 0)
-                    {
-                        errorMsg += $"Check the Parameters.\n";
-                    }
-                    else
-                    {
-                        foreach (var item in dict_param)
-                        {
-                            if (CustomRegex.LetterAndDigit().IsMatch(item.Key) == false)
-                            {
-                                errorMsg += $"Parameter field can only contain Letters and Numbers only.\n";
-                                break;
-                            }
-                        }
-                    }
-                }
-
-
+                if (!CustomRegex.LetterAndDigit().IsMatch(item.Key))
+                    return "Parameter field can only contain Letters and Numbers only.\n";
             }
-            return errorMsg;
+
+            return string.Empty;
         }
 
         //MATERIAL VALIDATION
@@ -185,50 +157,32 @@ namespace PolytecOrderEDI
         {
             string errorMsg = string.Empty;
 
-            //if(part.Material.Contains("é"))
-            //{
-            //    MessageBox.Show("Contains é");
-
-            //}
-
-            if (HelperMethods.IsMaterialHMRparticleBoard(part.Material))
-            {
-                errorMsg = string.Empty;
-            }
-            else
-            {
-                if (TablePolytecBoardColors.CheckRecordExists(part.Material) == false)
-                {
-                    errorMsg += $"The Material Color '{part.Material}' is either wrong or not present in the EDI database.\n";
-                }
-            }
+            if (!HelperMethods.IsMaterialHMRparticleBoard(part.Material) && !TablePolytecBoardColors.CheckRecordExists(part.Material))
+                errorMsg += $"The Material Color '{part.Material}' is either misspelled or not present in the EDI database.\n";
+           
             return errorMsg;
         }
 
         //EDGE DESCRIPTION VALIDATION
         private static string EdgeDescription_Validation(ICBPart part)
         {
-            string errorMsg = string.Empty;
             string concatEdgeDescription = part.TopEdgeDescription + part.BottomEdgeDescription + part.LeftEdgeDescription + part.RightEdgeDescription;
 
             if (concatEdgeDescription.Contains("contrasting", StringComparison.OrdinalIgnoreCase))
-            {
-                errorMsg += $"Replace edge description 'Contrasting' with a valid MaterialCode or 'Matching'.\n";
-            }
-            else
-            {
-                var edgeDescription = HelperMethods.GetEdgeColor(part).ToLower();
-                if (edgeDescription != "matching")
-                {
-                    if (HelperMethods.IsMaterialHMRparticleBoard(part.Material) == false)
-                    {
-                        if(edgeDescription == "white" || edgeDescription == "black" ) errorMsg += $"Replace edge description with a Valid MaterialCode or 'Matching'.\n";
-                    }
-                }
-            }
-            return errorMsg;
-        }
+                return "Replace edge description 'Contrasting' with a valid MaterialCode or 'Matching'.\n";
 
+            var edgeDescription = HelperMethods.GetEdgeColor(part);
+
+            if (string.Equals(edgeDescription, "matching", StringComparison.OrdinalIgnoreCase))
+                return string.Empty ;
+
+            if(!HelperMethods.IsMaterialHMRparticleBoard(part.Material) && 
+                (string.Equals(edgeDescription, "white", StringComparison.OrdinalIgnoreCase) || 
+                string.Equals(edgeDescription, "black", StringComparison.OrdinalIgnoreCase)))
+                    return "Replace edge description with a Valid MaterialCode or 'Matching'.\n";
+
+            return string.Empty;
+        }
 
     }
 }

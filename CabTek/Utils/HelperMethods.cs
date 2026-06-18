@@ -133,10 +133,9 @@ namespace PolytecOrderEDI
         public static bool IsMaterialHMRparticleBoard(string material)
         {
             if (string.Equals(material, HMRBOARD.WhiteHmrParticleBoard.ToString(), StringComparison.OrdinalIgnoreCase) || string.Equals(material, HMRBOARD.BlackHmrParticleBoard.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
                 return true;
-            }
-            else { return false; }
+            
+            return false; 
         }
 
 
