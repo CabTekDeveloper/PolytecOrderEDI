@@ -20,13 +20,13 @@ namespace PolytecOrderEDI
         private List<string> List_Finish { get; } = ["", "Ashgrain", "Createc", "Finegrain", "Gloss", "Legato", "Matera", "Matt", "Metallic", "Natura", "Ravine", "Raw", "Sanded", "Satin", "Sheen", "Smooth", "Texture", "Ultramatt", "Venette", "Woodgrain", "Woodmatt"];
         private List<string> List_Side { get; } = ["", "SS", "DS"];
         private List<string> List_Grain { get; } = ["", "0", "1"];
-
+        private List<string> List_In_16mm { get; } = ["","0", "1"];
+        private List<string> List_In_18mm { get; } = ["","0", "1"];
 
         public FrmPolytecColors()
         {
             InitializeComponent();
         }
-
 
         private void FrmPolytecColors_Load(object sender, EventArgs e)
         {
@@ -35,24 +35,20 @@ namespace PolytecOrderEDI
             DgvPolytecColors.ClearSelection();
         }
 
-
         private void BtnAddNewColor_Click(object sender, EventArgs e)
         {
             LoadGroupBox(showGb: true, GbText: "Add");
         }
-
 
         private void BtnEditColor_Click(object sender, EventArgs e)
         {
             LoadGroupBox(showGb: true, GbText: "Update");
         }
 
-
         private void BtnDeleteColor_Click(object sender, EventArgs e)
         {
             LoadGroupBox(showGb: true, GbText: "Delete");
         }
-
 
         private void BtnConfirmModify_Click(object sender, EventArgs e)
         {
@@ -65,12 +61,16 @@ namespace PolytecOrderEDI
             var finish = CmbFinish.GetItemText(CmbFinish.SelectedItem) ?? "";
             var side = CmbSide.GetItemText(CmbSide.SelectedItem) ?? "";
             var grain = CmbGrain.GetItemText(CmbGrain.SelectedItem) ?? "";
+            var in_16mm = CmbIn16mm.GetItemText(CmbIn16mm.SelectedItem) ?? "0";
+            var in_18mm = CmbIn18mm.GetItemText(CmbIn18mm.SelectedItem) ?? "0";
 
             if (materialCode == "") errorMsg += $"MaterialCode cannot be empty.\n";
             if (CustomRegex.WhiteSpaces().IsMatch(materialCode)) errorMsg += $"MaterialCode cannot have spaces between.\n";
             if (color == "") errorMsg += $"Color cannot be empty.\n";
             if (finish == "") errorMsg += $"Finish cannot be empty.\n";
             if (grain == "") errorMsg += $"Grain cannot be empty.\n";
+            if (in_16mm == "") errorMsg += $"In_16mm cannot be empty.\n";
+            if (in_18mm == "") errorMsg += $"In_18mm cannot be empty.\n";
 
             if (errorMsg.Length > 0)
             {
@@ -79,7 +79,7 @@ namespace PolytecOrderEDI
             else
             {
                 var newMaterialCode = materialCode;
-                var newColorInfo = new PolyColor(newMaterialCode, color, finish, side, grain, $"{color} {finish} {side}");
+                var newColorInfo = new PolyColor(newMaterialCode, color, finish, side, grain, $"{color} {finish} {side}", in_16mm, in_18mm);
                 var modifyType = BtnConfirmModify.Text.Trim().ToLower();
 
                 if (modifyType.Contains("Add", StringComparison.OrdinalIgnoreCase))
@@ -211,9 +211,13 @@ namespace PolytecOrderEDI
                 CmbFinish.DataSource = List_Finish;
                 CmbSide.DataSource = List_Side;
                 CmbGrain.DataSource = List_Grain;
+                CmbIn16mm.DataSource = List_In_16mm;
+                CmbIn18mm.DataSource = List_In_18mm;
                 CmbFinish.SelectedIndex = 0;
                 CmbSide.SelectedIndex = 0;
                 CmbGrain.SelectedIndex = 0;
+                CmbIn16mm.SelectedIndex = 0;
+                CmbIn18mm.SelectedIndex = 0;
 
                 //Enable/Disable controls
                 TxtMaterialCode.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
@@ -221,6 +225,8 @@ namespace PolytecOrderEDI
                 CmbFinish.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
                 CmbSide.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
                 CmbGrain.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
+                CmbIn16mm.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
+                CmbIn18mm.Enabled = !GbText.Contains("delete", StringComparison.OrdinalIgnoreCase);
 
                 if (GbModifyColor.Text.Contains("update", StringComparison.OrdinalIgnoreCase) || GbModifyColor.Text.Contains("delete", StringComparison.OrdinalIgnoreCase))
                 {
@@ -260,6 +266,8 @@ namespace PolytecOrderEDI
                 CmbFinish.SelectedIndex = CmbFinish.Items.IndexOf(colorInfo.Finish);
                 CmbSide.SelectedIndex = CmbSide.Items.IndexOf(colorInfo.Side);
                 CmbGrain.SelectedIndex = CmbGrain.Items.IndexOf(colorInfo.Grain);
+                CmbIn16mm.SelectedIndex = CmbIn16mm.Items.IndexOf(colorInfo.In_16mm);
+                CmbIn18mm.SelectedIndex = CmbIn18mm.Items.IndexOf(colorInfo.In_18mm);
             }
         }
 

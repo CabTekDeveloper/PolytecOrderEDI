@@ -24,6 +24,8 @@ namespace PolytecOrderEDI
         private static string FN_Side { get; } = "Side";
         private static string FN_MaterialDescription { get; } = "MaterialDescription";
         private static string FN_Grain { get; } = "Grain";
+        private static string FN_In_16mm { get; } = "In_16mm";
+        private static string FN_In_18mm { get; } = "In_18mm";
 
 
         public static PolyColor? GetColorInfo(string materialCode)
@@ -34,6 +36,8 @@ namespace PolytecOrderEDI
             var side = string.Empty;
             var grain = string.Empty;
             var materialDescription = string.Empty;
+            var in_16mm = string.Empty;
+            var in_18mm = string.Empty;
 
             SQL = $" SELECT * FROM {TableName} WHERE {FN_MaterialCode} = @{FN_MaterialCode} COLLATE NOCASE";
             DbConnection.Open();
@@ -49,11 +53,13 @@ namespace PolytecOrderEDI
                 side = $"{reader.GetValue($"{FN_Side}")}";
                 grain = $"{reader.GetValue($"{FN_Grain}")}";
                 materialDescription = $"{reader.GetValue($"{FN_MaterialDescription}")}";
+                in_16mm = $"{reader.GetValue($"{FN_In_16mm}")}";
+                in_18mm = $"{reader.GetValue($"{FN_In_18mm}")}";
             }
             reader.Close();
             DbConnection.Close();
 
-            var colorInfo = (materialDescription != "") ? new PolyColor(materialCode, color, finish, side, grain, materialDescription) : null;
+            var colorInfo = (materialDescription != "") ? new PolyColor(materialCode, color, finish, side, grain, materialDescription, in_16mm, in_18mm) : null;
 
             return colorInfo;
         }
@@ -73,11 +79,12 @@ namespace PolytecOrderEDI
                 var color = $"{reader.GetValue($"{FN_Color}")}";
                 var finish = $"{reader.GetValue($"{FN_Finish}")}";
                 var side = $"{reader.GetValue($"{FN_Side}")}";
-                //var grain = (int) reader.GetValue($"{FN_Grain}");
                 var grain = $"{reader.GetValue($"{FN_Grain}")}";
-
                 var materialDescription = $"{reader.GetValue($"{FN_MaterialDescription}")}";
-                polytecColors.Add(new PolyColor(materialCode, color, finish, side, grain, materialDescription));
+                var in_16mm = $"{reader.GetValue($"{FN_In_16mm}")}";
+                var in_18mm = $"{reader.GetValue($"{FN_In_18mm}")}";
+
+                polytecColors.Add(new PolyColor(materialCode, color, finish, side, grain, materialDescription, in_16mm, in_18mm));
             }
             reader.Close();
             DbConnection.Close();
@@ -105,8 +112,8 @@ namespace PolytecOrderEDI
         public static void InsertRecord(PolyColor colorInfo)
         {
             DbConnection.Open();
-            SQL = $" INSERT INTO {TableName} ({FN_MaterialCode}, {FN_Color}, {FN_Finish}, {FN_Side}, {FN_Grain}, {FN_MaterialDescription} ) " +
-                  $" VALUES (@{FN_MaterialCode}, @{FN_Color}, @{FN_Finish}, @{FN_Side}, @{FN_Grain}, @{FN_MaterialDescription}) ";
+            SQL = $" INSERT INTO {TableName} ({FN_MaterialCode}, {FN_Color}, {FN_Finish}, {FN_Side}, {FN_Grain}, {FN_MaterialDescription}, {FN_In_16mm}, {FN_In_18mm} ) " +
+                  $" VALUES (@{FN_MaterialCode}, @{FN_Color}, @{FN_Finish}, @{FN_Side}, @{FN_Grain}, @{FN_MaterialDescription}, @{FN_In_16mm}, @{FN_In_18mm}) ";
 
             using var command = new SqliteCommand(SQL, DbConnection);
             command.Parameters.AddWithValue($"@{FN_MaterialCode}", colorInfo.MaterialCode);
@@ -115,7 +122,9 @@ namespace PolytecOrderEDI
             command.Parameters.AddWithValue($"@{FN_Side}", colorInfo.Side);
             command.Parameters.AddWithValue($"@{FN_Grain}", colorInfo.Grain);
             command.Parameters.AddWithValue($"@{FN_MaterialDescription}", colorInfo.MaterialDescription);
-            
+            command.Parameters.AddWithValue($"@{FN_In_16mm}", colorInfo.In_16mm);
+            command.Parameters.AddWithValue($"@{FN_In_18mm}", colorInfo.In_18mm);
+
             command.ExecuteNonQuery();
             DbConnection.Close();
         }
@@ -142,7 +151,9 @@ namespace PolytecOrderEDI
                     $"      {FN_Finish} = @{FN_Finish}, " +
                     $"      {FN_Side} = @{FN_Side}, " +
                     $"      {FN_Grain} = @{FN_Grain}, " +
-                    $"      {FN_MaterialDescription} = @{FN_MaterialDescription} " +
+                    $"      {FN_MaterialDescription} = @{FN_MaterialDescription}, " +
+                    $"      {FN_In_16mm} = @{FN_In_16mm}, " +
+                    $"      {FN_In_18mm} = @{FN_In_18mm} " +
                     $" WHERE {FN_MaterialCode} = @OriginalMaterialCode COLLATE NOCASE";
 
             using var command = new SqliteCommand(SQL, DbConnection);
@@ -152,6 +163,8 @@ namespace PolytecOrderEDI
             command.Parameters.AddWithValue($"@{FN_Side}", colorInfo.Side);
             command.Parameters.AddWithValue($"@{FN_Grain}", colorInfo.Grain);
             command.Parameters.AddWithValue($"@{FN_MaterialDescription}", colorInfo.MaterialDescription);
+            command.Parameters.AddWithValue($"@{FN_In_16mm}", colorInfo.In_16mm);
+            command.Parameters.AddWithValue($"@{FN_In_18mm}", colorInfo.In_18mm);
             command.Parameters.AddWithValue($"@OriginalMaterialCode", materialCode);
             command.ExecuteNonQuery();
             DbConnection.Close();

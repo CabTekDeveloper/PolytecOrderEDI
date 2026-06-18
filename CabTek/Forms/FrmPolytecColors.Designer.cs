@@ -42,6 +42,10 @@
             TxtColor = new TextBox();
             label1 = new Label();
             GbModifyColor = new GroupBox();
+            label7 = new Label();
+            CmbIn18mm = new ComboBox();
+            label6 = new Label();
+            CmbIn16mm = new ComboBox();
             label5 = new Label();
             TxtMaterialCode = new TextBox();
             CmbGrain = new ComboBox();
@@ -106,7 +110,7 @@
             DgvPolytecColors.RowsDefaultCellStyle = dataGridViewCellStyle4;
             DgvPolytecColors.ScrollBars = ScrollBars.Vertical;
             DgvPolytecColors.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvPolytecColors.Size = new Size(899, 477);
+            DgvPolytecColors.Size = new Size(950, 477);
             DgvPolytecColors.TabIndex = 0;
             DgvPolytecColors.TabStop = false;
             DgvPolytecColors.SelectionChanged += DgvPolytecColors_SelectionChanged;
@@ -181,7 +185,7 @@
             // 
             // TxtColor
             // 
-            TxtColor.Location = new Point(243, 48);
+            TxtColor.Location = new Point(241, 48);
             TxtColor.Name = "TxtColor";
             TxtColor.Size = new Size(180, 23);
             TxtColor.TabIndex = 1;
@@ -189,7 +193,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(243, 30);
+            label1.Location = new Point(241, 30);
             label1.Name = "label1";
             label1.Size = new Size(78, 15);
             label1.TabIndex = 45;
@@ -199,6 +203,10 @@
             // 
             GbModifyColor.BackColor = Color.SkyBlue;
             GbModifyColor.BackgroundImageLayout = ImageLayout.None;
+            GbModifyColor.Controls.Add(label7);
+            GbModifyColor.Controls.Add(CmbIn18mm);
+            GbModifyColor.Controls.Add(label6);
+            GbModifyColor.Controls.Add(CmbIn16mm);
             GbModifyColor.Controls.Add(label5);
             GbModifyColor.Controls.Add(TxtMaterialCode);
             GbModifyColor.Controls.Add(CmbGrain);
@@ -214,11 +222,47 @@
             GbModifyColor.FlatStyle = FlatStyle.Flat;
             GbModifyColor.Location = new Point(19, 46);
             GbModifyColor.Name = "GbModifyColor";
-            GbModifyColor.Size = new Size(899, 90);
+            GbModifyColor.Size = new Size(950, 90);
             GbModifyColor.TabIndex = 46;
             GbModifyColor.TabStop = false;
             GbModifyColor.Text = "Add/Edit/Delete Color";
             GbModifyColor.Visible = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(731, 30);
+            label7.Name = "label7";
+            label7.Size = new Size(59, 15);
+            label7.TabIndex = 60;
+            label7.Text = "In_18mm:";
+            // 
+            // CmbIn18mm
+            // 
+            CmbIn18mm.DropDownStyle = ComboBoxStyle.DropDownList;
+            CmbIn18mm.FormattingEnabled = true;
+            CmbIn18mm.Location = new Point(731, 48);
+            CmbIn18mm.Name = "CmbIn18mm";
+            CmbIn18mm.Size = new Size(61, 23);
+            CmbIn18mm.TabIndex = 59;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(665, 29);
+            label6.Name = "label6";
+            label6.Size = new Size(59, 15);
+            label6.TabIndex = 58;
+            label6.Text = "In_16mm:";
+            // 
+            // CmbIn16mm
+            // 
+            CmbIn16mm.DropDownStyle = ComboBoxStyle.DropDownList;
+            CmbIn16mm.FormattingEnabled = true;
+            CmbIn16mm.Location = new Point(665, 48);
+            CmbIn16mm.Name = "CmbIn16mm";
+            CmbIn16mm.Size = new Size(61, 23);
+            CmbIn16mm.TabIndex = 57;
             // 
             // label5
             // 
@@ -238,16 +282,17 @@
             // 
             // CmbGrain
             // 
+            CmbGrain.DropDownStyle = ComboBoxStyle.DropDownList;
             CmbGrain.FormattingEnabled = true;
-            CmbGrain.Location = new Point(642, 48);
+            CmbGrain.Location = new Point(609, 48);
             CmbGrain.Name = "CmbGrain";
-            CmbGrain.Size = new Size(61, 23);
+            CmbGrain.Size = new Size(49, 23);
             CmbGrain.TabIndex = 53;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(642, 30);
+            label4.Location = new Point(609, 30);
             label4.Name = "label4";
             label4.Size = new Size(38, 15);
             label4.TabIndex = 54;
@@ -255,25 +300,27 @@
             // 
             // CmbSide
             // 
+            CmbSide.DropDownStyle = ComboBoxStyle.DropDownList;
             CmbSide.FormattingEnabled = true;
-            CmbSide.Location = new Point(571, 48);
+            CmbSide.Location = new Point(553, 48);
             CmbSide.Name = "CmbSide";
-            CmbSide.Size = new Size(61, 23);
+            CmbSide.Size = new Size(49, 23);
             CmbSide.TabIndex = 3;
             // 
             // CmbFinish
             // 
             CmbFinish.BackColor = SystemColors.Window;
+            CmbFinish.DropDownStyle = ComboBoxStyle.DropDownList;
             CmbFinish.FormattingEnabled = true;
-            CmbFinish.Location = new Point(430, 48);
+            CmbFinish.Location = new Point(426, 48);
             CmbFinish.Name = "CmbFinish";
-            CmbFinish.Size = new Size(131, 23);
+            CmbFinish.Size = new Size(120, 23);
             CmbFinish.TabIndex = 2;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(571, 30);
+            label3.Location = new Point(553, 30);
             label3.Name = "label3";
             label3.Size = new Size(32, 15);
             label3.TabIndex = 52;
@@ -282,7 +329,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(430, 30);
+            label2.Location = new Point(426, 30);
             label2.Name = "label2";
             label2.Size = new Size(80, 15);
             label2.TabIndex = 50;
@@ -296,9 +343,9 @@
             BtnCancelModify.FlatStyle = FlatStyle.Flat;
             BtnCancelModify.Font = new Font("Segoe UI", 7.5F);
             BtnCancelModify.ForeColor = Color.White;
-            BtnCancelModify.Location = new Point(811, 47);
+            BtnCancelModify.Location = new Point(873, 47);
             BtnCancelModify.Name = "BtnCancelModify";
-            BtnCancelModify.Size = new Size(74, 24);
+            BtnCancelModify.Size = new Size(66, 24);
             BtnCancelModify.TabIndex = 48;
             BtnCancelModify.TabStop = false;
             BtnCancelModify.Text = "Cancel";
@@ -313,9 +360,9 @@
             BtnConfirmModify.FlatStyle = FlatStyle.Flat;
             BtnConfirmModify.Font = new Font("Segoe UI", 7.5F);
             BtnConfirmModify.ForeColor = Color.White;
-            BtnConfirmModify.Location = new Point(731, 47);
+            BtnConfirmModify.Location = new Point(800, 47);
             BtnConfirmModify.Name = "BtnConfirmModify";
-            BtnConfirmModify.Size = new Size(74, 24);
+            BtnConfirmModify.Size = new Size(66, 24);
             BtnConfirmModify.TabIndex = 47;
             BtnConfirmModify.TabStop = false;
             BtnConfirmModify.Text = "Confirm";
@@ -349,7 +396,7 @@
             BtnImportPolytecColors.FlatStyle = FlatStyle.Flat;
             BtnImportPolytecColors.Font = new Font("Segoe UI", 8F);
             BtnImportPolytecColors.ForeColor = Color.White;
-            BtnImportPolytecColors.Location = new Point(750, 10);
+            BtnImportPolytecColors.Location = new Point(801, 10);
             BtnImportPolytecColors.Name = "BtnImportPolytecColors";
             BtnImportPolytecColors.Size = new Size(168, 30);
             BtnImportPolytecColors.TabIndex = 48;
@@ -363,7 +410,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
-            ClientSize = new Size(937, 696);
+            ClientSize = new Size(988, 696);
             Controls.Add(BtnImportPolytecColors);
             Controls.Add(BtnDeleteColor);
             Controls.Add(GbModifyColor);
@@ -411,5 +458,9 @@
         private TextBox TxtMaterialCode;
         private Label label5;
         private Button BtnImportPolytecColors;
+        private Label label6;
+        private ComboBox CmbIn16mm;
+        private Label label7;
+        private ComboBox CmbIn18mm;
     }
 }

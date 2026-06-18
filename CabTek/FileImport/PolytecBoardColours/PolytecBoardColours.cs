@@ -88,7 +88,7 @@ namespace PolytecOrderEDI
                     string materialCode         = wSheet.Cells[rowIndex, materialCode_colIndex].Value;
                     string materialDescription  = wSheet.Cells[rowIndex, materialDescription_colIndex].Value;
                     string grain                = wSheet.Cells[rowIndex, grain_colIndex].Value;
-
+                    
                     if (materialDescription.Contains("polytec", StringComparison.OrdinalIgnoreCase))
                     {
                         var colorInfo = BuildColorInfo(materialCode, materialDescription, grain);
@@ -153,7 +153,7 @@ namespace PolytecOrderEDI
 
             //MessageBox.Show($"{materialCode}\n{color}\n{finish}\n{side}\n{grain}\n{materialDescription}");
 
-            return new PolyColor(materialCode, color, finish, side, grain, materialDescription);
+            return new PolyColor(materialCode, color, finish, side, grain, materialDescription,"0","0");
         }
 
 

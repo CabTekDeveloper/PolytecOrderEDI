@@ -1,24 +1,3 @@
-//using BorgEdi;
-//using BorgEdi.Enums;
-//using BorgEdi.Models;
-//using Microsoft.Win32;
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Collections.Specialized;
-//using System.Diagnostics;
-//using System.Globalization;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows.Forms;
-
-//using System.ComponentModel;
-//using System.Reflection;
-//using Microsoft.VisualBasic.Logging;
-//using System.IO;
-//using BorgEdi.ResponseModels;
-
 namespace PolytecOrderEDI
 {
     public partial class MainForm : Form
@@ -32,7 +11,15 @@ namespace PolytecOrderEDI
         //FORM LOAD
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Update MainForm caption
+            this.Text = $"Polytec Order EDI (V.2026.06.19)";
+
+            //Update Copyright label dynamically
+            LblCopyright.Text = $"© 2024 - {DateTime.Now.Year} | CabTek Industries";
+
+            //Set current user name
             GlobalVariable.CurrentUserName = RegistryInfo.GetUserName();
+
             if (String.IsNullOrEmpty(GlobalVariable.CurrentUserName))
             {
                 MessageBox.Show($"Set user name in the following Registry Path:\n\n{FileAndDirectory.KeyPath_PruchaseOrderForm_Information}", "Missing user name in registry", MessageBoxButtons.OK);
