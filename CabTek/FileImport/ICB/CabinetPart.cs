@@ -142,11 +142,9 @@ namespace PolytecOrderEDI
                 
                 if (cabinetName.Contains("Microwave Panel", StringComparison.OrdinalIgnoreCase)) 
                     return PRODUCT.CutOut;
-
-                return PRODUCT.Panel;
             }
 
-            return PRODUCT.None; 
+            return PRODUCT.Panel;
         }
 
 
