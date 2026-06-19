@@ -152,7 +152,6 @@ namespace PolytecOrderEDI
         //Workout_PartName
         private static PARTNAME Workout_PartName(ICBPart part)
         {
-            PARTNAME partName = PARTNAME.None;
             PRODUCT product = Workout_Product(part);
             var partDescription = part.PartDescription;
             var CncCode = part.CNCCODE;
@@ -162,24 +161,31 @@ namespace PolytecOrderEDI
             //DRAWER FRONTS
             if (product == PRODUCT.DrawerFront)
             {
-                if (partDescription.Contains("Left", StringComparison.OrdinalIgnoreCase))         partName = PARTNAME.Left;
-                else if (partDescription.Contains("Right", StringComparison.OrdinalIgnoreCase))   partName = PARTNAME.Right;
+                if (partDescription.Contains("Left", StringComparison.OrdinalIgnoreCase))         
+                    return PARTNAME.Left;
+                else if (partDescription.Contains("Right", StringComparison.OrdinalIgnoreCase))   
+                    return PARTNAME.Right;
             }
 
             //GLASS FRAME DOOR
-            else if (product == PRODUCT.GlassFrame)
+            if (product == PRODUCT.GlassFrame)
             {
-                partName = (hand == 1) ? PARTNAME.Left : (hand == 2) ? PARTNAME.Right : PARTNAME.None;
+                return hand switch
+                {
+                    1   => PARTNAME.Left,
+                    2   => PARTNAME.Right,
+                    _   => PARTNAME.None,
+                };
             }
 
             //DOORS
-            else if (product == PRODUCT.Door)
+            if (product == PRODUCT.Door)
             {
                 //Bi-fold doors
                 if (CncCode == "BCCDOORL" || CncCode == "BCCDOORR") 
                 {
                     //08-04-2026 Wangchuk - Replaced code block above
-                    partName = hand switch
+                    return hand switch
                     {
                         1 => PARTNAME.Left_Bifold,
                         3 => PARTNAME.Right_Leaf,
@@ -189,12 +195,12 @@ namespace PolytecOrderEDI
                     };
                 }
                 //770 Style Bi-fold doors 
-                else if (CncCode.Contains("BFDR_", StringComparison.OrdinalIgnoreCase))
+                if (CncCode.Contains("BFDR_", StringComparison.OrdinalIgnoreCase))
                 {
                     if (hand == 1 || hand == 2)
                     {
                         //08-04-2026 Wangchuk - Replaced code block above
-                        partName = CncCode switch
+                        return CncCode switch
                         {
                             "BFDR_L1" => PARTNAME.Left_770,
                             "BFDR_L2" => PARTNAME.Right_Leaf_770,
@@ -205,32 +211,29 @@ namespace PolytecOrderEDI
                     }
                 }
                 //Hamper Doors
-                else if (CncCode == "HAMPDOOR")
+                if (CncCode == "HAMPDOOR")
                 {
                     if (hand == 1)
                     {
-                        if (partDescription.Contains("Hamper", StringComparison.OrdinalIgnoreCase))     partName = PARTNAME.Top ;
-                        else if (partDescription.Contains("Left", StringComparison.OrdinalIgnoreCase))  partName = PARTNAME.Top_Bifold ;
-                        else if (partDescription.Contains("Right", StringComparison.OrdinalIgnoreCase)) partName = PARTNAME.Top_Leaf ;
+                        if (partDescription.Contains("Hamper", StringComparison.OrdinalIgnoreCase)) return PARTNAME.Top;
+                        if (partDescription.Contains("Left", StringComparison.OrdinalIgnoreCase))   return PARTNAME.Top_Bifold;
+                        if (partDescription.Contains("Right", StringComparison.OrdinalIgnoreCase))  return PARTNAME.Top_Leaf;
                     }
                 }
+
                 //Standard doors
-                else
-                {
-                    partName = (hand == 1) ? PARTNAME.Left : (hand == 2) ? PARTNAME.Right : PARTNAME.None;   
-                }
+                return (hand == 1) ? PARTNAME.Left : (hand == 2) ? PARTNAME.Right : PARTNAME.None;   
+                
             }
 
             //PANELS
-            else if (product == PRODUCT.Panel)
+            if (product == PRODUCT.Panel)
             {
                 //Blind Cabinet Panels
-                if (CncCode == "BSBLINDP")
-                {
-                    partName = (hand == 1) ? PARTNAME.Left_Blind_Panel : (hand == 2) ? PARTNAME.Right_Blind_Panel  : PARTNAME.None;    
-                }
+                if (CncCode == "BSBLINDP")  return (hand == 1) ? PARTNAME.Left_Blind_Panel : (hand == 2) ? PARTNAME.Right_Blind_Panel  : PARTNAME.None;    
             }
-            return partName;
+
+            return PARTNAME.None;
         }
 
 
