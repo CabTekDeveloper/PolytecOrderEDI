@@ -15,18 +15,18 @@ namespace PolytecOrderEDI
    
     class CabinetPart
     {
-        //Store colours and finishes in arry. If the list grows, it is better to modify the the table in the Database by adding new columns to flag it's availability
-        private static readonly string[] Finishes16mmOnly = ["Ashgrain", "Matt", "Sheen", "Smooth", "Texture"];
-        private static readonly string[] Finishes18mmOnly = ["Createc", "Legato", "Ravine", "Gloss", "Ultramatt", "Venette"];
-        private static readonly string[] Colours16mmOnly = ["Australian Native", "Quartiera Maple", "Natural Ply", "Plantation Ash",
-                                                            "Ligurian Walnut", "Palomera Oak", "Arcadia Oak", "Black Ply",
-                                                            "Nordic Oak", "Angora Oak", "Coastal Oak", "Casentino Beech", "Palace Teak",
-                                                            "Tasmanian Oak", "Prime Oak", "Antico Oak", "Notaio Walnut",
-                                                            "Florentine Walnut", "Rojo Walnut", "Havana Oak", "Empire Oak", "Bottega Oak",
-                                                            "Perugian Walnut", "Blossom White", "Silk Bespoke", "Cinder", "Black"];
-        private static readonly string[] Colours18mmOnly = ["Blonde Oak", "Ecru Oak", "Laurel Oak", "Botany Oak", "Manor Oak", "Hazel Oak",
-                                                            "Society Oak", "District Oak", "Bronzed Oak", "Rubra Oak",
-                                                            "Blackened Oak", "Dark Batten Oak", "Batten Oak", "Danish Rattan", "Swiss Rattan"];
+        ////Store colours and finishes in arry. If the list grows, it is better to modify the the table in the Database by adding new columns to flag it's availability
+        //private static readonly string[] Finishes16mmOnly = ["Ashgrain", "Matt", "Sheen", "Smooth", "Texture"];
+        //private static readonly string[] Finishes18mmOnly = ["Createc", "Legato", "Ravine", "Gloss", "Ultramatt", "Venette"];
+        //private static readonly string[] Colours16mmOnly = ["Australian Native", "Quartiera Maple", "Natural Ply", "Plantation Ash",
+        //                                                    "Ligurian Walnut", "Palomera Oak", "Arcadia Oak", "Black Ply",
+        //                                                    "Nordic Oak", "Angora Oak", "Coastal Oak", "Casentino Beech", "Palace Teak",
+        //                                                    "Tasmanian Oak", "Prime Oak", "Antico Oak", "Notaio Walnut",
+        //                                                    "Florentine Walnut", "Rojo Walnut", "Havana Oak", "Empire Oak", "Bottega Oak",
+        //                                                    "Perugian Walnut", "Blossom White", "Silk Bespoke", "Cinder", "Black"];
+        //private static readonly string[] Colours18mmOnly = ["Blonde Oak", "Ecru Oak", "Laurel Oak", "Botany Oak", "Manor Oak", "Hazel Oak",
+        //                                                    "Society Oak", "District Oak", "Bronzed Oak", "Rubra Oak",
+        //                                                    "Blackened Oak", "Dark Batten Oak", "Batten Oak", "Danish Rattan", "Swiss Rattan"];
 
         public string CabinetName { get; set; } = string.Empty;
         public string CNCCODE { get; set; } = string.Empty; 
@@ -102,24 +102,17 @@ namespace PolytecOrderEDI
 
             if (materialInfo == null) return PRODUCTTYPE.None;
 
-            //Compare by Finishe, then by Colour, and by thickness
-            if (Finishes16mmOnly.Contains(materialInfo.Finish, StringComparer.OrdinalIgnoreCase))
+            //Determine by availability
+            if (materialInfo.In_16mm == "1" && materialInfo.In_18mm == "0")
                 return PRODUCTTYPE.Decorative16mm;
-            
-            if (Finishes18mmOnly.Contains(materialInfo.Finish, StringComparer.OrdinalIgnoreCase))
-                return PRODUCTTYPE.Decorative18mm;
-            
-            if (Colours16mmOnly.Contains(materialInfo.Color, StringComparer.OrdinalIgnoreCase))
-                return PRODUCTTYPE.Decorative16mm;
-            
-            if (Colours18mmOnly.Contains(materialInfo.Color, StringComparer.OrdinalIgnoreCase))
+
+            if (materialInfo.In_16mm == "0" && materialInfo.In_18mm == "1")
                 return PRODUCTTYPE.Decorative18mm;
 
-            //Any thicknesses other than 16mm will be categorized as decorative18mm.
+            //Determine by thickness if both In_16mm and In_18mm are 0 or 1. Any thicknesses other than 16mm will be categorized as decorative18mm.
             return thickness == 16 ? PRODUCTTYPE.Decorative16mm : PRODUCTTYPE.Decorative18mm;
     
         }
-
 
         //Workout Product
         private static PRODUCT Workout_Product(ICBPart part)
