@@ -6,8 +6,9 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-using System.Globalization;
 using BorgEdi.Enums;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace PolytecOrderEDI
 {
@@ -15,15 +16,15 @@ namespace PolytecOrderEDI
     {
         public static Edge GetReturnPanelEdge(string strEdge)
         {
-            Edge returnEdge = new();
-            if (strEdge == "left") returnEdge = Edge.Left;
-            else if (strEdge == "right") returnEdge = Edge.Right;
-            else if (strEdge == "top") returnEdge = Edge.Top;
-            else if (strEdge == "bottom") returnEdge = Edge.Bottom;
-
-            return returnEdge;
+            return strEdge.ToLowerInvariant() switch
+            {
+                "left"      => Edge.Left,
+                "right"     => Edge.Right,
+                "top"       => Edge.Top,
+                "bottom"    => Edge.Bottom,
+                _           => new Edge()
+            };
         }
-
 
         public static string ReplaceEdgeLocationTBLRby1s(string edgeLocation)
         {
@@ -35,8 +36,10 @@ namespace PolytecOrderEDI
 
         public static string ReplaceHbyTBLR(string edgeLocation)
         {
-            edgeLocation = edgeLocation.ToUpper();
+            if (string.IsNullOrEmpty(edgeLocation) || edgeLocation.Length != 4)
+                return string.Empty;
 
+            edgeLocation = edgeLocation.ToUpper();
             if (edgeLocation[0] == 'H') edgeLocation = edgeLocation.Remove(0, 1).Insert(0, "T");
             if (edgeLocation[1] == 'H') edgeLocation = edgeLocation.Remove(1, 1).Insert(1, "B");
             if (edgeLocation[2] == 'H') edgeLocation = edgeLocation.Remove(2, 1).Insert(2, "L");
@@ -94,12 +97,12 @@ namespace PolytecOrderEDI
                         parameter.TryAdd(key, val);
                     }
                 }
+
                 return parameter;
             }
-            catch
+            catch 
             {
-                parameter.Clear();
-                return parameter;
+                return [];
             }
         }
 

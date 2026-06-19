@@ -28,35 +28,33 @@ namespace PolytecOrderEDI
         {
             try
             {
-                if ( FileManager.Import( $"{FileAndDirectory.KitFilesFolder}\\{GlobalVariable.CurrentUserName}\\Jobs" , FileFilter.ICB) )
-                {
-                    FilePath = FileManager.FilePath;
-                    FileName = FileManager.FileName;
-                    GlobalVariable.PoNumber = $"{FileManager.FileName_NoExt}-"; //Save PO Number globally
-                    GlobalVariable.FileName = FileManager.FileName ;
-
-                    if (ReadFile())
-                    {
-                        LstICBPart = ICB_FilterParts.Filter(LstICBPart);
-
-                        if (LstICBPart.Count == 0)
-                        {
-                            FileManager.FileImportMessage = "No data imported!\nEither the quanities are 0 or the parts in the ICB cannot be ordered via the EDI App yet.";
-                            return false;
-                        }
-                        else
-                        {
-                            if (ICB_Validation.Validate(LstICBPart)) return BuildCabinetData();
-                            else return false;
-                        }
-                    }
-                    else { return false; }
-                }
-                else
+                if ( !FileManager.Import( $"{FileAndDirectory.KitFilesFolder}\\{GlobalVariable.CurrentUserName}\\Jobs" , FileFilter.ICB) )
                 {
                     FileManager.FileImportMessage = "File not imported";
                     return false;
                 }
+                
+                FilePath = FileManager.FilePath;
+                FileName = FileManager.FileName;
+                GlobalVariable.PoNumber = $"{FileManager.FileName_NoExt}-"; //Save PO Number globally
+                GlobalVariable.FileName = FileManager.FileName ;
+
+                if (!ReadFile())
+                    return false;
+
+                LstICBPart = ICB_FilterParts.Filter(LstICBPart);
+
+                if (LstICBPart.Count == 0)
+                {
+                    FileManager.FileImportMessage = "No data imported!\nEither the quantities are 0 or the parts in the ICB cannot be ordered via the EDI App yet.";
+                    return false;
+                }
+              
+                if (!ICB_Validation.Validate(LstICBPart)) 
+                    return false;
+                
+                return BuildCabinetData();
+
             }
             catch(Exception ex)
             {
@@ -79,25 +77,20 @@ namespace PolytecOrderEDI
                     FileManager.FileImportMessage = "There is no data to build order!";
                     return false;
                 }
-                else
+               
+                foreach (var line in arrData)
                 {
-                    foreach (var line in arrData)
-                    {
-                        if (line.Trim().Length > 0)
-                        {
-                            var part = new ICBPart(line.Split("|"));
-                            LstICBPart.Add(part);
-                        }
-                    }
-
-                    return true;
+                    var part = new ICBPart(line.Split("|"));
+                    LstICBPart.Add(part);
                 }
 
+                return true;
+                
             }
             catch (Exception ex)
             {   
                 MessageBox.Show(ex.Message);
-                FileManager.FileImportMessage = $"Error in reading and cleaning ICB file";
+                FileManager.FileImportMessage = "Error in reading and cleaning ICB file";
                 return false;
             }
         }
@@ -119,53 +112,36 @@ namespace PolytecOrderEDI
 
                 List<ICBPart> tempCabinet = []; //Store parts belonging to same cabinet.
 
-                for (int i = 0; i < LstICBPart.Count; i++)
-                {
-                    var currentPart = LstICBPart[i];
 
-                    if (tempCabinet.Count == 0)
+                foreach (var part in LstICBPart)
+                {
+                    // If the current part belongs to new cabinet, add cabinet parts in tempCabinet to Cabinet list and clear tempCabinet.
+                    bool isNewCabinet = tempCabinet.Count > 0 && part.CabinetName != tempCabinet[^1].CabinetName;
+                    if (isNewCabinet)
                     {
-                        if (currentPart.CNCCODE == "BSDFBANK" && currentPart.Parameter.Contains("DN="))
-                        {
-                            var dfs = SplitDrawerBank(currentPart);
-                            foreach(var df in dfs) tempCabinet.Add(df);
-                        }
-                        else
-                        {
-                            tempCabinet.Add(currentPart);
-                        }
-                        if (i == LstICBPart.Count - 1) Cabinets.Add(new Cabinet(tempCabinet));
+                        Cabinets.Add(new Cabinet(tempCabinet));     // Build cabinet and add to Cabinets List
+                        tempCabinet = [];                           // Reset tempCabinet for new cabinet parts.
                     }
 
+                    // Add current part to tempCabinet.
+                    if (part.CNCCODE == "BSDFBANK" && part.Parameter.Contains("DN="))
+                    {
+                        var dfs = SplitDrawerBank(part);
+                        foreach (var df in dfs) 
+                            tempCabinet.Add(df);
+                    }
                     else
                     {
-                        string previousPartCabName = tempCabinet[^1].CabinetName;
-
-                        if (currentPart.CabinetName == previousPartCabName)
-                        {
-                            if (currentPart.CNCCODE == "BSDFBANK" && currentPart.Parameter.Contains("DN="))
-                            {
-                                var dfs = SplitDrawerBank(currentPart);
-                                foreach (var df in dfs) tempCabinet.Add(df);
-                            }
-                            else
-                            {
-                                tempCabinet.Add(currentPart);
-                            }
-                            if (i == LstICBPart.Count - 1) Cabinets.Add(new Cabinet(tempCabinet));
-                        }
-                        else
-                        {
-                            Cabinets.Add(new Cabinet(tempCabinet));
-                            tempCabinet.Clear();
-                            i--;
-                        }
+                        tempCabinet.Add(part);
                     }
                 }
 
+                //Add the last cabinet parts to Cabinets list.
+                if (tempCabinet.Count > 0)
+                    Cabinets.Add(new Cabinet(tempCabinet));
 
+                return true;
 
-                    return true;
             }
             catch (Exception ex)
             {
@@ -193,7 +169,7 @@ namespace PolytecOrderEDI
                 var lins    = dict_param.TryGetValue($"L{i}", out paramValue) ? paramValue : 0;
                 var rins    = dict_param.TryGetValue($"PR{i}", out paramValue) ? paramValue : 0;
                 var ldia    = dict_param.TryGetValue($"LD{i}", out paramValue) ? paramValue : 0;
-                var rdia    = dict_param.TryGetValue($"LD{i}", out paramValue) ? paramValue : 0;
+                var rdia    = dict_param.TryGetValue($"RD{i}", out paramValue) ? paramValue : 0;
 
                 var newParam = $"DTYP={dtyp}_INUP={inup}_LINS={lins}_RINS={rins}_LDIA={ldia}_RDIA={rdia}_{handleParamStr}".TrimEnd('_');
 
@@ -210,21 +186,16 @@ namespace PolytecOrderEDI
 
         private static string RebuildHandleParameterString(string parameter)
         {
+            string[] handleParamKeys = ["HDLT", "HDLO", "HDLS", "HDLD", "HDLX", "HDLY", "HDDP"];
             string handleParam = "";
             var dict_param = HelperMethods.SplitParameter(parameter);
+
             foreach (var p in  dict_param)
             {
-                if      (p.Key == "HDLT") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDLO") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDLS") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDLD") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDLX") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDLY") handleParam += $"{p.Key}={p.Value}_";
-                else if (p.Key == "HDDP") handleParam += $"{p.Key}={p.Value}_";
-                else { }
-
+                if (handleParamKeys.Contains(p.Key))
+                    handleParam += $"{p.Key}={p.Value}_";
             }
-            return handleParam.TrimEnd('_'); ;
+            return handleParam.TrimEnd('_'); 
         }
 
 
