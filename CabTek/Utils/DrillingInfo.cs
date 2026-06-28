@@ -21,10 +21,33 @@ namespace PolytecOrderEDI
         public static double HoleRadius { get; } = 2.5;
     }
 
-    static class DoorStyle770
+    static class DoorStyle770Hanger
     {
-        public static double CupHoleGap { get; } = 64;
+        /// <summary>Gap between cuphole1 and top of door.</summary>
+        public static double CupHole1TopGap { get; } = 64;
+
+        /// <summary>Gap between 2 cupholes.</summary>
+        public static double CupHolesGapBetween { get; } = 64;
+
+        /// <summary>Depth of cup hole.</summary>
         public static double CupHoleDepth { get; } = 13;
+
+        /// <summary>Radius of cup hole.</summary>
+        public static double CupHoleRadius { get; } = 17.5;
+    }
+
+    static class DoorStyle230Hanger
+    {
+        /// <summary>Gap between cuphole1 and top of door.</summary>
+        public static double CupHole1TopGap { get; } = 80;
+
+        /// <summary>Gap between 2 cupholes.</summary>
+        public static double CupHolesGapBetween { get; } = 120;
+
+        /// <summary>Depth of cup hole.</summary>
+        public static double CupHoleDepth { get; } = 13;
+
+        /// <summary>Radius of cup hole.</summary>
         public static double CupHoleRadius { get; } = 17.5;
     }
 

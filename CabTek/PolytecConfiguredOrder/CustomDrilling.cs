@@ -374,12 +374,12 @@ namespace PolytecOrderEDI
 
                 case PARTNAME.Left_Leaf_770:
                     AddHingeBlocks("left", HingeBlockInset, hDepth: 1);
-                    Add35mmCupHolesTo770StyleLeadDoor("right", HingeCupInset);
+                    AddDoorStyle770Hanger("right", HingeCupInset);
                     break;
 
                 case PARTNAME.Right_Leaf_770:
                     AddHingeBlocks("right", HingeBlockInset, hDepth: 1);
-                    Add35mmCupHolesTo770StyleLeadDoor("left", HingeCupInset);
+                    AddDoorStyle770Hanger("left", HingeCupInset);
                     break;
 
                 default:
@@ -659,16 +659,17 @@ namespace PolytecOrderEDI
         }
 
         /// <summary>Adds 35 mm cup holes to 770-style leaf doors.</summary>
-        private static void Add35mmCupHolesTo770StyleLeadDoor(string addToSide, double offset)
+        private static void AddDoorStyle770Hanger(string addToSide, double offset)
         {
             if (!HasTarget || offset <= 0) return;
 
-            double gap = DoorStyle770.CupHoleGap;
-            double radius = DoorStyle770.CupHoleRadius;
-            double depth = DoorStyle770.CupHoleDepth;
+            double topGap = DoorStyle770Hanger.CupHole1TopGap;
+            double gapBetween = DoorStyle770Hanger.CupHolesGapBetween;
+            double radius = DoorStyle770Hanger.CupHoleRadius;
+            double depth = DoorStyle770Hanger.CupHoleDepth;
 
-            double cup1FromTop = gap - HTOD;
-            double cup2FromTop = cup1FromTop + gap;
+            double cup1FromTop = topGap - HTOD;
+            double cup2FromTop = cup1FromTop + gapBetween;
 
             double leftOffset = addToSide == "right" ? Width - offset : offset;
 

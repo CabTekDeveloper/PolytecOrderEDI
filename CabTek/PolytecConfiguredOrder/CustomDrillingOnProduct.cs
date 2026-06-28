@@ -656,23 +656,24 @@ namespace PolytecOrderEDI
         {
             if (ConfiguredProduct != null && offset > 0)
             {
-                double cupHoleGap = DoorStyle770.CupHoleGap;
-                double cupHoleRadius = DoorStyle770.CupHoleRadius;
-                double cupHoleDepth = DoorStyle770.CupHoleDepth;
+                double topGap = DoorStyle770Hanger.CupHole1TopGap;
+                double gapBetween = DoorStyle770Hanger.CupHolesGapBetween;
+                double radius = DoorStyle770Hanger.CupHoleRadius;
+                double depth = DoorStyle770Hanger.CupHoleDepth;
 
-                double CupHole1FromTop = cupHoleGap - HTOD;
-                double CupHole2FromTop = CupHole1FromTop + cupHoleGap;
+                double cup1FromTop = topGap - HTOD;
+                double cup2FromTop = cup1FromTop + gapBetween;
 
                 if (addToSide == "left")
                 {
-                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, CupHole1FromTop, offset, cupHoleRadius, cupHoleDepth);
-                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, CupHole2FromTop, offset, cupHoleRadius, cupHoleDepth);
+                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, cup1FromTop, offset, radius, depth);
+                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, cup2FromTop, offset, radius, depth);
                 }
                 else if (addToSide == "right")
                 {
                     offset = Width - offset;
-                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, CupHole1FromTop, offset, cupHoleRadius, cupHoleDepth);
-                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, CupHole2FromTop, offset, cupHoleRadius, cupHoleDepth);
+                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, cup1FromTop, offset, radius, depth);
+                    ConfiguredProduct.Features.AddHoleFromTopLeft(ApplyTarget.Back, cup2FromTop, offset, radius, depth);
                 }
             }
         }
